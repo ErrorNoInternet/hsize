@@ -50,6 +50,7 @@ fn main() {
                 .help("The sizes in bytes, to be converted to their appropriate units"),
         );
     let matches = command.get_matches();
+
     let argument_binary = matches.get_one("binary").unwrap_or(&false);
     let argument_precision = matches.get_one("precision").unwrap_or(&2);
     let mut sizes = Vec::new();
@@ -61,7 +62,6 @@ fn main() {
         }
         None => (),
     }
-
     if !atty::is(atty::Stream::Stdin) {
         for line in std::io::stdin().lines() {
             match line {
