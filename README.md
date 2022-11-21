@@ -16,3 +16,11 @@ $ echo -e "10\n1000\n1000000000" | hsize
 1.00 KB
 1.00 GB
 ```
+
+## Installation
+```sh
+git clone https://github.com/ErrorNoInternet/hsize
+cd hsize
+cargo install --path .
+```
+
