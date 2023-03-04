@@ -3,7 +3,7 @@ use num_traits::FromPrimitive;
 #[macro_use]
 extern crate num_derive;
 
-#[derive(Debug, PartialEq, FromPrimitive)]
+#[derive(Debug, Copy, Clone, PartialEq, FromPrimitive)]
 enum SizeUnit {
     B,
     K,
@@ -16,9 +16,9 @@ enum SizeUnit {
     Y,
 }
 
-fn display_unit(unit: &SizeUnit, binary: bool) -> String {
+fn display_unit(unit: SizeUnit, binary: bool) -> String {
     let mut output = format!("{:?}", unit);
-    if unit != &SizeUnit::B {
+    if unit != SizeUnit::B {
         output.push('B');
         if binary {
             output.insert(1, 'i')
@@ -89,7 +89,7 @@ fn main() {
         println!(
             "{:.argument_precision$} {}",
             new_size,
-            display_unit(&unit, *argument_binary)
+            display_unit(unit, *argument_binary)
         );
     }
 }
