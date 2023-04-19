@@ -29,6 +29,7 @@ fn display_unit(unit: SizeUnit, binary: bool) -> String {
 
 fn main() {
     let command = Command::new("hsize")
+        .about("Convert bytes to human-readable units")
         .arg(
             Arg::new("binary")
                 .long("binary")
