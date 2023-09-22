@@ -1,12 +1,10 @@
 [package]
 name = "hsize"
-version = "1.0.1"
+version = "1.1.0"
 edition = "2021"
 
 [dependencies]
 atty = "0.2.14"
-clap = "4.0.26"
+clap = { version = "4.4.4", features = ["derive"] }
 num-derive = "0.3.3"
 num-traits = "0.2.15"
-strum = "0.24.1"
-strum_macros = "0.24.3"

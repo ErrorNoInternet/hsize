@@ -1,11 +1,30 @@
-use clap::{value_parser, Arg, ArgAction, Command};
+use clap::{Parser, ValueEnum};
 use num_traits::FromPrimitive;
-use std::str::FromStr;
-use strum_macros::EnumString;
 #[macro_use]
 extern crate num_derive;
 
-#[derive(Debug, Copy, Clone, PartialEq, FromPrimitive, EnumString)]
+/// Convert file sizes in bytes to human-readable units
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Arguments {
+    /// Display sizes in binary (powers of 1024)
+    #[arg(short, long)]
+    binary: bool,
+
+    /// The amount of decimal places to display
+    #[arg(short, long, default_value_t = 2)]
+    precision: usize,
+
+    /// The unit to display sizes in
+    #[arg(short, long)]
+    unit: Option<SizeUnit>,
+
+    /// The file sizes in bytes, to be converted to their appropriate units
+    #[arg(num_args = 1..)]
+    sizes: Vec<u128>,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, FromPrimitive, ValueEnum)]
 enum SizeUnit {
     B,
     K,
@@ -18,11 +37,7 @@ enum SizeUnit {
     Y,
 }
 
-fn parse_unit(unit: &str) -> Result<SizeUnit, strum::ParseError> {
-    SizeUnit::from_str(unit.to_uppercase().as_str())
-}
-
-fn display_unit(unit: SizeUnit, binary: bool) -> String {
+fn display_unit(binary: bool, unit: SizeUnit) -> String {
     let mut output = format!("{:?}", unit);
     if unit != SizeUnit::B {
         output.push('B');
@@ -33,50 +48,35 @@ fn display_unit(unit: SizeUnit, binary: bool) -> String {
     output
 }
 
-fn main() {
-    let command = Command::new("hsize")
-        .about("Convert bytes to human-readable units")
-        .arg(
-            Arg::new("binary")
-                .long("binary")
-                .short('b')
-                .action(ArgAction::SetTrue)
-                .help("Display sizes in binary (powers of 1024)"),
-        )
-        .arg(
-            Arg::new("precision")
-                .long("precision")
-                .short('p')
-                .value_parser(value_parser!(usize))
-                .help("The amount of decimal places to display"),
-        )
-        .arg(
-            Arg::new("unit")
-                .long("unit")
-                .short('u')
-                .value_parser(parse_unit)
-                .help("Display sizes in this unit"),
-        )
-        .arg(
-            Arg::new("sizes")
-                .num_args(1..)
-                .value_parser(value_parser!(u128))
-                .help("The sizes in bytes, to be converted to their appropriate units"),
-        );
-    let matches = command.get_matches();
+fn display_size(size: u128, binary: bool, unit: Option<SizeUnit>, precision: usize) -> String {
+    let divisor: u128 = if binary { 1024 } else { 1000 };
+    let mut current_size = size as f64;
+    let mut current_unit = SizeUnit::B;
 
-    let argument_binary = matches.get_one("binary").unwrap_or(&false);
-    let argument_precision = matches.get_one("precision").unwrap_or(&2);
-    let argument_unit: Option<&SizeUnit> = matches.get_one("unit");
-    let mut sizes = Vec::new();
-    match matches.get_many::<u128>("sizes") {
-        Some(matches) => {
-            for size_match in matches {
-                sizes.push(size_match.to_owned())
+    if unit.is_none() {
+        while current_size >= divisor as f64 {
+            if let Some(new_unit) = SizeUnit::from_u32(current_unit as u32 + 1) {
+                current_unit = new_unit
+            } else {
+                break;
             }
+            current_size = current_size / divisor as f64;
         }
-        None => (),
+    } else {
+        current_unit = unit.unwrap();
+        current_size = current_size / divisor.pow(current_unit as u32) as f64
     }
+    format!(
+        "{:.precision$} {}",
+        current_size,
+        display_unit(binary, current_unit)
+    )
+}
+
+fn main() {
+    let arguments = Arguments::parse();
+    let mut sizes = arguments.sizes;
+
     if !atty::is(atty::Stream::Stdin) {
         for line in std::io::stdin().lines() {
             match line {
@@ -90,28 +90,9 @@ fn main() {
     }
 
     for size in sizes {
-        let divisor: u128 = if *argument_binary { 1024 } else { 1000 };
-        let mut new_size = size as f64;
-        let mut unit = SizeUnit::B;
-
-        if argument_unit.is_none() {
-            while new_size >= divisor as f64 {
-                if let Some(new_unit) = SizeUnit::from_u32(unit as u32 + 1) {
-                    unit = new_unit
-                } else {
-                    break;
-                }
-                new_size = new_size / divisor as f64;
-            }
-        } else {
-            unit = *argument_unit.unwrap();
-            new_size = new_size / divisor.pow(unit as u32) as f64
-        }
-
         println!(
-            "{:.argument_precision$} {}",
-            new_size,
-            display_unit(unit, *argument_binary)
-        );
+            "{}",
+            display_size(size, arguments.binary, arguments.unit, arguments.precision)
+        )
     }
 }
