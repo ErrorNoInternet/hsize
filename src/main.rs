@@ -24,24 +24,30 @@ struct Arguments {
 
 fn main() {
     let arguments = Arguments::parse();
-    let mut sizes = arguments.sizes;
+    for size in arguments.sizes {
+        println!(
+            "{}",
+            display_size(size, arguments.binary, arguments.unit, arguments.precision)
+        )
+    }
 
     if !atty::is(atty::Stream::Stdin) {
         for line in std::io::stdin().lines() {
             match line {
                 Ok(line) => match line.trim().parse::<u128>() {
-                    Ok(number) => sizes.push(number),
-                    Err(_) => eprintln!("invalid digit found in \"{}\"", line),
+                    Ok(number) => println!(
+                        "{}",
+                        display_size(
+                            number,
+                            arguments.binary,
+                            arguments.unit,
+                            arguments.precision
+                        )
+                    ),
+                    Err(_) => eprintln!("invalid digit found in \"{line}\""),
                 },
                 Err(_) => (),
             }
         }
-    }
-
-    for size in sizes {
-        println!(
-            "{}",
-            display_size(size, arguments.binary, arguments.unit, arguments.precision)
-        )
     }
 }

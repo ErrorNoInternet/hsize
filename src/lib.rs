@@ -37,11 +37,11 @@ pub fn display_size(size: u128, binary: bool, unit: Option<SizeUnit>, precision:
             } else {
                 break;
             }
-            current_size = current_size / divisor as f64;
+            current_size /= divisor as f64;
         }
     } else {
         current_unit = unit.unwrap();
-        current_size = current_size / divisor.pow(current_unit as u32) as f64
+        current_size /= divisor.pow(current_unit as u32) as f64
     }
     format!(
         "{:.precision$} {}",
