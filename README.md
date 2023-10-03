@@ -21,9 +21,15 @@ $ echo -e "10\n1000\n1000000000" | hsize
 ```
 
 ## Installation
-```sh
-git clone https://github.com/ErrorNoInternet/hsize
-cd hsize
-cargo install --path .
+
+### Nix flake
+```
+nix run github:ErrorNoInternet/hsize -- 1000 1000000 5000000
 ```
 
+### cargo
+```shell
+$ git clone https://github.com/ErrorNoInternet/hsize
+$ cd hsize
+$ cargo install --path .
+```
