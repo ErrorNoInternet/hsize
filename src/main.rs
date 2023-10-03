@@ -31,7 +31,7 @@ fn main() {
             match line {
                 Ok(line) => match line.trim().parse::<u128>() {
                     Ok(number) => sizes.push(number),
-                    Err(_) => println!("invalid digit found in \"{}\"", line),
+                    Err(_) => eprintln!("invalid digit found in \"{}\"", line),
                 },
                 Err(_) => (),
             }
