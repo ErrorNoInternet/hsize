@@ -23,8 +23,8 @@ $ echo -e "10\n1000\n1000000000" | hsize
 ## Installation
 
 ### Nix flake
-```
-nix run github:ErrorNoInternet/hsize -- 1000 1000000 5000000
+```shell
+$ nix run github:ErrorNoInternet/hsize -- 1000 1000000 5000000
 ```
 
 ### cargo
