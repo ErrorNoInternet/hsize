@@ -1,5 +1,5 @@
 {
-  description = "Convert file sizes in bytes to human-readable units";
+  description = "hsize - Convert file sizes from bytes to human-readable units";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs";

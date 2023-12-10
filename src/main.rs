@@ -1,7 +1,7 @@
 use clap::Parser;
 use hsize::{display_size, SizeUnit};
 
-/// Convert file sizes in bytes to human-readable units
+/// Convert file sizes from bytes to human-readable units
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Arguments {
