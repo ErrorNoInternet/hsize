@@ -32,22 +32,19 @@ fn main() {
     }
 
     if !atty::is(atty::Stream::Stdin) {
-        for line in std::io::stdin().lines() {
-            match line {
-                Ok(line) => match line.trim().parse::<u128>() {
-                    Ok(number) => println!(
-                        "{}",
-                        display_size(
-                            number,
-                            arguments.binary,
-                            arguments.unit,
-                            arguments.precision
-                        )
-                    ),
-                    Err(_) => eprintln!("invalid digit found in \"{line}\""),
-                },
-                Err(_) => (),
-            }
+        for line in std::io::stdin().lines().flatten() {
+            match line.trim().parse::<u128>() {
+                Ok(number) => println!(
+                    "{}",
+                    display_size(
+                        number,
+                        arguments.binary,
+                        arguments.unit,
+                        arguments.precision
+                    )
+                ),
+                Err(_) => eprintln!("invalid digit found in \"{line}\""),
+            };
         }
     }
 }

@@ -15,11 +15,11 @@ pub enum SizeUnit {
 }
 
 pub fn display_unit(binary: bool, unit: SizeUnit) -> String {
-    let mut output = format!("{:?}", unit);
+    let mut output = format!("{unit:?}");
     if unit != SizeUnit::B {
         output.push('B');
         if binary {
-            output.insert(1, 'i')
+            output.insert(1, 'i');
         }
     }
     output
@@ -30,18 +30,18 @@ pub fn display_size(size: u128, binary: bool, unit: Option<SizeUnit>, precision:
     let mut current_size = size as f64;
     let mut current_unit = SizeUnit::B;
 
-    if unit.is_none() {
+    if let Some(unit) = unit {
+        current_unit = unit;
+        current_size /= divisor.pow(current_unit as u32) as f64;
+    } else {
         while current_size >= divisor as f64 {
             if let Some(new_unit) = num_traits::FromPrimitive::from_u32(current_unit as u32 + 1) {
-                current_unit = new_unit
+                current_unit = new_unit;
             } else {
                 break;
             }
             current_size /= divisor as f64;
         }
-    } else {
-        current_unit = unit.unwrap();
-        current_size /= divisor.pow(current_unit as u32) as f64
     }
     format!(
         "{:.precision$} {}",
