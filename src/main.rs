@@ -1,5 +1,5 @@
 mod arguments;
-mod replace;
+pub mod replace;
 
 use arguments::{Arguments, MainSubcommand};
 use clap::Parser;

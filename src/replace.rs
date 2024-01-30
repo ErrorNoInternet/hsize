@@ -25,20 +25,12 @@ pub fn replace<T: Iterator<Item = String>>(
             if let Ok(number) = number_match.as_str().parse::<u128>() {
                 let converted_number = converter.convert(number);
                 new_line.replace_range(
-                    TryInto::<usize>::try_into(
-                        TryInto::<isize>::try_into(number_match.start()).unwrap()
-                            + character_offset,
-                    )
-                    .unwrap()
-                        ..TryInto::<usize>::try_into(
-                            TryInto::<isize>::try_into(number_match.end()).unwrap()
-                                + character_offset,
-                        )
-                        .unwrap(),
+                    cast_iu(cast_ui(number_match.start())? + character_offset)?
+                        ..cast_iu(cast_ui(number_match.end())? + character_offset)?,
                     &converted_number,
                 );
-                character_offset += TryInto::<isize>::try_into(converted_number.len()).unwrap()
-                    - TryInto::<isize>::try_into(number_match.as_str().len()).unwrap();
+                character_offset +=
+                    cast_ui(converted_number.len())? - cast_ui(number_match.as_str().len())?;
             }
         }
 
@@ -49,6 +41,20 @@ pub fn replace<T: Iterator<Item = String>>(
     }
 
     Ok(())
+}
+
+fn cast_iu(input: isize) -> Result<usize, String> {
+    match TryInto::<usize>::try_into(input) {
+        Ok(output) => Ok(output),
+        Err(error) => Err(format!("cast isize -> usize failed: {error}")),
+    }
+}
+
+fn cast_ui(input: usize) -> Result<isize, String> {
+    match TryInto::<isize>::try_into(input) {
+        Ok(output) => Ok(output),
+        Err(error) => Err(format!("cast usize -> isize failed: {error}")),
+    }
 }
 
 #[cfg(test)]
