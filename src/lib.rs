@@ -26,10 +26,10 @@ impl Converter {
         self.convert(size, SizeUnit::B)
     }
 
-    pub fn convert(&self, size: u128, unit: SizeUnit) -> String {
+    pub fn convert(&self, size: u128, from: SizeUnit) -> String {
         let divisor: u128 = if self.binary { 1024 } else { 1000 };
         let mut current_size = size as f64;
-        let mut current_unit = unit;
+        let mut current_unit = from;
 
         if let Some(unit) = self.to {
             current_unit = unit;
