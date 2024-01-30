@@ -117,3 +117,119 @@ impl Converter {
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::{Converter, Scale, Unit};
+
+    #[test]
+    fn basic() {
+        let converter = Converter {
+            precision: 0,
+            from_unit: Unit {
+                binary: false,
+                scale: None,
+            },
+            to_unit: Unit {
+                binary: true,
+                scale: None,
+            },
+        };
+
+        assert_eq!(converter.convert(0), "0 B");
+        assert_eq!(converter.convert(123), "123 B");
+        assert_eq!(converter.convert(5555), "5 KiB");
+        assert_eq!(converter.convert(1048576), "1 MiB");
+        assert_eq!(converter.convert(1024 * 1024 * 1024), "1 GiB");
+    }
+
+    #[test]
+    fn big_numbers() {
+        let converter = Converter {
+            precision: 5,
+            from_unit: Unit {
+                binary: false,
+                scale: None,
+            },
+            to_unit: Unit {
+                binary: false,
+                scale: None,
+            },
+        };
+
+        assert_eq!(converter.convert(10101010101010101), "10.10101 PB");
+        assert_eq!(converter.convert(123456789), "123.45679 MB");
+        assert_eq!(converter.convert(1111111111111111111), "1.11111 EB");
+        assert_eq!(converter.convert(999999), "999.99900 KB");
+        assert_eq!(
+            converter.convert(5555555555555555555555555555555),
+            "5555555.55556 YB"
+        );
+    }
+
+    #[test]
+    fn from_to() {
+        let converter = Converter {
+            precision: 2,
+            from_unit: Unit {
+                binary: true,
+                scale: Some(Scale::G),
+            },
+            to_unit: Unit {
+                binary: true,
+                scale: Some(Scale::M),
+            },
+        };
+
+        assert_eq!(converter.convert(64), "65536.00 MiB");
+        assert_eq!(converter.convert(2), "2048.00 MiB");
+        assert_eq!(converter.convert(128), "131072.00 MiB");
+        assert_eq!(converter.convert(1024), "1048576.00 MiB");
+    }
+
+    #[test]
+    fn from() {
+        let converter = Converter {
+            precision: 2,
+            from_unit: Unit {
+                binary: true,
+                scale: Some(Scale::G),
+            },
+            to_unit: Unit {
+                binary: true,
+                scale: None,
+            },
+        };
+
+        assert_eq!(converter.convert(1024), "1.00 TiB");
+        assert_eq!(converter.convert(10240), "10.00 TiB");
+        assert_eq!(converter.convert(512), "512.00 GiB");
+        assert_eq!(converter.convert(10000000), "9.54 PiB");
+    }
+
+    #[test]
+    fn to() {
+        let converter = Converter {
+            precision: 2,
+            from_unit: Unit {
+                binary: true,
+                scale: None,
+            },
+            to_unit: Unit {
+                binary: true,
+                scale: Some(Scale::G),
+            },
+        };
+
+        assert_eq!(converter.convert(10000000), "0.01 GiB");
+        assert_eq!(converter.convert(1024 * 512 * 1024 * 512), "256.00 GiB");
+        assert_eq!(
+            converter.convert(1024 * 111 * 1024 * 111 * 1024),
+            "12321.00 GiB"
+        );
+        assert_eq!(
+            converter.convert(1024 * 555 * 1024 * 555 * 1024),
+            "308025.00 GiB"
+        );
+    }
+}
