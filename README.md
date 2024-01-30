@@ -62,7 +62,7 @@ SwapTotal        32.61 GB
 [...]
 ```
 
-## Installation
+## Binary
 
 ### Nix
 ```shell
@@ -74,4 +74,32 @@ $ nix run github:ErrorNoInternet/hsize -- 1000 1000000 5000000
 $ git clone https://github.com/ErrorNoInternet/hsize
 $ cd hsize
 $ cargo install --path .
+```
+
+## Library
+
+```rust
+use hsize::{Converter, Scale, Unit};
+
+fn main() {
+    let converter = Converter {
+        // three decimal places for `.format()`
+        precision: 3,
+        from_unit: Unit {
+            // 1K = 1000
+            is_binary: false,
+            scale: Some(Scale::M),
+        },
+        to_unit: Unit {
+            // 1K = 1024
+            is_binary: true,
+            // `None` for automatic scaling
+            scale: None,
+        },
+    };
+
+    // 5120 MB == 5 GiB
+    assert_eq!(converter.convert(5120), (5.0, Scale::G));
+    assert_eq!(converter.format(5120), "5.000 GiB");
+}
 ```
