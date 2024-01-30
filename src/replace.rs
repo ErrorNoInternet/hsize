@@ -39,7 +39,6 @@ pub fn replace<T: Iterator<Item = String>>(
                 );
                 character_offset += TryInto::<isize>::try_into(converted_number.len()).unwrap()
                     - TryInto::<isize>::try_into(number_match.as_str().len()).unwrap();
-                dbg!(character_offset);
             }
         }
 
