@@ -1,5 +1,5 @@
 # hsize
-Convert file sizes in bytes to human-readable units
+Convert file sizes to and from human-readable units
 
 ```sh
 $ hsize 1000 1000000 5000000
