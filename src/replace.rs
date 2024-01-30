@@ -20,16 +20,26 @@ pub fn replace<T: Iterator<Item = String>>(
 
     for line in input {
         let mut new_line = line.clone();
-        let mut character_offset: i32 = 0;
+        let mut character_offset: isize = 0;
         for number_match in number_regex.find_iter(&line) {
             if let Ok(number) = number_match.as_str().parse::<u128>() {
-                let converted = converter.convert(number);
+                let converted_number = converter.convert(number);
                 new_line.replace_range(
-                    (number_match.start() + character_offset as usize)
-                        ..(number_match.end() + character_offset as usize),
-                    &converted,
+                    TryInto::<usize>::try_into(
+                        TryInto::<isize>::try_into(number_match.start()).unwrap()
+                            + character_offset,
+                    )
+                    .unwrap()
+                        ..TryInto::<usize>::try_into(
+                            TryInto::<isize>::try_into(number_match.end()).unwrap()
+                                + character_offset,
+                        )
+                        .unwrap(),
+                    &converted_number,
                 );
-                character_offset += converted.len() as i32 - number_match.as_str().len() as i32;
+                character_offset += TryInto::<isize>::try_into(converted_number.len()).unwrap()
+                    - TryInto::<isize>::try_into(number_match.as_str().len()).unwrap();
+                dbg!(character_offset);
             }
         }
 
