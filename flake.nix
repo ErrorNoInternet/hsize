@@ -37,7 +37,7 @@
             "rust-analyzer-preview"
           ];
         };
-        mingwW64 = pkgs.pkgsCross.mingwW64;
+        inherit (pkgs.pkgsCross) mingwW64;
       in rec {
         _module.args.pkgs = import nixpkgs {
           inherit system;
