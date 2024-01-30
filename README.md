@@ -19,24 +19,25 @@ $ hsize 1048576 1073741824 --binary
 ### Read from stdin
 
 ```sh
-$ echo -e "10\n1000\n1000000000" | hsize
-10.00 B
-1.00 KB
-1.00 GB
+$ printf "10\n1000\n1000000000" | hsize -p 0
+10 B
+1 KB
+1 GB
 
 $ echo $RANDOM | hsize
 26.07 KB
 
-$ echo $RANDOM | hsize
-11.72 KB
+$ printf "5\n84\n" | hsize -f g -t m
+5000.00 MB
+84000.00 MB
 
-$ echo 12345678 | hsize -p3
-12.346 MB
+$ echo "200  512  1" | hsize -f g -t b -B replace
+214748364800.00 B  549755813888.00 B  1073741824.00 B
 ```
 
 ### Replace
 
-Uses regex to search and replace numbers
+Use regex to search and replace numbers
 
 ```sh
 $ echo "1  22  333  4444  55555  666666  7777777  88888888  999999999" | hsize replace
