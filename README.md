@@ -62,21 +62,23 @@ SwapTotal        32.61 GB
 [...]
 ```
 
-## Binary
+## Usage
 
-### Nix
+### Binary
+
+#### Nix
 ```shell
 $ nix run github:ErrorNoInternet/hsize -- 1000 1000000 5000000
 ```
 
-### cargo
+#### Cargo
 ```shell
 $ git clone https://github.com/ErrorNoInternet/hsize
 $ cd hsize
 $ cargo install --path .
 ```
 
-## Library
+### Library
 
 ```rust
 use hsize::{Converter, Scale, Unit};
