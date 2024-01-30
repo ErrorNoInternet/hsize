@@ -1,5 +1,5 @@
 {
-  description = "hsize";
+  description = "hsize - Convert file sizes to and from human-readable units";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -47,10 +47,8 @@
         devShells.default = pkgs.mkShell {
           name = "hsize";
 
-          buildInputs = with pkgs; [
-            libgit2
+          buildInputs = [
             mingwW64.buildPackages.gcc
-            mold
             rust
           ];
 
@@ -65,9 +63,7 @@
           cargoLock.lockFile = ./Cargo.lock;
           src = pkgs.lib.cleanSource ./.;
 
-          nativeBuildInputs = with pkgs; [
-            libgit2
-            mold
+          nativeBuildInputs = [
             rust
           ];
         };
