@@ -81,7 +81,7 @@ impl Converter {
         let mut new_size = size as f64;
 
         let mut new_scale = self.from_unit.scale.unwrap_or_default();
-        let multiplier: f64 = if self.from_unit.is_binary {
+        let from_divisor: f64 = if self.from_unit.is_binary {
             1024.0
         } else {
             1000.0
@@ -93,7 +93,7 @@ impl Converter {
         };
 
         if let Some(to_scale) = self.to_unit.scale {
-            new_size *= multiplier.powi(new_scale as i32);
+            new_size *= from_divisor.powi(new_scale as i32);
             new_size /= divisor.powi(to_scale as i32);
             new_scale = to_scale;
         } else {
