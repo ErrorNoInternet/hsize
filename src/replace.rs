@@ -57,7 +57,7 @@ mod tests {
     use hsize::{Converter, Scale, Unit};
 
     #[test]
-    fn replace_single() {
+    fn single() {
         let expected = "19.02831 PB".as_bytes().to_vec();
 
         let input = "19028310077231230";
@@ -88,7 +88,7 @@ mod tests {
     }
 
     #[test]
-    fn replace_multiple() {
+    fn multiple() {
         let expected = "12.06 KiB     1.00 B 1.00 B 1.00 B-------------1.00 MiB"
             .as_bytes()
             .to_vec();
@@ -123,7 +123,7 @@ mod tests {
     }
 
     #[test]
-    fn replace_meminfo() {
+    fn meminfo() {
         let expected = "
             MemTotal:       16.306 GB
             MemFree:          829.668 MB

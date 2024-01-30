@@ -144,7 +144,7 @@ mod tests {
     }
 
     #[test]
-    fn big_numbers() {
+    fn big() {
         let converter = Converter {
             precision: 5,
             from_unit: Unit {
