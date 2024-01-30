@@ -14,10 +14,10 @@ fn main() {
     };
 
     for size in arguments.sizes {
-        println!("{}", converter.humanize(size))
+        println!("{}", converter.humanize(size));
     }
     if !atty::is(atty::Stream::Stdin) {
-        for line in std::io::stdin().lines().flatten() {
+        for line in std::io::stdin().lines().map_while(Result::ok) {
             if let Ok(number) = line.trim().parse::<u128>() {
                 println!("{}", converter.humanize(number));
             } else {
