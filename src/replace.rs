@@ -6,13 +6,12 @@ use std::io::Write;
 pub enum Error {
     Regex(String),
     Write(std::io::Error),
-    Overflow(std::num::TryFromIntError),
 }
 
 /// # Errors
 ///
-/// This function will return an error if the regex is invalid, a write
-/// error occurs, or if replacement string length calculations overflow.
+/// This function will return an error if the
+/// regex is invalid or if a write error occurs.
 pub fn replace<T: Iterator<Item = String>>(
     input: T,
     output: &mut dyn Write,
@@ -31,17 +30,15 @@ pub fn replace<T: Iterator<Item = String>>(
 
     for line in input {
         let mut new_line = line.clone();
-        let mut character_offset: isize = 0;
-        for number_match in number_regex.find_iter(&line) {
+        for number_match in number_regex
+            .find_iter(&line)
+            .collect::<Vec<_>>()
+            .iter()
+            .rev()
+        {
             if let Ok(number) = number_match.as_str().parse::<u128>() {
                 let converted_number = converter.convert(number);
-                new_line.replace_range(
-                    cast_iu(cast_ui(number_match.start())? + character_offset)?
-                        ..cast_iu(cast_ui(number_match.end())? + character_offset)?,
-                    &converted_number,
-                );
-                character_offset +=
-                    cast_ui(converted_number.len())? - cast_ui(number_match.as_str().len())?;
+                new_line.replace_range(number_match.range(), &converted_number);
             }
         }
 
@@ -52,20 +49,6 @@ pub fn replace<T: Iterator<Item = String>>(
     }
 
     Ok(())
-}
-
-fn cast_iu(input: isize) -> Result<usize, Error> {
-    match TryInto::<usize>::try_into(input) {
-        Ok(output) => Ok(output),
-        Err(error) => Err(Error::Overflow(error)),
-    }
-}
-
-fn cast_ui(input: usize) -> Result<isize, Error> {
-    match TryInto::<isize>::try_into(input) {
-        Ok(output) => Ok(output),
-        Err(error) => Err(Error::Overflow(error)),
-    }
 }
 
 #[cfg(test)]
