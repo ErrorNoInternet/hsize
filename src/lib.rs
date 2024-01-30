@@ -2,6 +2,7 @@ use clap::ValueEnum;
 use num_derive::FromPrimitive;
 use std::{convert::Infallible, str::FromStr};
 
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
 pub struct Unit {
     pub scale: Option<Scale>,
     pub binary: bool,
@@ -21,7 +22,7 @@ impl ToString for Unit {
     }
 }
 
-#[derive(Debug, Default, Copy, Clone, PartialEq, FromPrimitive, ValueEnum)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, FromPrimitive, ValueEnum)]
 pub enum Scale {
     #[default]
     B,
@@ -55,26 +56,15 @@ impl FromStr for Unit {
     type Err = Infallible;
 
     fn from_str(string: &str) -> Result<Self, Self::Err> {
-        let characters = &string[..(3.clamp(0, string.len()))]
-            .chars()
-            .map(|character| character.to_lowercase().collect::<Vec<_>>()[0])
-            .collect::<Vec<char>>();
-        let value = if characters.len() == 1 {
-            Self {
-                binary: false,
-                scale: Some(characters[0].into()),
-            }
+        let characters = string.chars().collect::<Vec<_>>();
+        Ok(if characters.len() < 2 {
+            Unit::default()
         } else {
-            let mut binary = false;
-            if characters[1] == 'i' {
-                binary = true;
-            };
             Self {
-                binary,
+                binary: characters[1] == 'i',
                 scale: Some(characters[0].into()),
             }
-        };
-        Ok(value)
+        })
     }
 }
 

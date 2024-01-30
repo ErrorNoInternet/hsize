@@ -7,26 +7,25 @@ use hsize::{Converter, Unit};
 
 fn main() {
     let arguments = Arguments::parse();
+    let converter = Converter {
+        precision: arguments.precision,
+        from_unit: Unit {
+            binary: arguments.from_binary,
+            scale: arguments.from_scale,
+        },
+        to_unit: Unit {
+            binary: arguments.to_binary,
+            scale: arguments.to_scale,
+        },
+    };
 
     if let Some(MainSubcommand::Replace {
-        ref number_regex,
-        ref unit_regex,
+        number_regex,
+        multiline,
     }) = arguments.subcommand
     {
-        replace::replace(number_regex, unit_regex);
+        replace::replace(&converter, &number_regex, multiline);
     } else {
-        let converter = Converter {
-            precision: arguments.precision,
-            from_unit: Unit {
-                binary: arguments.from_binary,
-                scale: arguments.from_scale,
-            },
-            to_unit: Unit {
-                binary: arguments.to_binary,
-                scale: arguments.to_scale,
-            },
-        };
-
         for size in arguments.sizes {
             println!("{}", converter.convert(size));
         }

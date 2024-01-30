@@ -14,3 +14,4 @@ atty = "0.2"
 clap = { version = "4.4", features = ["derive"] }
 num-derive = "0.4"
 num-traits = "0.2"
+regex = "1.10"

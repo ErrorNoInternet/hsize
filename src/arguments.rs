@@ -1,6 +1,5 @@
 use clap::{Parser, Subcommand};
 use hsize::Scale;
-use regex::Regex;
 
 #[derive(Parser, Debug)]
 #[command(version)]
@@ -30,14 +29,10 @@ pub struct Arguments {
 #[derive(Debug, Subcommand)]
 pub enum MainSubcommand {
     Replace {
-        #[arg(short, long, default_value = r"[0-9]+")]
-        number_regex: Regex,
+        #[arg(short = 'r', long, default_value = r"[0-9]+")]
+        number_regex: String,
 
-        #[arg(
-            short,
-            long,
-            default_value = r"((K|k|M|m|G|g|T|t|P|p|E|e|Z|z|Y|y)?(B|b))"
-        )]
-        unit_regex: Regex,
+        #[arg(short = 'U', long)]
+        multiline: bool,
     },
 }
