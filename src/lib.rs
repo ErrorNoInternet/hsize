@@ -68,6 +68,7 @@ impl From<char> for Scale {
     }
 }
 
+#[derive(Debug, Default, Clone, Copy, Eq, PartialEq)]
 pub struct Converter {
     pub precision: usize,
     pub from_unit: Unit,
