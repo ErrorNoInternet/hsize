@@ -32,7 +32,11 @@ fn main() {
             &number_regex,
             multiline,
         ) {
-            eprintln!("{error}");
+            match error {
+                replace::Error::Regex(error) => eprintln!("replace: {error}"),
+                replace::Error::Overflow(error) => eprintln!("number overflow: {error}"),
+                replace::Error::Write(error) => eprintln!("write error: {error}"),
+            }
             exit(1);
         }
     } else {

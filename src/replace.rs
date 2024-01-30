@@ -2,6 +2,13 @@ use hsize::Converter;
 use regex::RegexBuilder;
 use std::io::Write;
 
+#[derive(Debug)]
+pub enum Error {
+    Regex(String),
+    Write(std::io::Error),
+    Overflow(std::num::TryFromIntError),
+}
+
 pub fn replace<T: Iterator<Item = String>>(
     input: T,
     output: &mut dyn Write,
@@ -9,13 +16,13 @@ pub fn replace<T: Iterator<Item = String>>(
     converter: &Converter,
     number_regex_string: &str,
     multiline: bool,
-) -> Result<(), String> {
+) -> Result<(), Error> {
     let number_regex = match RegexBuilder::new(number_regex_string)
         .multi_line(multiline)
         .build()
     {
         Ok(number_regex) => number_regex,
-        Err(error) => return Err(format!("invalid regex specified: {error}")),
+        Err(error) => return Err(Error::Regex(error.to_string())),
     };
 
     for line in input {
@@ -36,24 +43,24 @@ pub fn replace<T: Iterator<Item = String>>(
 
         new_line.push('\n');
         if let Err(error) = output.write(new_line.as_bytes()) {
-            return Err(format!("unable to write to destination: {error}"));
+            return Err(Error::Write(error));
         }
     }
 
     Ok(())
 }
 
-fn cast_iu(input: isize) -> Result<usize, String> {
+fn cast_iu(input: isize) -> Result<usize, Error> {
     match TryInto::<usize>::try_into(input) {
         Ok(output) => Ok(output),
-        Err(error) => Err(format!("cast isize -> usize failed: {error}")),
+        Err(error) => Err(Error::Overflow(error)),
     }
 }
 
-fn cast_ui(input: usize) -> Result<isize, String> {
+fn cast_ui(input: usize) -> Result<isize, Error> {
     match TryInto::<isize>::try_into(input) {
         Ok(output) => Ok(output),
-        Err(error) => Err(format!("cast usize -> isize failed: {error}")),
+        Err(error) => Err(Error::Overflow(error)),
     }
 }
 
