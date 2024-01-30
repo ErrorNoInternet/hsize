@@ -11,11 +11,11 @@ fn main() {
     let converter = Converter {
         precision: arguments.precision,
         from_unit: Unit {
-            binary: arguments.from_binary,
+            is_binary: arguments.from_binary,
             scale: arguments.from_scale,
         },
         to_unit: Unit {
-            binary: arguments.to_binary,
+            is_binary: arguments.to_binary,
             scale: arguments.to_scale,
         },
     };
@@ -40,12 +40,12 @@ fn main() {
         }
     } else {
         for size in arguments.sizes {
-            println!("{}", converter.convert(size));
+            println!("{}", converter.format(size));
         }
         if !atty::is(atty::Stream::Stdin) {
             for line in std::io::stdin().lines().map_while(Result::ok) {
                 if let Ok(number) = line.trim().parse::<u128>() {
-                    println!("{}", converter.convert(number));
+                    println!("{}", converter.format(number));
                 } else {
                     eprintln!("invalid digit found in \"{line}\"");
                 };

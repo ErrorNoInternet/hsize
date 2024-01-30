@@ -37,7 +37,7 @@ pub fn replace<T: Iterator<Item = String>>(
             .rev()
         {
             if let Ok(number) = number_match.as_str().parse::<u128>() {
-                let converted_number = converter.convert(number);
+                let converted_number = converter.format(number);
                 new_line.replace_range(number_match.range(), &converted_number);
             }
         }
@@ -66,11 +66,11 @@ mod tests {
         let converter = Converter {
             precision: 5,
             from_unit: Unit {
-                binary: false,
+                is_binary: false,
                 scale: None,
             },
             to_unit: Unit {
-                binary: false,
+                is_binary: false,
                 scale: None,
             },
         };
@@ -99,11 +99,11 @@ mod tests {
         let converter = Converter {
             precision: 2,
             from_unit: Unit {
-                binary: false,
+                is_binary: false,
                 scale: None,
             },
             to_unit: Unit {
-                binary: true,
+                is_binary: true,
                 scale: None,
             },
         };
@@ -249,11 +249,11 @@ mod tests {
         let converter = Converter {
             precision: 3,
             from_unit: Unit {
-                binary: true,
+                is_binary: true,
                 scale: Some(Scale::K),
             },
             to_unit: Unit {
-                binary: false,
+                is_binary: false,
                 scale: None,
             },
         };

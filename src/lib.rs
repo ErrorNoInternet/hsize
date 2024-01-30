@@ -5,7 +5,7 @@ use std::{convert::Infallible, str::FromStr};
 #[derive(Debug, Default, Clone, Copy, Eq, PartialEq)]
 pub struct Unit {
     pub scale: Option<Scale>,
-    pub binary: bool,
+    pub is_binary: bool,
 }
 
 impl ToString for Unit {
@@ -13,8 +13,8 @@ impl ToString for Unit {
         let scale = self.scale.unwrap_or_default();
         let mut output = format!("{scale:?}");
         if scale != Scale::B {
-            if self.binary {
-                output.push('i')
+            if self.is_binary {
+                output.push('i');
             }
             output.push('B');
         }
@@ -31,7 +31,7 @@ impl FromStr for Unit {
             Unit::default()
         } else {
             Self {
-                binary: characters[1] == 'i',
+                is_binary: characters[1] == 'i',
                 scale: Some(characters[0].into()),
             }
         })
@@ -75,43 +75,51 @@ pub struct Converter {
 }
 
 impl Converter {
-    pub fn convert(&self, size: u128) -> String {
+    pub fn convert(&self, size: u128) -> (f64, Scale) {
         // TODO: switch to f128 (https://github.com/rust-lang/rust/pull/114607)
         #[allow(clippy::cast_precision_loss)]
-        let mut current_size = size as f64;
+        let mut new_size = size as f64;
 
-        let mut current_scale = self.from_unit.scale.unwrap_or_default();
-        let multiplier: f64 = if self.from_unit.binary {
+        let mut new_scale = self.from_unit.scale.unwrap_or_default();
+        let multiplier: f64 = if self.from_unit.is_binary {
             1024.0
         } else {
             1000.0
         };
-        let divisor: f64 = if self.to_unit.binary { 1024.0 } else { 1000.0 };
+        let divisor: f64 = if self.to_unit.is_binary {
+            1024.0
+        } else {
+            1000.0
+        };
 
         if let Some(to_scale) = self.to_unit.scale {
-            current_size *= multiplier.powi(current_scale as i32);
-            current_size /= divisor.powi(to_scale as i32);
-            current_scale = to_scale;
+            new_size *= multiplier.powi(new_scale as i32);
+            new_size /= divisor.powi(to_scale as i32);
+            new_scale = to_scale;
         } else {
-            while current_size >= divisor {
-                if let Some(new_scale) =
-                    num_traits::FromPrimitive::from_u32(current_scale as u32 + 1)
+            while new_size >= divisor {
+                if let Some(next_scale) = num_traits::FromPrimitive::from_u32(new_scale as u32 + 1)
                 {
-                    current_scale = new_scale;
+                    new_scale = next_scale;
                 } else {
                     break;
                 }
-                current_size /= divisor;
+                new_size /= divisor;
             }
         }
 
+        (new_size, new_scale)
+    }
+
+    pub fn format(&self, size: u128) -> String {
+        let (new_size, new_scale) = self.convert(size);
         format!(
             "{:.*} {}",
             self.precision,
-            current_size,
+            new_size,
             Unit {
-                binary: self.to_unit.binary,
-                scale: Some(current_scale),
+                is_binary: self.to_unit.is_binary,
+                scale: Some(new_scale),
             }
             .to_string()
         )
@@ -127,20 +135,20 @@ mod tests {
         let converter = Converter {
             precision: 0,
             from_unit: Unit {
-                binary: false,
+                is_binary: false,
                 scale: None,
             },
             to_unit: Unit {
-                binary: true,
+                is_binary: true,
                 scale: None,
             },
         };
 
-        assert_eq!(converter.convert(0), "0 B");
-        assert_eq!(converter.convert(123), "123 B");
-        assert_eq!(converter.convert(5555), "5 KiB");
-        assert_eq!(converter.convert(1048576), "1 MiB");
-        assert_eq!(converter.convert(1024 * 1024 * 1024), "1 GiB");
+        assert_eq!(converter.format(0), "0 B");
+        assert_eq!(converter.format(123), "123 B");
+        assert_eq!(converter.format(5555), "5 KiB");
+        assert_eq!(converter.format(1048576), "1 MiB");
+        assert_eq!(converter.format(1024 * 1024 * 1024), "1 GiB");
     }
 
     #[test]
@@ -148,21 +156,21 @@ mod tests {
         let converter = Converter {
             precision: 5,
             from_unit: Unit {
-                binary: false,
+                is_binary: false,
                 scale: None,
             },
             to_unit: Unit {
-                binary: false,
+                is_binary: false,
                 scale: None,
             },
         };
 
-        assert_eq!(converter.convert(10101010101010101), "10.10101 PB");
-        assert_eq!(converter.convert(123456789), "123.45679 MB");
-        assert_eq!(converter.convert(1111111111111111111), "1.11111 EB");
-        assert_eq!(converter.convert(999999), "999.99900 KB");
+        assert_eq!(converter.format(10101010101010101), "10.10101 PB");
+        assert_eq!(converter.format(123456789), "123.45679 MB");
+        assert_eq!(converter.format(1111111111111111111), "1.11111 EB");
+        assert_eq!(converter.format(999999), "999.99900 KB");
         assert_eq!(
-            converter.convert(5555555555555555555555555555555),
+            converter.format(5555555555555555555555555555555),
             "5555555.55556 YB"
         );
     }
@@ -172,19 +180,19 @@ mod tests {
         let converter = Converter {
             precision: 2,
             from_unit: Unit {
-                binary: true,
+                is_binary: true,
                 scale: Some(Scale::G),
             },
             to_unit: Unit {
-                binary: true,
+                is_binary: true,
                 scale: Some(Scale::M),
             },
         };
 
-        assert_eq!(converter.convert(64), "65536.00 MiB");
-        assert_eq!(converter.convert(2), "2048.00 MiB");
-        assert_eq!(converter.convert(128), "131072.00 MiB");
-        assert_eq!(converter.convert(1024), "1048576.00 MiB");
+        assert_eq!(converter.format(64), "65536.00 MiB");
+        assert_eq!(converter.format(2), "2048.00 MiB");
+        assert_eq!(converter.format(128), "131072.00 MiB");
+        assert_eq!(converter.format(1024), "1048576.00 MiB");
     }
 
     #[test]
@@ -192,19 +200,19 @@ mod tests {
         let converter = Converter {
             precision: 2,
             from_unit: Unit {
-                binary: true,
+                is_binary: true,
                 scale: Some(Scale::G),
             },
             to_unit: Unit {
-                binary: true,
+                is_binary: true,
                 scale: None,
             },
         };
 
-        assert_eq!(converter.convert(1024), "1.00 TiB");
-        assert_eq!(converter.convert(10240), "10.00 TiB");
-        assert_eq!(converter.convert(512), "512.00 GiB");
-        assert_eq!(converter.convert(10000000), "9.54 PiB");
+        assert_eq!(converter.format(1024), "1.00 TiB");
+        assert_eq!(converter.format(10240), "10.00 TiB");
+        assert_eq!(converter.format(512), "512.00 GiB");
+        assert_eq!(converter.format(10000000), "9.54 PiB");
     }
 
     #[test]
@@ -212,23 +220,23 @@ mod tests {
         let converter = Converter {
             precision: 2,
             from_unit: Unit {
-                binary: true,
+                is_binary: true,
                 scale: None,
             },
             to_unit: Unit {
-                binary: true,
+                is_binary: true,
                 scale: Some(Scale::G),
             },
         };
 
-        assert_eq!(converter.convert(10000000), "0.01 GiB");
-        assert_eq!(converter.convert(1024 * 512 * 1024 * 512), "256.00 GiB");
+        assert_eq!(converter.format(10000000), "0.01 GiB");
+        assert_eq!(converter.format(1024 * 512 * 1024 * 512), "256.00 GiB");
         assert_eq!(
-            converter.convert(1024 * 111 * 1024 * 111 * 1024),
+            converter.format(1024 * 111 * 1024 * 111 * 1024),
             "12321.00 GiB"
         );
         assert_eq!(
-            converter.convert(1024 * 555 * 1024 * 555 * 1024),
+            converter.format(1024 * 555 * 1024 * 555 * 1024),
             "308025.00 GiB"
         );
     }
