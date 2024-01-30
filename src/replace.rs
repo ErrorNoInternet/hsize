@@ -1,20 +1,24 @@
 use hsize::Converter;
 use regex::RegexBuilder;
-use std::process::exit;
+use std::io::Write;
 
-pub fn replace(converter: &Converter, number_regex_string: &str, multiline: bool) {
+pub fn replace<T: Iterator<Item = String>>(
+    input: T,
+    output: &mut dyn Write,
+
+    converter: &Converter,
+    number_regex_string: &str,
+    multiline: bool,
+) -> Result<(), String> {
     let number_regex = match RegexBuilder::new(number_regex_string)
         .multi_line(multiline)
         .build()
     {
         Ok(number_regex) => number_regex,
-        Err(error) => {
-            eprintln!("invalid regex specified: {error}");
-            exit(1);
-        }
+        Err(error) => return Err(format!("invalid regex specified: {error}")),
     };
 
-    for line in std::io::stdin().lines().map_while(Result::ok) {
+    for line in input {
         let mut new_line = line.clone();
         for number in number_regex
             .find_iter(&line)

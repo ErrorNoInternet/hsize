@@ -4,6 +4,7 @@ mod replace;
 use arguments::{Arguments, MainSubcommand};
 use clap::Parser;
 use hsize::{Converter, Unit};
+use std::process::exit;
 
 fn main() {
     let arguments = Arguments::parse();
@@ -24,7 +25,16 @@ fn main() {
         multiline,
     }) = arguments.subcommand
     {
-        replace::replace(&converter, &number_regex, multiline);
+        if let Err(error) = replace::replace(
+            &mut std::io::stdin().lines().map_while(Result::ok),
+            &mut std::io::stdout(),
+            &converter,
+            &number_regex,
+            multiline,
+        ) {
+            eprintln!("{error}");
+            exit(1);
+        }
     } else {
         for size in arguments.sizes {
             println!("{}", converter.convert(size));
