@@ -20,11 +20,17 @@ pub fn replace<T: Iterator<Item = String>>(
 
     for line in input {
         let mut new_line = line.clone();
-        for number in number_regex
-            .find_iter(&line)
-            .filter_map(|number_match| number_match.as_str().parse::<u128>().ok())
-        {
-            new_line = new_line.replace(&number.to_string(), converter.convert(number).as_str());
+        let mut character_offset: i32 = 0;
+        for number_match in number_regex.find_iter(&line) {
+            if let Ok(number) = number_match.as_str().parse::<u128>() {
+                let converted = converter.convert(number);
+                new_line.replace_range(
+                    (number_match.start() + character_offset as usize)
+                        ..(number_match.end() + character_offset as usize),
+                    &converted,
+                );
+                character_offset += converted.len() as i32 - number_match.as_str().len() as i32;
+            }
         }
 
         new_line.push('\n');
@@ -40,6 +46,72 @@ pub fn replace<T: Iterator<Item = String>>(
 mod tests {
     use super::replace;
     use hsize::{Converter, Scale, Unit};
+
+    #[test]
+    fn replace_single() {
+        let expected = "19.02831 PB".as_bytes().to_vec();
+
+        let input = "19028310077231230";
+        let mut output = Vec::new();
+
+        let converter = Converter {
+            precision: 5,
+            from_unit: Unit {
+                binary: false,
+                scale: None,
+            },
+            to_unit: Unit {
+                binary: false,
+                scale: None,
+            },
+        };
+        replace(
+            input.lines().map(|line| line.to_owned()),
+            &mut output,
+            &converter,
+            r"[0-9]+",
+            false,
+        )
+        .unwrap();
+        output.pop();
+
+        assert_eq!(output, expected);
+    }
+
+    #[test]
+    fn replace_multi() {
+        let expected = "12.06 KiB     1.00 B 1.00 B 1.00 B-------------1.00 MiB"
+            .as_bytes()
+            .to_vec();
+
+        let input = "12345     1 1 1-------------1048576";
+        let mut output = Vec::new();
+
+        let converter = Converter {
+            precision: 2,
+            from_unit: Unit {
+                binary: false,
+                scale: None,
+            },
+            to_unit: Unit {
+                binary: true,
+                scale: None,
+            },
+        };
+        replace(
+            input.lines().map(|line| line.to_owned()),
+            &mut output,
+            &converter,
+            r"[0-9]+",
+            false,
+        )
+        .unwrap();
+        output.pop();
+
+        println!("{}", std::str::from_utf8(&output).unwrap());
+
+        assert_eq!(output, expected);
+    }
 
     #[test]
     fn replace_meminfo() {
