@@ -117,8 +117,6 @@ mod tests {
         .unwrap();
         output.pop();
 
-        println!("{}", std::str::from_utf8(&output).unwrap());
-
         assert_eq!(output, expected);
     }
 
