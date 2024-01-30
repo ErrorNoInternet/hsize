@@ -22,6 +22,22 @@ impl ToString for Unit {
     }
 }
 
+impl FromStr for Unit {
+    type Err = Infallible;
+
+    fn from_str(string: &str) -> Result<Self, Self::Err> {
+        let characters = string.chars().collect::<Vec<_>>();
+        Ok(if characters.len() < 2 {
+            Unit::default()
+        } else {
+            Self {
+                binary: characters[1] == 'i',
+                scale: Some(characters[0].into()),
+            }
+        })
+    }
+}
+
 #[derive(Debug, Default, Clone, Copy, PartialEq, FromPrimitive, ValueEnum)]
 pub enum Scale {
     #[default]
@@ -52,22 +68,6 @@ impl From<char> for Scale {
     }
 }
 
-impl FromStr for Unit {
-    type Err = Infallible;
-
-    fn from_str(string: &str) -> Result<Self, Self::Err> {
-        let characters = string.chars().collect::<Vec<_>>();
-        Ok(if characters.len() < 2 {
-            Unit::default()
-        } else {
-            Self {
-                binary: characters[1] == 'i',
-                scale: Some(characters[0].into()),
-            }
-        })
-    }
-}
-
 pub struct Converter {
     pub precision: usize,
     pub from_unit: Unit,
@@ -76,7 +76,7 @@ pub struct Converter {
 
 impl Converter {
     pub fn convert(&self, size: u128) -> String {
-        // TODO: wait for f128
+        // TODO: switch to f128 (https://github.com/rust-lang/rust/pull/114607)
         #[allow(clippy::cast_precision_loss)]
         let mut current_size = size as f64;
 
