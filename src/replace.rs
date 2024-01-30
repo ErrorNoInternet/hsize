@@ -9,6 +9,10 @@ pub enum Error {
     Overflow(std::num::TryFromIntError),
 }
 
+/// # Errors
+///
+/// This function will return an error if the regex is invalid, a write
+/// error occurs, or if replacement string length calculations overflow.
 pub fn replace<T: Iterator<Item = String>>(
     input: T,
     output: &mut dyn Write,
