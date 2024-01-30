@@ -78,7 +78,7 @@ mod tests {
             input.lines().map(|line| line.to_owned()),
             &mut output,
             &converter,
-            r"[0-9]+",
+            r"\d+",
             false,
         )
         .unwrap();
@@ -88,7 +88,7 @@ mod tests {
     }
 
     #[test]
-    fn replace_multi() {
+    fn replace_multiple() {
         let expected = "12.06 KiB     1.00 B 1.00 B 1.00 B-------------1.00 MiB"
             .as_bytes()
             .to_vec();
@@ -111,7 +111,7 @@ mod tests {
             input.lines().map(|line| line.to_owned()),
             &mut output,
             &converter,
-            r"[0-9]+",
+            r"\d+",
             false,
         )
         .unwrap();
@@ -261,7 +261,7 @@ mod tests {
             input.lines().map(|line| line.to_owned()),
             &mut output,
             &converter,
-            r"[0-9]+$",
+            r"\d+$",
             false,
         )
         .unwrap();

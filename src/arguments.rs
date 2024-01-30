@@ -29,7 +29,7 @@ pub struct Arguments {
 #[derive(Debug, Subcommand)]
 pub enum MainSubcommand {
     Replace {
-        #[arg(short = 'r', long, default_value = r"[0-9]+")]
+        #[arg(short = 'r', long, default_value = r"\d+")]
         number_regex: String,
 
         #[arg(short = 'U', long)]

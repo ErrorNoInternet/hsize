@@ -42,7 +42,7 @@ Uses regex to search and replace numbers
 $ echo "1  22  333  4444  55555  666666  7777777  88888888  999999999" | hsize replace
 1.00 B  22.00 B  333.00 B  4.44 KB  55.55 KB  666.67 KB  7.78 MB  88.89 MB  1000.00 MB
 
-$ cat /proc/meminfo | sed "s| kB||; s| ||g" | hsize -f k replace -r "[0-9]+\$" | column -ts :
+$ cat /proc/meminfo | sed "s| kB||; s| ||g" | hsize -f k replace -r "\d+$" | column -ts :
 MemTotal         16.31 GB
 MemFree          929.67 MB
 MemAvailable     10.87 GB
@@ -63,7 +63,7 @@ SwapTotal        32.61 GB
 
 ## Installation
 
-### Nix flake
+### Nix
 ```shell
 $ nix run github:ErrorNoInternet/hsize -- 1000 1000000 5000000
 ```
