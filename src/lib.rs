@@ -22,29 +22,27 @@ pub struct Converter {
 }
 
 impl Converter {
-    pub fn humanize(&self, size: u128) -> String {
-        self.convert(size, SizeUnit::B)
-    }
-
-    pub fn convert(&self, size: u128, from: SizeUnit) -> String {
-        let divisor: u128 = if self.binary { 1024 } else { 1000 };
+    pub fn convert(&self, size: u128) -> String {
+        let divisor = if self.binary { 1024 } else { 1000 } as f64;
         let mut current_size = size as f64;
-        let mut current_unit = from;
+        let mut current_unit = self.from.unwrap_or(SizeUnit::B);
 
-        if let Some(unit) = self.to {
-            current_unit = unit;
-            current_size /= divisor.pow(current_unit as u32) as f64;
+        if let Some(to) = self.to {
+            current_size *= divisor.powi(current_unit as i32);
+            current_size /= divisor.powi(to as i32);
+            current_unit = to;
         } else {
-            while current_size >= divisor as f64 {
+            while current_size >= divisor {
                 if let Some(new_unit) = num_traits::FromPrimitive::from_u32(current_unit as u32 + 1)
                 {
                     current_unit = new_unit;
                 } else {
                     break;
                 }
-                current_size /= divisor as f64;
+                current_size /= divisor;
             }
         }
+
         format!(
             "{:.*} {}",
             self.precision,
