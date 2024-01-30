@@ -17,20 +17,20 @@ pub enum SizeUnit {
 pub struct Converter {
     pub binary: bool,
     pub precision: usize,
-    pub from: Option<SizeUnit>,
-    pub to: Option<SizeUnit>,
+    pub from_unit: Option<SizeUnit>,
+    pub to_unit: Option<SizeUnit>,
 }
 
 impl Converter {
     pub fn convert(&self, size: u128) -> String {
         let divisor = if self.binary { 1024 } else { 1000 } as f64;
         let mut current_size = size as f64;
-        let mut current_unit = self.from.unwrap_or(SizeUnit::B);
+        let mut current_unit = self.from_unit.unwrap_or(SizeUnit::B);
 
-        if let Some(to) = self.to {
+        if let Some(to_unit) = self.to_unit {
             current_size *= divisor.powi(current_unit as i32);
-            current_size /= divisor.powi(to as i32);
-            current_unit = to;
+            current_size /= divisor.powi(to_unit as i32);
+            current_unit = to_unit;
         } else {
             while current_size >= divisor {
                 if let Some(new_unit) = num_traits::FromPrimitive::from_u32(current_unit as u32 + 1)

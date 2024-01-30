@@ -11,10 +11,10 @@ pub struct Arguments {
     pub precision: usize,
 
     #[arg(short, long)]
-    pub from: Option<SizeUnit>,
+    pub from_unit: Option<SizeUnit>,
 
     #[arg(short, long)]
-    pub to: Option<SizeUnit>,
+    pub to_unit: Option<SizeUnit>,
 
     #[arg(num_args = 1..)]
     pub sizes: Vec<u128>,

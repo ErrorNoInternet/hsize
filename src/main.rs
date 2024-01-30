@@ -9,8 +9,8 @@ fn main() {
     let converter = Converter {
         binary: arguments.binary,
         precision: arguments.precision,
-        from: arguments.from,
-        to: arguments.to,
+        from_unit: arguments.from_unit,
+        to_unit: arguments.to_unit,
     };
 
     for size in arguments.sizes {
