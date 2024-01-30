@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  openheimer:
-    name: openheimer
+  hsize:
+    name: hsize
     runs-on: ubuntu-22.04
 
     strategy:
