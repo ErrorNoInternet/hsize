@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand};
+use clap::{Parser, Subcommand, ArgAction};
 use hsize::Scale;
 
 /// Convert file sizes to and from human-readable units
@@ -29,7 +29,7 @@ pub struct Arguments {
     #[arg(short, long, default_value = " ")]
     pub separator: String,
 
-    #[arg(num_args = 1..)]
+    #[arg(action = ArgAction::Append)]
     pub sizes: Vec<u128>,
 
     #[command(subcommand)]
