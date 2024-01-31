@@ -133,6 +133,57 @@ mod tests {
     }
 
     #[test]
+    fn stat() {
+        let expected = "
+              File: flake.nix
+              Size: 1.81 KB      	Blocks: 8          IO Block: 4096   regular file
+            Device: 0,68	Inode: 2522344     Links: 1
+            Access: (0644/-rw-r--r--)  Uid: ( 1000/   error)   Gid: (  100/   users)
+            Access: 2024-01-30 23:38:22.896900424 +0800
+            Modify: 2024-01-30 23:38:22.589909282 +0800
+            Change: 2024-01-30 23:38:22.893900510 +0800
+             Birth: 2024-01-30 23:38:22.589909282 +0800
+        "
+        .as_bytes()
+        .to_vec();
+
+        let input = "
+              File: flake.nix
+              Size: 1812      	Blocks: 8          IO Block: 4096   regular file
+            Device: 0,68	Inode: 2522344     Links: 1
+            Access: (0644/-rw-r--r--)  Uid: ( 1000/   error)   Gid: (  100/   users)
+            Access: 2024-01-30 23:38:22.896900424 +0800
+            Modify: 2024-01-30 23:38:22.589909282 +0800
+            Change: 2024-01-30 23:38:22.893900510 +0800
+             Birth: 2024-01-30 23:38:22.589909282 +0800
+        ";
+        let mut output = Vec::new();
+
+        let converter = Converter {
+            precision: 2,
+            from_unit: Unit {
+                is_binary: false,
+                scale: None,
+            },
+            to_unit: Unit {
+                is_binary: false,
+                scale: None,
+            },
+        };
+        replace(
+            input.lines().map(std::borrow::ToOwned::to_owned),
+            &mut output,
+            &converter,
+            r"Size: (\d+)",
+            false,
+        )
+        .unwrap();
+        output.pop();
+
+        assert_eq!(output, expected);
+    }
+
+    #[test]
     fn meminfo() {
         let expected = "
             MemTotal:       16.306 GB
