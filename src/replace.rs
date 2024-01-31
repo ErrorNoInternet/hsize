@@ -11,7 +11,7 @@ pub fn replace<T: Iterator<Item = String>>(
     output: &mut dyn Write,
 
     converter: &Converter,
-    number_regex: Regex,
+    number_regex: &Regex,
 ) -> Result<(), Error> {
     for line in input {
         let mut new_line = line.clone();
@@ -74,7 +74,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
-            Regex::new(r"\d+").unwrap(),
+            &Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
         output.pop();
@@ -106,7 +106,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
-            Regex::new(r"\d+").unwrap(),
+            &Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
         output.pop();
@@ -156,7 +156,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
-            Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap(),
+            &Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap(),
         )
         .unwrap();
         output.pop();
@@ -255,7 +255,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
-            Regex::new(r"\d+$").unwrap(),
+            &Regex::new(r"\d+$").unwrap(),
         )
         .unwrap();
         output.pop();

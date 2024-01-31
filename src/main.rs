@@ -30,7 +30,7 @@ fn main() {
             &mut std::io::stdin().lines().map_while(Result::ok),
             &mut std::io::stdout(),
             &converter,
-            match RegexBuilder::new(&number_regex)
+            match &RegexBuilder::new(&number_regex)
                 .multi_line(multiline)
                 .build()
             {
