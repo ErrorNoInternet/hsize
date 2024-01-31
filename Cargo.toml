@@ -10,6 +10,7 @@ codegen-units = 1
 lto = true
 panic = "abort"
 strip = "symbols"
+trim-paths = "all"
 
 [profile.small]
 codegen-units = 1
@@ -19,19 +20,13 @@ lto = true
 opt-level = "z"
 panic = "abort"
 strip = "symbols"
-trim-paths = "all"
 rustflags = ["-Zlocation-detail=none"]
 
 [profile.dev]
 rustflags = ["-Zshare-generics"]
 
 [dependencies]
-clap = { version = "4.4", default-features = false, features = [
-  "std",
-  "derive",
-] }
-num-derive = "0.4"
-num-traits = "0.2"
-regex = { version = "1.10", default-features = false, features = [
-  "unicode-perl",
-] }
+clap = { version = "4", default-features = false, features = ["std", "derive"] }
+num-derive = "0"
+num-traits = "0"
+regex = { version = "1", default-features = false, features = ["unicode-perl"] }
