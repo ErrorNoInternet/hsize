@@ -60,6 +60,12 @@ Unevictable      329.73 MB
 Mlocked          120.00 KB
 SwapTotal        32.61 GB
 [...]
+
+$ stat flake.nix | hsize replace -r "Size: (\d+)"
+  File: flake.nix
+  Size: 1.81 KB      	Blocks: 8          IO Block: 4096   regular file
+Device: 0,68	Inode: 2522344     Links: 1
+[...]
 ```
 
 ## Usage
