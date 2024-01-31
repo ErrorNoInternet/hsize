@@ -94,6 +94,7 @@ fn main() {
         from_unit: Unit {
             // 1K = 1000
             is_binary: false,
+            // `None` for byte (Scale::B)
             scale: Some(Scale::K),
         },
         to_unit: Unit {
