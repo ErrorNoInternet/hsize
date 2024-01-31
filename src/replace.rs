@@ -34,8 +34,8 @@ pub fn replace<T: Iterator<Item = String>>(
         {
             for number_match in number_capture {
                 if let Ok(number) = number_match.as_str().parse::<u128>() {
-                    let converted_number = converter.format(number, precision);
-                    new_line.replace_range(number_match.range(), &converted_number);
+                    new_line
+                        .replace_range(number_match.range(), &converter.format(number, precision));
                 }
             }
         }

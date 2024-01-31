@@ -36,7 +36,7 @@ fn main() {
             {
                 Ok(number_regex) => number_regex,
                 Err(error) => {
-                    eprintln!("regex error: {error}");
+                    eprintln!("replace: {error}");
                     exit(1);
                 }
             },

@@ -100,9 +100,7 @@ impl Converter {
     pub fn format(&self, size: u128, precision: usize) -> String {
         let (new_size, new_scale) = self.convert(size);
         format!(
-            "{:.*} {}",
-            precision,
-            new_size,
+            "{new_size:.precision$} {}",
             Unit {
                 is_binary: self.to_unit.is_binary,
                 scale: Some(new_scale),
