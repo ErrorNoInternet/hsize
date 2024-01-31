@@ -196,7 +196,24 @@ mod tests {
     }
 
     #[test]
-    fn from() {
+    fn decimal_from_binary() {
+        let converter = Converter {
+            from_unit: Unit {
+                is_binary: false,
+                scale: Some(Scale::G),
+            },
+            to_unit: Unit {
+                is_binary: true,
+                scale: None,
+            },
+        };
+
+        assert_eq!(converter.format(22222, 2), "20.21 TiB");
+        assert_eq!(converter.format(34_359_738_367, 2), "29.80 EiB");
+    }
+
+    #[test]
+    fn from_binary() {
         let converter = Converter {
             from_unit: Unit {
                 is_binary: true,
