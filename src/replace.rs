@@ -14,7 +14,7 @@ pub fn replace<T: Iterator<Item = String>>(
     number_regex: Regex,
 ) -> Result<(), Error> {
     for line in input {
-        let mut new_line = line.clone() + "\n";
+        let mut new_line = line.clone();
 
         for number_capture in number_regex
             .captures_iter(&line)
@@ -40,9 +40,7 @@ pub fn replace<T: Iterator<Item = String>>(
             }
         }
 
-        if let Err(error) = output.write(new_line.as_bytes()) {
-            return Err(Error::Write(error));
-        }
+        writeln!(output, "{new_line}")?;
     }
 
     Ok(())
