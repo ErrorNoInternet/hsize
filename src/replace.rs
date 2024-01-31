@@ -78,7 +78,10 @@ mod tests {
         .unwrap();
         output.pop();
 
-        assert_eq!(output, expected);
+        assert_eq!(
+            String::from_utf8(output).unwrap(),
+            String::from_utf8(expected).unwrap()
+        );
     }
 
     #[test]
@@ -110,7 +113,10 @@ mod tests {
         .unwrap();
         output.pop();
 
-        assert_eq!(output, expected);
+        assert_eq!(
+            String::from_utf8(output).unwrap(),
+            String::from_utf8(expected).unwrap()
+        );
     }
 
     #[test]
@@ -160,7 +166,10 @@ mod tests {
         .unwrap();
         output.pop();
 
-        assert_eq!(output, expected);
+        assert_eq!(
+            String::from_utf8(output).unwrap(),
+            String::from_utf8(expected).unwrap()
+        );
     }
 
     #[test]
@@ -259,6 +268,9 @@ mod tests {
         .unwrap();
         output.pop();
 
-        assert_eq!(output, expected);
+        assert_eq!(
+            String::from_utf8(output).unwrap(),
+            String::from_utf8(expected).unwrap()
+        );
     }
 }
