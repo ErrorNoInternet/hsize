@@ -136,7 +136,7 @@ mod tests {
     fn stat() {
         let expected = "
               File: flake.nix
-              Size: 1.81 KB      	Blocks: 8          IO Block: 4096   regular file
+              Size: 1.81 KB      	Blocks: 8          IO Block: 4.10 KB   regular file
             Device: 0,68	Inode: 2522344     Links: 1
             Access: (0644/-rw-r--r--)  Uid: ( 1000/   error)   Gid: (  100/   users)
             Access: 2024-01-30 23:38:22.896900424 +0800
@@ -174,7 +174,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
-            r"Size: (\d+)",
+            r"Size: (\d+).*IO Block: (\d+)",
             false,
         )
         .unwrap();
