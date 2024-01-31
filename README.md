@@ -91,12 +91,10 @@ use hsize::{Converter, Scale, Unit};
 
 fn main() {
     let converter = Converter {
-        // three decimal places for `.format()`
-        precision: 3,
         from_unit: Unit {
             // 1K = 1000
             is_binary: false,
-            scale: Some(Scale::M),
+            scale: Some(Scale::K),
         },
         to_unit: Unit {
             // 1K = 1024
@@ -106,8 +104,8 @@ fn main() {
         },
     };
 
-    // 5120 MB == 5 GiB
-    assert_eq!(converter.convert(5120), (5.0, Scale::G));
-    assert_eq!(converter.format(5120), "5.000 GiB");
+    // 1073741824 KB = 1000 GiB
+    assert_eq!(converter.convert(1073741824), (1000.0, Scale::G));
+    assert_eq!(converter.format(1073741824, 3), "1000.000 GiB");
 }
 ```
