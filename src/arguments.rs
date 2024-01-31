@@ -25,7 +25,7 @@ pub struct Arguments {
     #[arg(short = 'b', long)]
     pub to_binary: bool,
 
-    /// Whether or not to hide the space between the size and unit (1 KB -> 1KB)
+    /// Character(s) to put between the number and unit
     #[arg(short, long, default_value = " ")]
     pub separator: String,
 
