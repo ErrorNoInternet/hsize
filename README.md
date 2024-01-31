@@ -61,9 +61,9 @@ Mlocked          120.00 KB
 SwapTotal        32.61 GB
 [...]
 
-$ stat flake.nix | hsize replace -r "Size: (\d+)"
+$ stat flake.nix | hsize -b replace -r "Size: (\d+).*IO Block: (\d+)"
   File: flake.nix
-  Size: 1.81 KB      	Blocks: 8          IO Block: 4096   regular file
+  Size: 1.77 KiB      	Blocks: 8          IO Block: 4.00 KiB   regular file
 Device: 0,68	Inode: 2522344     Links: 1
 [...]
 ```
