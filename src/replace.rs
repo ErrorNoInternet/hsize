@@ -53,13 +53,13 @@ mod tests {
 
     #[test]
     fn single() {
-        let expected = "19.02831 PB".as_bytes().to_vec();
+        let expected = "19.028 PB".as_bytes().to_vec();
 
         let input = "19028310077231230";
         let mut output = Vec::new();
 
         let converter = Converter {
-            precision: 5,
+            precision: 3,
             from_unit: Unit {
                 is_binary: false,
                 scale: None,
