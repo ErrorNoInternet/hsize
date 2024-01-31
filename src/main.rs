@@ -4,6 +4,7 @@ pub mod replace;
 use arguments::{Arguments, MainSubcommand};
 use clap::Parser;
 use hsize::{Converter, Unit};
+use regex::RegexBuilder;
 use std::process::exit;
 
 fn main() {
@@ -29,13 +30,18 @@ fn main() {
             &mut std::io::stdin().lines().map_while(Result::ok),
             &mut std::io::stdout(),
             &converter,
-            &number_regex,
-            multiline,
+            match RegexBuilder::new(&number_regex)
+                .multi_line(multiline)
+                .build()
+            {
+                Ok(number_regex) => number_regex,
+                Err(error) => {
+                    eprintln!("regex error: {error}");
+                    exit(1);
+                }
+            },
         ) {
-            match error {
-                replace::Error::Regex(error) => eprintln!("replace: {error}"),
-                replace::Error::Write(error) => eprintln!("write error: {error}"),
-            }
+            eprintln!("write error: {error}");
             exit(1);
         }
     } else {

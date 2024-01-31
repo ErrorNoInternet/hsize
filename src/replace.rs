@@ -1,33 +1,18 @@
 use hsize::Converter;
-use regex::RegexBuilder;
-use std::io::Write;
-
-#[derive(Debug)]
-pub enum Error {
-    Regex(String),
-    Write(std::io::Error),
-}
+use regex::Regex;
+use std::io::{Error, Write};
 
 /// # Errors
 ///
-/// This function will return an error if the
-/// regex is invalid or if a write error occurs.
+/// This function will return an error if it
+/// fails to write to the destination buffer.
 pub fn replace<T: Iterator<Item = String>>(
     input: T,
     output: &mut dyn Write,
 
     converter: &Converter,
-    number_regex_string: &str,
-    multiline: bool,
+    number_regex: Regex,
 ) -> Result<(), Error> {
-    let number_regex = match RegexBuilder::new(number_regex_string)
-        .multi_line(multiline)
-        .build()
-    {
-        Ok(number_regex) => number_regex,
-        Err(error) => return Err(Error::Regex(error.to_string())),
-    };
-
     for line in input {
         let mut new_line = line.clone() + "\n";
 
@@ -67,6 +52,7 @@ pub fn replace<T: Iterator<Item = String>>(
 mod tests {
     use super::replace;
     use hsize::{Converter, Scale, Unit};
+    use regex::Regex;
 
     #[test]
     fn single() {
@@ -90,8 +76,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
-            r"\d+",
-            false,
+            Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
         output.pop();
@@ -123,8 +108,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
-            r"\d+",
-            false,
+            Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
         output.pop();
@@ -174,8 +158,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
-            r"Size: (\d+).*IO Block: (\d+)",
-            false,
+            Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap(),
         )
         .unwrap();
         output.pop();
@@ -274,8 +257,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
-            r"\d+$",
-            false,
+            Regex::new(r"\d+$").unwrap(),
         )
         .unwrap();
         output.pop();
