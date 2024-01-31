@@ -148,7 +148,7 @@ mod tests {
         assert_eq!(converter.format(0), "0 B");
         assert_eq!(converter.format(123), "123 B");
         assert_eq!(converter.format(5555), "5 KiB");
-        assert_eq!(converter.format(1048576), "1 MiB");
+        assert_eq!(converter.format(1_048_576), "1 MiB");
         assert_eq!(converter.format(1024 * 1024 * 1024), "1 GiB");
     }
 
@@ -166,12 +166,12 @@ mod tests {
             },
         };
 
-        assert_eq!(converter.format(10101010101010101), "10.10101 PB");
-        assert_eq!(converter.format(123456789), "123.45679 MB");
-        assert_eq!(converter.format(1111111111111111111), "1.11111 EB");
-        assert_eq!(converter.format(999999), "999.99900 KB");
+        assert_eq!(converter.format(10_101_010_101_010_101), "10.10101 PB");
+        assert_eq!(converter.format(123_456_789), "123.45679 MB");
+        assert_eq!(converter.format(1_111_111_111_111_111_111), "1.11111 EB");
+        assert_eq!(converter.format(999_999), "999.99900 KB");
         assert_eq!(
-            converter.format(5555555555555555555555555555555),
+            converter.format(5_555_555_555_555_555_555_555_555_555_555),
             "5555555.55556 YB"
         );
     }
@@ -213,7 +213,7 @@ mod tests {
         assert_eq!(converter.format(1024), "1.00 TiB");
         assert_eq!(converter.format(10240), "10.00 TiB");
         assert_eq!(converter.format(512), "512.00 GiB");
-        assert_eq!(converter.format(10000000), "9.54 PiB");
+        assert_eq!(converter.format(10_000_000), "9.54 PiB");
     }
 
     #[test]
@@ -230,7 +230,7 @@ mod tests {
             },
         };
 
-        assert_eq!(converter.format(10000000), "0.01 GiB");
+        assert_eq!(converter.format(10_000_000), "0.01 GiB");
         assert_eq!(converter.format(1024 * 512 * 1024 * 512), "256.00 GiB");
         assert_eq!(
             converter.format(1024 * 111 * 1024 * 111 * 1024),

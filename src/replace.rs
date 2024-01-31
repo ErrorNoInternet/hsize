@@ -39,7 +39,7 @@ pub fn replace<T: Iterator<Item = String>>(
                     .flatten()
                     .collect::<Vec<_>>()
                     .iter()
-                    .map(|number_capture| number_capture.to_owned())
+                    .map(std::borrow::ToOwned::to_owned)
                     .rev()
                     .collect::<Vec<_>>()
             })
@@ -47,7 +47,7 @@ pub fn replace<T: Iterator<Item = String>>(
             .iter()
             .rev()
         {
-            for number_match in number_capture.iter() {
+            for number_match in number_capture {
                 if let Ok(number) = number_match.as_str().parse::<u128>() {
                     let converted_number = converter.format(number);
                     new_line.replace_range(number_match.range(), &converted_number);
@@ -87,7 +87,7 @@ mod tests {
             },
         };
         replace(
-            input.lines().map(|line| line.to_owned()),
+            input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
             r"\d+",
@@ -120,7 +120,7 @@ mod tests {
             },
         };
         replace(
-            input.lines().map(|line| line.to_owned()),
+            input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
             r"\d+",
@@ -151,20 +151,6 @@ mod tests {
             Mlocked:             120.000 KB
             SwapTotal:      32.612 GB
             SwapFree:       31.513 GB
-            Zswap:                 0.000 KB
-            Zswapped:              0.000 KB
-            Dirty:               660.000 KB
-            Writeback:             0.000 KB
-            AnonPages:       3.404 GB
-            Mapped:           667.800 MB
-            Shmem:            872.484 MB
-            KReclaimable:     468.088 MB
-            Slab:             800.908 MB
-            SReclaimable:     468.088 MB
-            SUnreclaim:       332.820 MB
-            KernelStack:       21.216 MB
-            PageTables:        49.988 MB
-            SecPageTables:         0.000 KB
             NFS_Unstable:          0.000 KB
             Bounce:                0.000 KB
             WritebackTmp:          0.000 KB
@@ -174,16 +160,6 @@ mod tests {
             VmallocUsed:      278.008 MB
             VmallocChunk:          0.000 KB
             Percpu:             6.688 MB
-            AnonHugePages:         0.000 KB
-            ShmemHugePages:        0.000 KB
-            ShmemPmdMapped:        0.000 KB
-            FileHugePages:         0.000 KB
-            FilePmdMapped:         0.000 KB
-            CmaTotal:              0.000 KB
-            CmaFree:               0.000 KB
-            Unaccepted:            0.000 KB
-            HugePages_Total:       0.000 KB
-            HugePages_Free:        0.000 KB
             HugePages_Rsvd:        0.000 KB
             HugePages_Surp:        0.000 KB
             Hugepagesize:       2.048 MB
@@ -212,20 +188,6 @@ mod tests {
             Mlocked:             120 kB
             SwapTotal:      32612348 kB
             SwapFree:       31513084 kB
-            Zswap:                 0 kB
-            Zswapped:              0 kB
-            Dirty:               660 kB
-            Writeback:             0 kB
-            AnonPages:       3403652 kB
-            Mapped:           667800 kB
-            Shmem:            872484 kB
-            KReclaimable:     468088 kB
-            Slab:             800908 kB
-            SReclaimable:     468088 kB
-            SUnreclaim:       332820 kB
-            KernelStack:       21216 kB
-            PageTables:        49988 kB
-            SecPageTables:         0 kB
             NFS_Unstable:          0 kB
             Bounce:                0 kB
             WritebackTmp:          0 kB
@@ -235,16 +197,6 @@ mod tests {
             VmallocUsed:      278008 kB
             VmallocChunk:          0 kB
             Percpu:             6688 kB
-            AnonHugePages:         0 kB
-            ShmemHugePages:        0 kB
-            ShmemPmdMapped:        0 kB
-            FileHugePages:         0 kB
-            FilePmdMapped:         0 kB
-            CmaTotal:              0 kB
-            CmaFree:               0 kB
-            Unaccepted:            0 kB
-            HugePages_Total:       0
-            HugePages_Free:        0
             HugePages_Rsvd:        0
             HugePages_Surp:        0
             Hugepagesize:       2048 kB
@@ -268,7 +220,7 @@ mod tests {
             },
         };
         replace(
-            input.lines().map(|line| line.to_owned()),
+            input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
             r"\d+$",
