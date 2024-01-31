@@ -47,8 +47,11 @@ fn main() {
             exit(1);
         }
     } else {
-        for size in arguments.sizes {
-            println!("{}", format_fn(size));
+        if !arguments.sizes.is_empty() {
+            for size in arguments.sizes {
+                println!("{}", format_fn(size));
+            }
+            return;
         }
         for (nr, line) in std::io::stdin()
             .lines()
