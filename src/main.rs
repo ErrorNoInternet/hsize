@@ -20,11 +20,7 @@ fn main() {
         },
     };
     let format_fn = |size: u128| -> String {
-        if arguments.no_space {
-            converter.format_with_separator(size, arguments.precision, "")
-        } else {
-            converter.format(size, arguments.precision)
-        }
+        converter.format_with_separator(size, arguments.precision, &arguments.separator)
     };
 
     if let Some(MainSubcommand::Replace {

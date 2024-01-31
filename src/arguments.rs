@@ -26,8 +26,8 @@ pub struct Arguments {
     pub to_binary: bool,
 
     /// Whether or not to hide the space between the size and unit (1 KB -> 1KB)
-    #[arg(short, long)]
-    pub no_space: bool,
+    #[arg(short, long, default_value = " ")]
+    pub separator: String,
 
     #[arg(num_args = 1..)]
     pub sizes: Vec<u128>,
