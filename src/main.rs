@@ -10,7 +10,6 @@ use std::process::exit;
 fn main() {
     let arguments = Arguments::parse();
     let converter = Converter {
-        precision: arguments.precision,
         from_unit: Unit {
             is_binary: arguments.from_binary,
             scale: arguments.from_scale,
@@ -30,6 +29,7 @@ fn main() {
             &mut std::io::stdin().lines().map_while(Result::ok),
             &mut std::io::stdout(),
             &converter,
+            arguments.precision,
             match &RegexBuilder::new(&number_regex)
                 .multi_line(multiline)
                 .build()
@@ -46,12 +46,12 @@ fn main() {
         }
     } else {
         for size in arguments.sizes {
-            println!("{}", converter.format(size));
+            println!("{}", converter.format(size, arguments.precision));
         }
         if !atty::is(atty::Stream::Stdin) {
             for line in std::io::stdin().lines().map_while(Result::ok) {
                 if let Ok(number) = line.trim().parse::<u128>() {
-                    println!("{}", converter.format(number));
+                    println!("{}", converter.format(number, arguments.precision));
                 } else {
                     eprintln!("invalid digit found in \"{line}\"");
                 };

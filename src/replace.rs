@@ -11,6 +11,7 @@ pub fn replace<T: Iterator<Item = String>>(
     output: &mut dyn Write,
 
     converter: &Converter,
+    precision: usize,
     number_regex: &Regex,
 ) -> Result<(), Error> {
     for line in input {
@@ -33,7 +34,7 @@ pub fn replace<T: Iterator<Item = String>>(
         {
             for number_match in number_capture {
                 if let Ok(number) = number_match.as_str().parse::<u128>() {
-                    let converted_number = converter.format(number);
+                    let converted_number = converter.format(number, precision);
                     new_line.replace_range(number_match.range(), &converted_number);
                 }
             }
@@ -59,7 +60,6 @@ mod tests {
         let mut output = Vec::new();
 
         let converter = Converter {
-            precision: 3,
             from_unit: Unit {
                 is_binary: false,
                 scale: None,
@@ -73,6 +73,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
+            3,
             &Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
@@ -94,7 +95,6 @@ mod tests {
         let mut output = Vec::new();
 
         let converter = Converter {
-            precision: 2,
             from_unit: Unit {
                 is_binary: false,
                 scale: None,
@@ -108,6 +108,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
+            2,
             &Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
@@ -147,7 +148,6 @@ mod tests {
         let mut output = Vec::new();
 
         let converter = Converter {
-            precision: 2,
             from_unit: Unit {
                 is_binary: false,
                 scale: None,
@@ -161,6 +161,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
+            2,
             &Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap(),
         )
         .unwrap();
@@ -249,7 +250,6 @@ mod tests {
         let mut output = Vec::new();
 
         let converter = Converter {
-            precision: 3,
             from_unit: Unit {
                 is_binary: true,
                 scale: Some(Scale::K),
@@ -263,6 +263,7 @@ mod tests {
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &converter,
+            3,
             &Regex::new(r"\d+$").unwrap(),
         )
         .unwrap();
