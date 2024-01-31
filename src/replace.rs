@@ -29,20 +29,32 @@ pub fn replace<T: Iterator<Item = String>>(
     };
 
     for line in input {
-        let mut new_line = line.clone();
-        for number_match in number_regex
-            .find_iter(&line)
+        let mut new_line = line.clone() + "\n";
+
+        for number_capture in number_regex
+            .captures_iter(&line)
+            .map(|number_capture| {
+                number_capture
+                    .iter()
+                    .flatten()
+                    .collect::<Vec<_>>()
+                    .iter()
+                    .map(|number_capture| number_capture.to_owned())
+                    .rev()
+                    .collect::<Vec<_>>()
+            })
             .collect::<Vec<_>>()
             .iter()
             .rev()
         {
-            if let Ok(number) = number_match.as_str().parse::<u128>() {
-                let converted_number = converter.format(number);
-                new_line.replace_range(number_match.range(), &converted_number);
+            for number_match in number_capture.iter() {
+                if let Ok(number) = number_match.as_str().parse::<u128>() {
+                    let converted_number = converter.format(number);
+                    new_line.replace_range(number_match.range(), &converted_number);
+                }
             }
         }
 
-        new_line.push('\n');
         if let Err(error) = output.write(new_line.as_bytes()) {
             return Err(Error::Write(error));
         }
