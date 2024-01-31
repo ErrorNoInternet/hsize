@@ -21,10 +21,9 @@ pub fn replace<T: Iterator<Item = String>>(
             .map(|number_capture| {
                 number_capture
                     .iter()
-                    .flatten()
                     .collect::<Vec<_>>()
                     .iter()
-                    .map(std::borrow::ToOwned::to_owned)
+                    .flat_map(std::borrow::ToOwned::to_owned)
                     .rev()
                     .collect::<Vec<_>>()
             })
