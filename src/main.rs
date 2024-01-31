@@ -34,7 +34,7 @@ fn main() {
                 .multi_line(multiline)
                 .build()
             {
-                Ok(number_regex) => number_regex,
+                Ok(built_regex) => built_regex,
                 Err(error) => {
                     eprintln!("replace: {error}");
                     exit(1);

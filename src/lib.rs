@@ -21,7 +21,7 @@ impl ToString for Unit {
     }
 }
 
-#[derive(Debug, Default, Clone, Copy, Eq, FromPrimitive, PartialEq, ValueEnum)]
+#[derive(Clone, Copy, Debug, Default, Eq, FromPrimitive, Ord, PartialEq, PartialOrd, ValueEnum)]
 pub enum Scale {
     #[default]
     B,
@@ -38,22 +38,6 @@ pub enum Scale {
 impl Scale {
     const fn max() -> Self {
         Scale::Y
-    }
-}
-
-impl From<char> for Scale {
-    fn from(character: char) -> Self {
-        match character {
-            'k' | 'K' => Scale::K,
-            'm' | 'M' => Scale::M,
-            'g' | 'G' => Scale::G,
-            't' | 'T' => Scale::T,
-            'p' | 'P' => Scale::P,
-            'e' | 'E' => Scale::E,
-            'z' | 'Z' => Scale::Z,
-            'y' | 'Y' => Scale::Y,
-            _ => Scale::B,
-        }
     }
 }
 

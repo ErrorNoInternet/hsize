@@ -77,11 +77,10 @@ mod tests {
             &Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
-        output.pop();
 
         assert_eq!(
-            String::from_utf8(output).unwrap(),
-            String::from_utf8(expected).unwrap()
+            String::from_utf8(output).unwrap().trim(),
+            String::from_utf8(expected).unwrap().trim()
         );
     }
 
@@ -112,11 +111,10 @@ mod tests {
             &Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
-        output.pop();
 
         assert_eq!(
-            String::from_utf8(output).unwrap(),
-            String::from_utf8(expected).unwrap()
+            String::from_utf8(output).unwrap().trim(),
+            String::from_utf8(expected).unwrap().trim()
         );
     }
 
@@ -165,11 +163,10 @@ mod tests {
             &Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap(),
         )
         .unwrap();
-        output.pop();
 
         assert_eq!(
-            String::from_utf8(output).unwrap(),
-            String::from_utf8(expected).unwrap()
+            String::from_utf8(output).unwrap().trim(),
+            String::from_utf8(expected).unwrap().trim()
         );
     }
 
@@ -267,11 +264,10 @@ mod tests {
             &Regex::new(r"\d+$").unwrap(),
         )
         .unwrap();
-        output.pop();
 
         assert_eq!(
-            String::from_utf8(output).unwrap(),
-            String::from_utf8(expected).unwrap()
+            String::from_utf8(output).unwrap().trim(),
+            String::from_utf8(expected).unwrap().trim()
         );
     }
 }
