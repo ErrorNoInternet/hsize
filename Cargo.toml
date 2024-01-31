@@ -29,7 +29,7 @@ rustflags = ["-Zlocation-detail=none"]
 rustflags = ["-Zshare-generics"]
 
 [dependencies]
-clap = { version = "4.4", features = ["derive"] }
+clap = { version = "4.4", default-features = false, features = ["std", "derive"] }
 num-derive = "0.4"
 num-traits = "0.2"
-regex = "1.10"
+regex = { version = "1.10", default-features = false, features = ["unicode-perl"] }
