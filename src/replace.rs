@@ -1,4 +1,3 @@
-use hsize::Converter;
 use regex::Regex;
 use std::io::{Error, Write};
 
@@ -10,8 +9,7 @@ pub fn replace<T: Iterator<Item = String>>(
     input: T,
     output: &mut dyn Write,
 
-    converter: &Converter,
-    precision: usize,
+    format_fn: &dyn Fn(u128) -> String,
     number_regex: &Regex,
 ) -> Result<(), Error> {
     for line in input {
@@ -34,8 +32,7 @@ pub fn replace<T: Iterator<Item = String>>(
         {
             for number_match in number_capture {
                 if let Ok(number) = number_match.as_str().parse::<u128>() {
-                    new_line
-                        .replace_range(number_match.range(), &converter.format(number, precision));
+                    new_line.replace_range(number_match.range(), &format_fn(number));
                 }
             }
         }
@@ -72,8 +69,7 @@ mod tests {
         replace(
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
-            &converter,
-            3,
+            &|size: u128| converter.format(size, 3),
             &Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
@@ -106,8 +102,7 @@ mod tests {
         replace(
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
-            &converter,
-            2,
+            &|size: u128| converter.format(size, 2),
             &Regex::new(r"\d+").unwrap(),
         )
         .unwrap();
@@ -158,8 +153,7 @@ mod tests {
         replace(
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
-            &converter,
-            2,
+            &|size: u128| converter.format(size, 2),
             &Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap(),
         )
         .unwrap();
@@ -259,8 +253,7 @@ mod tests {
         replace(
             input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
-            &converter,
-            3,
+            &|size: u128| converter.format(size, 3),
             &Regex::new(r"\d+$").unwrap(),
         )
         .unwrap();

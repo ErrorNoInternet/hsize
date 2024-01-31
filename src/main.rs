@@ -19,6 +19,13 @@ fn main() {
             scale: arguments.to_scale,
         },
     };
+    let format_fn = |size: u128| -> String {
+        if arguments.no_space {
+            converter.format_with_separator(size, arguments.precision, "")
+        } else {
+            converter.format(size, arguments.precision)
+        }
+    };
 
     if let Some(MainSubcommand::Replace {
         number_regex,
@@ -28,8 +35,7 @@ fn main() {
         if let Err(error) = replace::replace(
             &mut std::io::stdin().lines().map_while(Result::ok),
             &mut std::io::stdout(),
-            &converter,
-            arguments.precision,
+            &format_fn,
             match &RegexBuilder::new(&number_regex)
                 .multi_line(multiline)
                 .build()
@@ -46,12 +52,12 @@ fn main() {
         }
     } else {
         for size in arguments.sizes {
-            println!("{}", converter.format(size, arguments.precision));
+            println!("{}", format_fn(size));
         }
         if !atty::is(atty::Stream::Stdin) {
             for line in std::io::stdin().lines().map_while(Result::ok) {
                 if let Ok(number) = line.trim().parse::<u128>() {
-                    println!("{}", converter.format(number, arguments.precision));
+                    println!("{}", format_fn(number));
                 } else {
                     eprintln!("invalid digit found in \"{line}\"");
                 };

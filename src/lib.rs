@@ -81,16 +81,20 @@ impl Converter {
         (new_size, new_scale)
     }
 
-    pub fn format(&self, size: u128, precision: usize) -> String {
+    pub fn format_with_separator(&self, size: u128, precision: usize, separator: &str) -> String {
         let (new_size, new_scale) = self.convert(size);
         format!(
-            "{new_size:.precision$} {}",
+            "{new_size:.precision$}{separator}{}",
             Unit {
                 is_binary: self.to_unit.is_binary,
                 scale: Some(new_scale),
             }
             .to_string()
         )
+    }
+
+    pub fn format(&self, size: u128, precision: usize) -> String {
+        self.format_with_separator(size, precision, " ")
     }
 }
 
@@ -116,6 +120,15 @@ mod tests {
         assert_eq!(converter.format(5555, 0), "5 KiB");
         assert_eq!(converter.format(1_048_576, 0), "1 MiB");
         assert_eq!(converter.format(1024 * 1024 * 1024, 0), "1 GiB");
+
+        assert_eq!(
+            converter.format_with_separator(1024 * 1024 * 1024, 0, ""),
+            "1GiB"
+        );
+        assert_eq!(
+            converter.format_with_separator(1_048_576, 0, "___"),
+            "1___MiB"
+        );
     }
 
     #[test]
