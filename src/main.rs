@@ -50,11 +50,17 @@ fn main() {
         for size in arguments.sizes {
             println!("{}", format_fn(size));
         }
-        for line in std::io::stdin().lines().map_while(Result::ok) {
-            if let Ok(number) = line.trim().parse::<u128>() {
+        for (nr, line) in std::io::stdin()
+            .lines()
+            .map_while(Result::ok)
+            .map(|line| line.trim().to_owned())
+            .enumerate()
+            .filter(|(_, line)| !line.is_empty())
+        {
+            if let Ok(number) = line.parse::<u128>() {
                 println!("{}", format_fn(number));
             } else {
-                eprintln!("invalid digit found in \"{line}\"");
+                eprintln!("invalid number found on line {}: {line}", nr + 1);
             };
         }
     }

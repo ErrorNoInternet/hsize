@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand, ArgAction};
+use clap::{ArgAction, Parser, Subcommand};
 use hsize::Scale;
 
 /// Convert file sizes to and from human-readable units
