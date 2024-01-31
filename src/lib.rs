@@ -1,6 +1,5 @@
 use clap::ValueEnum;
 use num_derive::FromPrimitive;
-use std::{convert::Infallible, str::FromStr};
 
 #[derive(Debug, Default, Clone, Copy, Eq, PartialEq)]
 pub struct Unit {
@@ -19,22 +18,6 @@ impl ToString for Unit {
             output.push('B');
         }
         output
-    }
-}
-
-impl FromStr for Unit {
-    type Err = Infallible;
-
-    fn from_str(string: &str) -> Result<Self, Self::Err> {
-        let characters = string.chars().collect::<Vec<_>>();
-        Ok(if characters.len() < 2 {
-            Unit::default()
-        } else {
-            Self {
-                is_binary: characters[1] == 'i',
-                scale: Some(characters[0].into()),
-            }
-        })
     }
 }
 
