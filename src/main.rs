@@ -38,12 +38,12 @@ fn main() {
     match arguments.subcommand {
         #[cfg(feature = "replace")]
         Some(MainSubcommand::Replace {
-            regex: number_regex,
+            regex,
             multiline,
             in_place,
             files,
         }) => {
-            subcommand_replace(&format_fn, &number_regex, multiline, in_place, &files);
+            subcommand_replace(&format_fn, &regex, multiline, in_place, &files);
         }
 
         _ => {
@@ -73,15 +73,12 @@ fn main() {
 #[cfg(feature = "replace")]
 fn subcommand_replace(
     format_fn: &dyn Fn(u128) -> String,
-    number_regex: &str,
+    regex: &str,
     multiline: bool,
     in_place: bool,
     files: &Vec<String>,
 ) {
-    let built_regex = match RegexBuilder::new(number_regex)
-        .multi_line(multiline)
-        .build()
-    {
+    let built_regex = match RegexBuilder::new(regex).multi_line(multiline).build() {
         Ok(built_regex) => built_regex,
         Err(error) => {
             eprintln!("replace: {error}");
@@ -126,8 +123,8 @@ fn subcommand_replace(
                     &mut BufReader::new(input_file).lines().map_while(Result::ok),
                     &mut output_file,
                 );
-                if let Err(error) = fs::rename(temporary_file_path, file_path) {
-                    eprintln!("rename: {file_path}: {error}");
+                if let Err(error) = fs::rename(&temporary_file_path, file_path) {
+                    eprintln!("rename: {temporary_file_path} -> {file_path}: {error}");
                 };
             } else {
                 replace_fn(
