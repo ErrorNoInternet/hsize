@@ -6,7 +6,7 @@ pub mod replace;
 use arguments::Arguments;
 use clap::Parser;
 use hsize::{Converter, Unit};
-use std::io;
+use std::io::{self, BufWriter, Write};
 
 #[cfg(feature = "replace")]
 use {
@@ -14,7 +14,7 @@ use {
     regex::RegexBuilder,
     std::{
         fs,
-        io::{BufRead, BufReader, Write},
+        io::{BufRead, BufReader, StdoutLock},
         process::exit,
     },
 };
@@ -31,7 +31,9 @@ fn main() {
             scale: arguments.to_scale,
         },
     };
-    let format_fn = |size: u128| -> String {
+
+    let mut stdout_bufwriter = BufWriter::new(io::stdout().lock());
+    let format = |size: u128| -> String {
         converter.format_with_separator(size, arguments.precision, &arguments.separator)
     };
 
@@ -43,13 +45,20 @@ fn main() {
             in_place,
             files,
         }) => {
-            subcommand_replace(&format_fn, &regex, multi_line, in_place, &files);
+            subcommand_replace(
+                &mut stdout_bufwriter,
+                &format,
+                &regex,
+                multi_line,
+                in_place,
+                &files,
+            );
         }
 
         _ => {
             if !arguments.sizes.is_empty() {
                 for size in arguments.sizes {
-                    println!("{}", format_fn(size));
+                    let _ = writeln!(stdout_bufwriter, "{}", format(size));
                 }
                 return;
             }
@@ -60,8 +69,8 @@ fn main() {
                 .enumerate()
                 .filter(|(_, line)| !line.is_empty())
             {
-                if let Ok(number) = line.parse::<u128>() {
-                    println!("{}", format_fn(number));
+                if let Ok(size) = line.parse::<u128>() {
+                    let _ = writeln!(stdout_bufwriter, "{}", format(size));
                 } else {
                     eprintln!("hsize: invalid number on line {}: {line}", nr + 1);
                 };
@@ -72,7 +81,8 @@ fn main() {
 
 #[cfg(feature = "replace")]
 fn subcommand_replace(
-    format_fn: &dyn Fn(u128) -> String,
+    stdout_bufwriter: &mut BufWriter<StdoutLock>,
+    format: &dyn Fn(u128) -> String,
     regex: &str,
     multiline: bool,
     in_place: bool,
@@ -85,8 +95,8 @@ fn subcommand_replace(
             exit(1);
         }
     };
-    let replace_fn = |input: &mut dyn Iterator<Item = String>, output: &mut dyn Write| {
-        for line in replace::replace(input, &format_fn, &built_regex) {
+    let replace = |input: &mut dyn Iterator<Item = String>, output: &mut dyn Write| {
+        for line in replace::replace(input, &format, &built_regex) {
             if let Err(error) = writeln!(output, "{line}") {
                 eprintln!("hsize replace: write error: {error}");
                 exit(2);
@@ -95,9 +105,9 @@ fn subcommand_replace(
     };
 
     if files.is_empty() {
-        replace_fn(
+        replace(
             &mut io::stdin().lines().map_while(Result::ok),
-            &mut io::stdout(),
+            stdout_bufwriter,
         );
     } else {
         for file_path in files {
@@ -122,12 +132,12 @@ fn subcommand_replace(
                         continue;
                     }
                 };
-                replace_fn(&mut input, &mut output_file);
+                replace(&mut input, &mut output_file);
                 if let Err(error) = fs::rename(&temporary_file_path, file_path) {
                     eprintln!("hsize replace: rename error: {temporary_file_path} to {file_path}: {error}");
                 };
             } else {
-                replace_fn(&mut input, &mut io::stdout());
+                replace(&mut input, stdout_bufwriter);
             };
         }
     }

@@ -2,7 +2,7 @@ use regex::Regex;
 
 pub fn replace<'a>(
     input: &'a mut (impl Iterator<Item = String> + ?Sized),
-    format_fn: &'a dyn Fn(u128) -> String,
+    format: &'a dyn Fn(u128) -> String,
     number_regex: &'a Regex,
 ) -> impl Iterator<Item = String> + 'a {
     input.map(|line| {
@@ -24,7 +24,7 @@ pub fn replace<'a>(
             .for_each(|number_capture| {
                 for number_match in number_capture {
                     if let Ok(number) = number_match.as_str().parse::<u128>() {
-                        new_line.replace_range(number_match.range(), &format_fn(number));
+                        new_line.replace_range(number_match.range(), &format(number));
                     };
                 }
             });
@@ -58,9 +58,9 @@ mod tests {
                 scale: None,
             },
         };
-        let format_fn = |size: u128| converter.format(size, 3);
+        let format = |size: u128| converter.format(size, 3);
         let regex = Regex::new(r"\d+").unwrap();
-        let output = replace(&mut input, &format_fn, &regex);
+        let output = replace(&mut input, &format, &regex);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -80,9 +80,9 @@ mod tests {
                 scale: None,
             },
         };
-        let format_fn = |size: u128| converter.format(size, 2);
+        let format = |size: u128| converter.format(size, 2);
         let regex = Regex::new(r"\d+").unwrap();
-        let output = replace(&mut input, &format_fn, &regex);
+        let output = replace(&mut input, &format, &regex);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -124,9 +124,9 @@ mod tests {
                 scale: None,
             },
         };
-        let format_fn = |size: u128| converter.format(size, 2);
+        let format = |size: u128| converter.format(size, 2);
         let regex = Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap();
-        let output = replace(&mut input, &format_fn, &regex);
+        let output = replace(&mut input, &format, &regex);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -216,9 +216,9 @@ mod tests {
                 scale: None,
             },
         };
-        let format_fn = |size: u128| converter.format(size, 3);
+        let format = |size: u128| converter.format(size, 3);
         let regex = Regex::new(r"\d+$").unwrap();
-        let output = replace(&mut input, &format_fn, &regex);
+        let output = replace(&mut input, &format, &regex);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
