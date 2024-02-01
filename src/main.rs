@@ -97,7 +97,7 @@ fn subcommand_replace(
     let replace = |input: &mut dyn Iterator<Item = String>, output: &mut dyn Write| {
         for line in replace::replace(input, &format, &built_regex) {
             if let Err(error) = output.write_all((line + "\n").as_bytes()) {
-                eprintln!("hsize replace: write error: {error}");
+                eprintln!("hsize: write error: {error}");
                 exit(2);
             }
         }
@@ -113,7 +113,7 @@ fn subcommand_replace(
             let input_file = match fs::File::open(file_path) {
                 Ok(file) => file,
                 Err(error) => {
-                    eprintln!("hsize replace: open error: {file_path}: {error}");
+                    eprintln!("hsize: couldn't open {file_path}: {error}");
                     continue;
                 }
             };
@@ -127,13 +127,13 @@ fn subcommand_replace(
                 {
                     Ok(file) => BufWriter::new(file),
                     Err(error) => {
-                        eprintln!("hsize replace: create error: {temporary_file_path}: {error}");
+                        eprintln!("hsize: couldn't create temporary file {temporary_file_path}: {error}");
                         continue;
                     }
                 };
                 replace(&mut input_lines, &mut output_file_bufwriter);
                 if let Err(error) = fs::rename(&temporary_file_path, file_path) {
-                    eprintln!("hsize replace: rename error: {temporary_file_path} to {file_path}: {error}");
+                    eprintln!("hsize: couldn't rename {temporary_file_path} to {file_path}: {error}");
                 };
             } else {
                 replace(&mut input_lines, stdout_bufwriter);
