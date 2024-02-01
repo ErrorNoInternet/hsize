@@ -31,9 +31,7 @@ clap = { version = "4", default-features = false, features = [
 ] }
 num-derive = "0"
 num-traits = "0"
-regex = { version = "1", default-features = false, features = [
-  "unicode-perl",
-], optional = true }
+regex = { version = "1", optional = true }
 
 [features]
 default = ["replace"]
