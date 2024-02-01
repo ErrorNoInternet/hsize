@@ -10,8 +10,8 @@ codegen-units = 1
 lto = true
 panic = "abort"
 rustflags = ["-Zlocation-detail=none"]
-strip = "symbols"
-trim-paths = "all"
+strip = true
+trim-paths = true
 
 [profile.small]
 inherits = "release"
