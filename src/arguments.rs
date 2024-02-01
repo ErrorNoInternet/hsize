@@ -42,7 +42,7 @@ pub enum MainSubcommand {
     #[cfg(feature = "replace")]
     #[command(visible_aliases = ["r", "re"])]
     Replace {
-        /// Regex pattern to use for matching numbers
+        /// Regex to use for matching numbers
         #[arg(short = 'r', long, default_value = r"\d+")]
         number_regex: String,
 
