@@ -63,7 +63,7 @@ fn main() {
                 if let Ok(number) = line.parse::<u128>() {
                     println!("{}", format_fn(number));
                 } else {
-                    eprintln!("invalid number on line {}: {line}", nr + 1);
+                    eprintln!("hsize: invalid number on line {}: {line}", nr + 1);
                 };
             }
         }
@@ -81,14 +81,14 @@ fn subcommand_replace(
     let built_regex = match RegexBuilder::new(regex).multi_line(multiline).build() {
         Ok(built_regex) => built_regex,
         Err(error) => {
-            eprintln!("replace: {error}");
+            eprintln!("hsize replace: {error}");
             exit(1);
         }
     };
     let replace_fn = |input: &mut dyn Iterator<Item = String>, output: &mut dyn Write| {
         if let Err(error) = replace::replace(input, output, &format_fn, &built_regex) {
-            eprintln!("write: {error}");
-            exit(1);
+            eprintln!("hsize replace: write error: {error}");
+            exit(2);
         };
     };
 
@@ -102,7 +102,7 @@ fn subcommand_replace(
             let input_file = match fs::File::open(file_path) {
                 Ok(file) => file,
                 Err(error) => {
-                    eprintln!("open: {file_path}: {error}");
+                    eprintln!("hsize replace: open error: {file_path}: {error}");
                     continue;
                 }
             };
@@ -116,13 +116,13 @@ fn subcommand_replace(
                 {
                     Ok(file) => file,
                     Err(error) => {
-                        eprintln!("open: {temporary_file_path}: {error}");
+                        eprintln!("hsize replace: create error: {temporary_file_path}: {error}");
                         continue;
                     }
                 };
                 replace_fn(&mut input, &mut output_file);
                 if let Err(error) = fs::rename(&temporary_file_path, file_path) {
-                    eprintln!("rename: {temporary_file_path} -> {file_path}: {error}");
+                    eprintln!("hsize replace: rename error: {temporary_file_path} to {file_path}: {error}");
                 };
             } else {
                 replace_fn(&mut input, &mut io::stdout());
