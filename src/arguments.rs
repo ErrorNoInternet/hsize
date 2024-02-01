@@ -48,7 +48,7 @@ pub enum MainSubcommand {
 
         /// Enable multi-line regex searching
         #[arg(short = 'U', long)]
-        multiline: bool,
+        multi_line: bool,
 
         /// Modify (search and replace) files in-place
         #[arg(short, long)]

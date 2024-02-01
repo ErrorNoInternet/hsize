@@ -39,11 +39,11 @@ fn main() {
         #[cfg(feature = "replace")]
         Some(MainSubcommand::Replace {
             regex,
-            multiline,
+            multi_line,
             in_place,
             files,
         }) => {
-            subcommand_replace(&format_fn, &regex, multiline, in_place, &files);
+            subcommand_replace(&format_fn, &regex, multi_line, in_place, &files);
         }
 
         _ => {
