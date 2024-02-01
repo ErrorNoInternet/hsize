@@ -2,7 +2,7 @@ cargo-features = ["profile-rustflags", "trim-paths"]
 
 [package]
 name = "hsize"
-version = "1.0.0"
+version = "0.1.0"
 edition = "2021"
 
 [profile.release]
