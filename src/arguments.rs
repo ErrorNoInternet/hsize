@@ -50,6 +50,10 @@ pub enum MainSubcommand {
         #[arg(short = 'U', long)]
         multiline: bool,
 
+        /// Modify (search and replace) files in-place
+        #[arg(short, long)]
+        in_place: bool,
+
         #[arg(num_args = 1..)]
         files: Vec<String>,
     },
