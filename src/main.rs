@@ -6,9 +6,18 @@ pub mod replace;
 use arguments::Arguments;
 use clap::Parser;
 use hsize::{Converter, Unit};
+use std::io;
 
 #[cfg(feature = "replace")]
-use {arguments::MainSubcommand, regex::RegexBuilder, std::process::exit};
+use {
+    arguments::MainSubcommand,
+    regex::RegexBuilder,
+    std::{
+        fs,
+        io::{BufRead, BufReader, Write},
+        process::exit,
+    },
+};
 
 fn main() {
     let arguments = Arguments::parse();
@@ -31,26 +40,62 @@ fn main() {
         Some(MainSubcommand::Replace {
             number_regex,
             multiline,
+            files,
         }) => {
-            if let Err(error) = replace::replace(
-                &mut std::io::stdin().lines().map_while(Result::ok),
-                &mut std::io::stdout(),
-                &format_fn,
-                match &RegexBuilder::new(&number_regex)
-                    .multi_line(multiline)
-                    .build()
-                {
-                    Ok(built_regex) => built_regex,
-                    Err(error) => {
-                        eprintln!("replace: {error}");
-                        exit(1);
-                    }
-                },
-            ) {
-                eprintln!("write error: {error}");
-                exit(1);
+            let built_regex = match RegexBuilder::new(&number_regex)
+                .multi_line(multiline)
+                .build()
+            {
+                Ok(built_regex) => built_regex,
+                Err(error) => {
+                    eprintln!("replace: {error}");
+                    exit(1);
+                }
             };
+            let replace_fn = |input: &mut dyn Iterator<Item = String>, output: &mut dyn Write| {
+                if let Err(error) = replace::replace(input, output, &format_fn, &built_regex) {
+                    eprintln!("write: {error}");
+                    exit(1);
+                };
+            };
+
+            if files.is_empty() {
+                replace_fn(
+                    &mut io::stdin().lines().map_while(Result::ok),
+                    &mut std::io::stdout(),
+                );
+            } else {
+                for file_path in files {
+                    let input_file = match fs::File::open(&file_path) {
+                        Ok(file) => file,
+                        Err(error) => {
+                            eprintln!("open: {file_path}: {error}");
+                            continue;
+                        }
+                    };
+                    let temporary_file_path = file_path.clone() + ".tmp";
+                    let mut output_file = match fs::File::options()
+                        .write(true)
+                        .create(true)
+                        .open(&temporary_file_path)
+                    {
+                        Ok(file) => file,
+                        Err(error) => {
+                            eprintln!("open: {file_path}: {error}");
+                            continue;
+                        }
+                    };
+                    replace_fn(
+                        &mut BufReader::new(input_file).lines().map_while(Result::ok),
+                        &mut output_file,
+                    );
+                    if let Err(error) = fs::rename(temporary_file_path, &file_path) {
+                        eprintln!("rename: {file_path}: {error}");
+                    };
+                }
+            }
         }
+
         _ => {
             if !arguments.sizes.is_empty() {
                 for size in arguments.sizes {
@@ -58,7 +103,7 @@ fn main() {
                 }
                 return;
             }
-            for (nr, line) in std::io::stdin()
+            for (nr, line) in io::stdin()
                 .lines()
                 .map_while(Result::ok)
                 .map(|line| line.trim().to_owned())

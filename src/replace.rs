@@ -5,8 +5,8 @@ use std::io::{Error, Write};
 ///
 /// This function will return an error if it
 /// fails to write to the destination buffer.
-pub fn replace<T: Iterator<Item = String>>(
-    input: T,
+pub fn replace(
+    input: &mut (impl Iterator<Item = String> + ?Sized),
     output: &mut dyn Write,
 
     format_fn: &dyn Fn(u128) -> String,
@@ -67,7 +67,7 @@ mod tests {
             },
         };
         replace(
-            input.lines().map(std::borrow::ToOwned::to_owned),
+            &mut input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &|size: u128| converter.format(size, 3),
             &Regex::new(r"\d+").unwrap(),
@@ -100,7 +100,7 @@ mod tests {
             },
         };
         replace(
-            input.lines().map(std::borrow::ToOwned::to_owned),
+            &mut input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &|size: u128| converter.format(size, 2),
             &Regex::new(r"\d+").unwrap(),
@@ -151,7 +151,7 @@ mod tests {
             },
         };
         replace(
-            input.lines().map(std::borrow::ToOwned::to_owned),
+            &mut input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &|size: u128| converter.format(size, 2),
             &Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap(),
@@ -251,7 +251,7 @@ mod tests {
             },
         };
         replace(
-            input.lines().map(std::borrow::ToOwned::to_owned),
+            &mut input.lines().map(std::borrow::ToOwned::to_owned),
             &mut output,
             &|size: u128| converter.format(size, 3),
             &Regex::new(r"\d+$").unwrap(),

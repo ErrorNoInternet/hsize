@@ -49,5 +49,8 @@ pub enum MainSubcommand {
         /// Enable multi-line regex searching
         #[arg(short = 'U', long)]
         multiline: bool,
+
+        #[arg(num_args = 1..)]
+        files: Vec<String>,
     },
 }
