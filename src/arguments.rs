@@ -46,7 +46,7 @@ pub enum MainSubcommand {
         #[arg(short = 'r', long, default_value = r"\d+")]
         number_regex: String,
 
-        /// Whether or not to enable multi-line mode
+        /// Enable multi-line regex searching
         #[arg(short = 'U', long)]
         multiline: bool,
     },
