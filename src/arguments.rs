@@ -40,7 +40,7 @@ pub struct Arguments {
 pub enum MainSubcommand {
     /// Use regex to search and replace numbers from stdin
     #[cfg(feature = "replace")]
-    #[command(visible_aliases = ["r"])]
+    #[command(visible_aliases = ["r", "re"])]
     Replace {
         /// Regex pattern to use for matching numbers
         #[arg(short = 'r', long, default_value = r"\d+")]
