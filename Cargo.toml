@@ -26,7 +26,14 @@ rustflags = ["-Zlocation-detail=none"]
 rustflags = ["-Zshare-generics"]
 
 [dependencies]
-clap = { version = "4", default-features = false, features = ["std", "derive"] }
+clap = { version = "4", default-features = false, features = [
+  "color",
+  "derive",
+  "env",
+  "help",
+  "std",
+  "usage",
+] }
 num-derive = "0"
 num-traits = "0"
 regex = { version = "1", default-features = false, features = ["unicode-perl"] }
