@@ -43,8 +43,8 @@ pub enum MainSubcommand {
     #[command(visible_aliases = ["r", "re"])]
     Replace {
         /// Regex to use for matching numbers
-        #[arg(short = 'r', long, default_value = r"\d+")]
-        number_regex: String,
+        #[arg(short, long, default_value = r"\d+")]
+        regex: String,
 
         /// Enable multi-line regex searching
         #[arg(short = 'U', long)]

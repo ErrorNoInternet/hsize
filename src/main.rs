@@ -38,7 +38,7 @@ fn main() {
     match arguments.subcommand {
         #[cfg(feature = "replace")]
         Some(MainSubcommand::Replace {
-            number_regex,
+            regex: number_regex,
             multiline,
             in_place,
             files,
