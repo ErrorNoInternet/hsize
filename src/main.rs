@@ -63,7 +63,7 @@ fn main() {
                 if let Ok(number) = line.parse::<u128>() {
                     println!("{}", format_fn(number));
                 } else {
-                    eprintln!("invalid number found on line {}: {line}", nr + 1);
+                    eprintln!("invalid number on line {}: {line}", nr + 1);
                 };
             }
         }
