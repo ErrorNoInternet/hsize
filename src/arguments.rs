@@ -39,6 +39,7 @@ pub struct Arguments {
 #[derive(Debug, Subcommand)]
 pub enum MainSubcommand {
     /// Use regex to search and replace numbers from stdin
+    #[cfg(feature = "replace")]
     #[command(visible_aliases = ["r"])]
     Replace {
         /// Regex pattern to use for matching numbers
