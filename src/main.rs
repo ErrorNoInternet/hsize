@@ -31,11 +31,10 @@ fn main() {
             scale: arguments.to_scale,
         },
     };
-
-    let mut stdout_bufwriter = BufWriter::new(io::stdout().lock());
     let format = |size: u128| -> String {
         converter.format_with_separator(size, arguments.precision, &arguments.separator)
     };
+    let mut stdout_bufwriter = BufWriter::new(io::stdout().lock());
 
     match arguments.subcommand {
         #[cfg(feature = "replace")]
@@ -58,7 +57,7 @@ fn main() {
         _ => {
             if !arguments.sizes.is_empty() {
                 for size in arguments.sizes {
-                    let _ = writeln!(stdout_bufwriter, "{}", format(size));
+                    let _ = stdout_bufwriter.write_all((format(size) + "\n").as_bytes());
                 }
                 return;
             }
@@ -70,7 +69,7 @@ fn main() {
                 .filter(|(_, line)| !line.is_empty())
             {
                 if let Ok(size) = line.parse::<u128>() {
-                    let _ = writeln!(stdout_bufwriter, "{}", format(size));
+                    let _ = stdout_bufwriter.write_all((format(size) + "\n").as_bytes());
                 } else {
                     eprintln!("hsize: invalid number on line {}: {line}", nr + 1);
                 };
@@ -97,7 +96,7 @@ fn subcommand_replace(
     };
     let replace = |input: &mut dyn Iterator<Item = String>, output: &mut dyn Write| {
         for line in replace::replace(input, &format, &built_regex) {
-            if let Err(error) = writeln!(output, "{line}") {
+            if let Err(error) = output.write_all((line + "\n").as_bytes()) {
                 eprintln!("hsize replace: write error: {error}");
                 exit(2);
             }
