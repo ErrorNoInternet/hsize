@@ -117,7 +117,7 @@ fn subcommand_replace(
                     continue;
                 }
             };
-            let mut input = BufReader::new(input_file).lines().map_while(Result::ok);
+            let mut input_lines = BufReader::new(input_file).lines().map_while(Result::ok);
             if in_place {
                 let temporary_file_path = file_path.clone() + ".tmp";
                 let mut output_file_bufwriter = match fs::File::options()
@@ -131,12 +131,12 @@ fn subcommand_replace(
                         continue;
                     }
                 };
-                replace(&mut input, &mut output_file_bufwriter);
+                replace(&mut input_lines, &mut output_file_bufwriter);
                 if let Err(error) = fs::rename(&temporary_file_path, file_path) {
                     eprintln!("hsize replace: rename error: {temporary_file_path} to {file_path}: {error}");
                 };
             } else {
-                replace(&mut input, stdout_bufwriter);
+                replace(&mut input_lines, stdout_bufwriter);
             };
         }
     }
