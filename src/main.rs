@@ -86,10 +86,12 @@ fn subcommand_replace(
         }
     };
     let replace_fn = |input: &mut dyn Iterator<Item = String>, output: &mut dyn Write| {
-        if let Err(error) = replace::replace(input, output, &format_fn, &built_regex) {
-            eprintln!("hsize replace: write error: {error}");
-            exit(2);
-        };
+        for line in replace::replace(input, &format_fn, &built_regex) {
+            if let Err(error) = writeln!(output, "{line}") {
+                eprintln!("hsize replace: write error: {error}");
+                exit(2);
+            }
+        }
     };
 
     if files.is_empty() {
