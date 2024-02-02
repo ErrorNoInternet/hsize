@@ -46,8 +46,8 @@ mod tests {
     #[test]
     fn single() {
         let expected = owned_lines("19.028 PB");
-
         let mut input = owned_lines("19028310077231230");
+
         let converter = Converter {
             from_unit: Unit {
                 is_binary: false,
@@ -68,8 +68,8 @@ mod tests {
     #[test]
     fn multiple() {
         let expected = owned_lines("12.06 KiB     1.00 B 1.00 B 1.00 B-------------1.00 MiB");
-
         let mut input = owned_lines("12345     1 1 1-------------1048576");
+
         let converter = Converter {
             from_unit: Unit {
                 is_binary: false,
@@ -101,7 +101,6 @@ mod tests {
              Birth: 2024-01-30 23:38:22.589909282 +0800
         ",
         );
-
         let mut input = owned_lines(
             "
               File: flake.nix
@@ -114,6 +113,7 @@ mod tests {
              Birth: 2024-01-30 23:38:22.589909282 +0800
         ",
         );
+
         let converter = Converter {
             from_unit: Unit {
                 is_binary: false,
@@ -169,7 +169,6 @@ mod tests {
             DirectMap1G:     1.074 GB
         ",
         );
-
         let mut input = owned_lines(
             "
             MemTotal:       16306280
@@ -206,6 +205,7 @@ mod tests {
             DirectMap1G:     1048576
         ",
         );
+
         let converter = Converter {
             from_unit: Unit {
                 is_binary: true,
