@@ -3,7 +3,7 @@ use regex::Regex;
 pub fn replace<'a>(
     input: &'a mut (impl Iterator<Item = String> + ?Sized),
     number_regex: &'a Regex,
-    format: &'a dyn Fn(u128) -> String,
+    formatter: &'a dyn Fn(u128) -> String,
 ) -> impl Iterator<Item = String> + 'a {
     input.map(|line| {
         let mut new_line = line.clone();
@@ -24,7 +24,7 @@ pub fn replace<'a>(
             .for_each(|number_capture| {
                 for number_match in number_capture {
                     if let Ok(number) = number_match.as_str().parse::<u128>() {
-                        new_line.replace_range(number_match.range(), &format(number));
+                        new_line.replace_range(number_match.range(), &formatter(number));
                     };
                 }
             });
