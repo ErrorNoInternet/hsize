@@ -9,6 +9,7 @@ use {
         fs,
         io::{BufRead, BufReader, BufWriter},
         process::exit,
+        time,
     },
 };
 
@@ -78,7 +79,7 @@ fn subcommand_replace(
             let mut input_lines = BufReader::new(input_file).lines().map_while(Result::ok);
 
             if in_place {
-                let temporary_file_path = file_path.clone() + ".tmp";
+                let temporary_file_path = file_path.to_owned() + ".hsize" + &random_string(8);
                 let mut output_file_bufwriter = match fs::File::options()
                     .write(true)
                     .create(true)
@@ -115,4 +116,21 @@ fn subcommand_replace(
             };
         }
     }
+}
+
+#[cfg(feature = "replace")]
+fn random_string(length: usize) -> String {
+    let mut random = oorandom::Rand64::new(
+        time::SystemTime::now()
+            .duration_since(time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_nanos(),
+    );
+    let mut string = String::with_capacity(length);
+    for _ in 0..length {
+        string.push(
+            char::from_u32(u32::try_from(random.rand_range(65..91)).unwrap_or(65)).unwrap_or('A'),
+        );
+    }
+    string
 }
