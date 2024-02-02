@@ -127,13 +127,17 @@ fn subcommand_replace(
                 {
                     Ok(file) => BufWriter::new(file),
                     Err(error) => {
-                        eprintln!("hsize: couldn't create temporary file {temporary_file_path}: {error}");
+                        eprintln!(
+                            "hsize: couldn't create temporary file {temporary_file_path}: {error}"
+                        );
                         continue;
                     }
                 };
                 replace(&mut input_lines, &mut output_file_bufwriter);
                 if let Err(error) = fs::rename(&temporary_file_path, file_path) {
-                    eprintln!("hsize: couldn't rename {temporary_file_path} to {file_path}: {error}");
+                    eprintln!(
+                        "hsize: couldn't rename {temporary_file_path} to {file_path}: {error}"
+                    );
                 };
             } else {
                 replace(&mut input_lines, stdout_bufwriter);
