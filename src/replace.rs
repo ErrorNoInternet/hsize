@@ -2,8 +2,8 @@ use regex::Regex;
 
 pub fn replace<'a>(
     input: &'a mut (impl Iterator<Item = String> + ?Sized),
-    format: &'a dyn Fn(u128) -> String,
     number_regex: &'a Regex,
+    format: &'a dyn Fn(u128) -> String,
 ) -> impl Iterator<Item = String> + 'a {
     input.map(|line| {
         let mut new_line = line.clone();
@@ -58,9 +58,9 @@ mod tests {
                 scale: None,
             },
         };
-        let format = |size: u128| converter.format(size, 3);
         let regex = Regex::new(r"\d+").unwrap();
-        let output = replace(&mut input, &format, &regex);
+        let format = |size: u128| converter.format(size, 3);
+        let output = replace(&mut input, &regex, &format);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -80,9 +80,9 @@ mod tests {
                 scale: None,
             },
         };
-        let format = |size: u128| converter.format(size, 2);
         let regex = Regex::new(r"\d+").unwrap();
-        let output = replace(&mut input, &format, &regex);
+        let format = |size: u128| converter.format(size, 2);
+        let output = replace(&mut input, &regex, &format);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -124,9 +124,9 @@ mod tests {
                 scale: None,
             },
         };
-        let format = |size: u128| converter.format(size, 2);
         let regex = Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap();
-        let output = replace(&mut input, &format, &regex);
+        let format = |size: u128| converter.format(size, 2);
+        let output = replace(&mut input, &regex, &format);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -216,9 +216,9 @@ mod tests {
                 scale: None,
             },
         };
-        let format = |size: u128| converter.format(size, 3);
         let regex = Regex::new(r"\d+$").unwrap();
-        let output = replace(&mut input, &format, &regex);
+        let format = |size: u128| converter.format(size, 3);
+        let output = replace(&mut input, &regex, &format);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
