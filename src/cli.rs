@@ -32,6 +32,7 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
                 }
                 return;
             };
+
             for size in io::stdin()
                 .lines()
                 .map_while(Result::ok)
@@ -67,60 +68,61 @@ fn subcommand_replace(
         ) {
             let _ = io::stdout().write_all((replaced_line + "\n").as_bytes());
         }
-    } else {
-        for file_path in files {
-            let input_file = match fs::File::open(file_path) {
-                Ok(file) => file,
+        return;
+    }
+
+    for file_path in files {
+        let input_file = match fs::File::open(file_path) {
+            Ok(file) => file,
+            Err(error) => {
+                eprintln!("hsize: couldn't open {file_path}: {error}");
+                exit(2);
+            }
+        };
+        let mut input_lines = BufReader::new(input_file).lines().map_while(Result::ok);
+
+        if in_place {
+            let temporary_file_path = file_path.to_owned() + ".hsize" + &random_string(8);
+            let mut output_file_bufwriter = match fs::File::options()
+                .write(true)
+                .create(true)
+                .open(&temporary_file_path)
+            {
+                Ok(file) => BufWriter::new(file),
                 Err(error) => {
-                    eprintln!("hsize: couldn't open {file_path}: {error}");
-                    exit(2);
+                    eprintln!("hsize: couldn't open temporary file {temporary_file_path}: {error}");
+                    exit(3);
                 }
             };
-            let mut input_lines = BufReader::new(input_file).lines().map_while(Result::ok);
 
-            if in_place {
-                let temporary_file_path = file_path.to_owned() + ".hsize" + &random_string(8);
-                let mut output_file_bufwriter = match fs::File::options()
-                    .write(true)
-                    .create(true)
-                    .open(&temporary_file_path)
+            for replaced_line in replace::replace(&mut input_lines, &built_regex, &formatter) {
+                if let Err(error) =
+                    output_file_bufwriter.write_all((replaced_line + "\n").as_bytes())
                 {
-                    Ok(output_file) => BufWriter::new(output_file),
-                    Err(error) => {
-                        eprintln!(
-                            "hsize: couldn't open temporary file {temporary_file_path}: {error}"
-                        );
-                        exit(3);
-                    }
-                };
-
-                for replaced_line in replace::replace(&mut input_lines, &built_regex, &formatter) {
-                    if let Err(error) =
-                        output_file_bufwriter.write_all((replaced_line + "\n").as_bytes())
-                    {
-                        eprintln!("hsize: couldn't write to temporary file {temporary_file_path}: {error}");
-                        exit(4);
-                    }
-                }
-
-                if let Err(error) = fs::rename(&temporary_file_path, file_path) {
                     eprintln!(
+                        "hsize: couldn't write to temporary file {temporary_file_path}: {error}"
+                    );
+                    exit(4);
+                }
+            }
+
+            if let Err(error) = fs::rename(&temporary_file_path, file_path) {
+                eprintln!(
                         "hsize: couldn't rename temporary file {temporary_file_path} to {file_path}: {error}"
                     );
-                    exit(5);
-                };
-            } else {
-                for replaced_line in replace::replace(&mut input_lines, &built_regex, &formatter) {
-                    let _ = io::stdout().write_all((replaced_line + "\n").as_bytes());
-                }
+                exit(5);
             };
-        }
+        } else {
+            for replaced_line in replace::replace(&mut input_lines, &built_regex, &formatter) {
+                let _ = io::stdout().write_all((replaced_line + "\n").as_bytes());
+            }
+        };
     }
 }
 
 #[cfg(feature = "replace")]
 fn random_string(length: usize) -> String {
-    let mut random = oorandom::Rand64::new(
+    let mut rng = oorandom::Rand64::new(
         time::SystemTime::now()
             .duration_since(time::UNIX_EPOCH)
             .unwrap_or_default()
@@ -129,7 +131,7 @@ fn random_string(length: usize) -> String {
     let mut string = String::with_capacity(length);
     for _ in 0..length {
         string.push(
-            char::from_u32(u32::try_from(random.rand_range(65..91)).unwrap_or(65)).unwrap_or('A'),
+            char::from_u32(u32::try_from(rng.rand_range(65..91)).unwrap_or(65)).unwrap_or('A'),
         );
     }
     string
