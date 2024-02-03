@@ -47,9 +47,10 @@
         devShells.default = pkgs.mkShell {
           name = "hsize";
 
-          buildInputs = [
+          buildInputs = with pkgs; [
             mingwW64.buildPackages.gcc
             rust
+            taplo
           ];
 
           CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUSTFLAGS = "-L native=${mingwW64.windows.mingw_w64_pthreads}/lib";
