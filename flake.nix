@@ -74,6 +74,8 @@
               --bash completions/bash \
               --zsh completions/zsh \
               --fish completion/fish
+
+            installManPage man/*
           '';
         };
         packages.default = packages.hsize;
