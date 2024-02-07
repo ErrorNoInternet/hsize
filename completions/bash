@@ -230,11 +230,17 @@ _hsize() {
             fi
             case "${prev}" in
                 --output-directory)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=()
+                    if [[ "${BASH_VERSINFO[0]}" -ge 4 ]]; then
+                        compopt -o plusdirs
+                    fi
                     return 0
                     ;;
                 -o)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=()
+                    if [[ "${BASH_VERSINFO[0]}" -ge 4 ]]; then
+                        compopt -o plusdirs
+                    fi
                     return 0
                     ;;
                 *)

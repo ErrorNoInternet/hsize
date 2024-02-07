@@ -78,8 +78,8 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (manpages)
 _arguments "${_arguments_options[@]}" \
-'-o+[Directory to save generated manpages]:OUTPUT_DIRECTORY:_files' \
-'--output-directory=[Directory to save generated manpages]:OUTPUT_DIRECTORY:_files' \
+'-o+[Directory to save generated manpages]:OUTPUT_DIRECTORY:_files -/' \
+'--output-directory=[Directory to save generated manpages]:OUTPUT_DIRECTORY:_files -/' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0
