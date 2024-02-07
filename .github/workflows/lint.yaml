@@ -61,10 +61,10 @@ jobs:
             target/
           key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
 
-      - name: Run cargo clippy
+      - name: cargo clippy
         run: nix develop -c cargo clippy -- -Dwarnings -Wclippy::pedantic -Aclippy::must-use-candidate
 
-      - name: Run cargo fmt
+      - name: cargo fmt
         if: always()
         run: nix develop -c cargo fmt --check
 

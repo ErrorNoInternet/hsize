@@ -38,10 +38,10 @@ jobs:
             target/
           key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
 
-      - name: Run cargo test (no default features)
+      - name: cargo test (no default features)
         run: nix develop -c cargo t -v --no-default-features
 
-      - name: Run cargo test (with default features)
+      - name: cargo test (with default features)
         run: nix develop -c cargo t -v
 
   nix-flake:
