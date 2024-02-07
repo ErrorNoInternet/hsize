@@ -39,7 +39,6 @@ jobs:
         with:
           extra-conf: |
             log-lines = 500
-            system = ${{ matrix.system }}
 
       - name: Set up Cachix
         uses: cachix/cachix-action@v14
@@ -48,4 +47,4 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
       - name: Build for ${{ matrix.system }}
-        run: nix build -L
+        run: nix build -L --system ${{ matrix.system }}
