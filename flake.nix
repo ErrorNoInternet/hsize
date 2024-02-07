@@ -73,7 +73,7 @@
             installShellCompletion \
               --bash completions/bash \
               --zsh completions/zsh \
-              --fish completion/fish
+              --fish completions/fish
 
             installManPage man/*
           '';
