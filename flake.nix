@@ -71,9 +71,9 @@
 
           postInstall = ''
             installShellCompletion \
-              --bash completions/bash \
-              --zsh completions/zsh \
-              --fish completions/fish
+              --bash completions/hsize.bash \
+              --fish completions/hsize.fish \
+              --zsh completions/hsize.zsh
 
             installManPage man/*
           '';

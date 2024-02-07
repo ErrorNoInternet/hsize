@@ -45,13 +45,13 @@ jobs:
           mkdir completions
 
       - name: Generate bash completions
-        run: ./target/debug/hsize g c -s bash > completions/bash
-
-      - name: Generate zsh completions
-        run: ./target/debug/hsize g c -s zsh > completions/zsh
+        run: ./target/debug/hsize g c -s bash > completions/hsize.bash
 
       - name: Generate fish completions
-        run: ./target/debug/hsize g c -s fish > completions/fish
+        run: ./target/debug/hsize g c -s fish > completions/hsize.fish
+
+      - name: Generate zsh completions
+        run: ./target/debug/hsize g c -s zsh > completions/hsize.zsh
 
       - name: Commit changed files
         uses: stefanzweifel/git-auto-commit-action@v5
