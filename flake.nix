@@ -67,6 +67,13 @@
           nativeBuildInputs = [
             rust
           ];
+
+          postInstall = ''
+            installShellCompletion --cmd hsize \
+              --bash assets/shell-completion/bash \
+              --zsh assets/shell-completion/zsh \
+              --fish assets/shell-completion/fish
+          '';
         };
         packages.default = packages.hsize;
       };

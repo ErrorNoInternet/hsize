@@ -21,14 +21,8 @@ opt-level = "z"
 rustflags = ["-Zshare-generics", "-Zthreads=0"]
 
 [dependencies]
-clap = { version = "4", default-features = false, features = [
-  "color",
-  "derive",
-  "env",
-  "help",
-  "std",
-  "usage",
-] }
+clap = { version = "4", features = ["derive", "env"] }
+clap_complete = "4"
 num-derive = "0"
 num-traits = "0"
 oorandom = { version = "11", optional = true }

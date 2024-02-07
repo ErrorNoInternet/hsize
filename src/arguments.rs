@@ -1,5 +1,9 @@
-use clap::{Parser, Subcommand};
+use clap::{Command, Parser, Subcommand};
+use clap_complete::{generate, Generator, Shell};
 use hsize::Scale;
+
+#[cfg(feature = "replace")]
+use clap::ValueHint;
 
 /// Convert file sizes to and from human-readable units
 #[derive(Parser, Debug)]
@@ -54,7 +58,24 @@ pub enum MainSubcommand {
         #[arg(short, long)]
         in_place: bool,
 
-        #[arg(num_args = 1..)]
+        #[arg(num_args = 1.., value_hint = ValueHint::FilePath)]
         files: Vec<String>,
     },
+
+    /// Generate shell completion files
+    #[command(visible_aliases = ["c", "co"])]
+    Completions {
+        /// Output completion files for the specified shell
+        #[arg(short, long)]
+        shell: Shell,
+    },
+}
+
+pub fn generate_completions<G: Generator>(generator: G, command: &mut Command) {
+    generate(
+        generator,
+        command,
+        command.get_name().to_string(),
+        &mut std::io::stdout(),
+    );
 }

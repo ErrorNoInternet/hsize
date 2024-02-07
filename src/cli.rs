@@ -1,9 +1,11 @@
 use crate::arguments::Arguments;
+use crate::arguments::MainSubcommand;
+use clap::CommandFactory;
 use std::io::{self, Write};
 
 #[cfg(feature = "replace")]
 use {
-    crate::{arguments::MainSubcommand, replace},
+    crate::replace,
     regex::RegexBuilder,
     std::{
         fs,
@@ -15,17 +17,7 @@ use {
 
 pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
     match &arguments.subcommand {
-        #[cfg(feature = "replace")]
-        Some(MainSubcommand::Replace {
-            regex,
-            multi_line,
-            in_place,
-            files,
-        }) => {
-            subcommand_replace(&formatter, regex, *multi_line, *in_place, files);
-        }
-
-        _ => {
+        None => {
             if !arguments.sizes.is_empty() {
                 for size in &arguments.sizes {
                     let _ = io::stdout().write_all((formatter(*size) + "\n").as_bytes());
@@ -40,6 +32,21 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
             {
                 let _ = io::stdout().write_all((formatter(size) + "\n").as_bytes());
             }
+        }
+
+        #[cfg(feature = "replace")]
+        Some(MainSubcommand::Replace {
+            regex,
+            multi_line,
+            in_place,
+            files,
+        }) => {
+            subcommand_replace(&formatter, regex, *multi_line, *in_place, files);
+        }
+
+        Some(MainSubcommand::Completions { shell }) => {
+            let mut command = Arguments::command();
+            crate::arguments::generate_completions(shell.to_owned(), &mut command);
         }
     };
 }
