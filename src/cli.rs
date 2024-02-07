@@ -1,11 +1,11 @@
 use crate::arguments::Arguments;
 use std::io::{self, Write};
 
-#[cfg(feature = "replace")]
+#[cfg(any(feature = "replace", feature = "completions", feature = "manpages"))]
 use crate::arguments::MainSubcommand;
 
-#[cfg(feature = "completions")]
-use {crate::arguments::MainSubcommand, clap::CommandFactory};
+#[cfg(any(feature = "completions", feature = "manpages"))]
+use {crate::arguments::GenerateSubcommand, clap::CommandFactory};
 
 #[cfg(feature = "replace")]
 use {
@@ -21,6 +21,20 @@ use {
 
 pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
     match &arguments.subcommand {
+        #[cfg(any(feature = "completions", feature = "manpages"))]
+        Some(MainSubcommand::Generate { subcommand }) => match subcommand {
+            #[cfg(feature = "completions")]
+            GenerateSubcommand::Completions { shell } => {
+                let mut command = Arguments::command();
+                crate::arguments::generate_completions(shell.to_owned(), &mut command);
+            }
+
+            #[cfg(feature = "manpages")]
+            GenerateSubcommand::Manpages { output_directory } => {
+                crate::arguments::generate_manpages(Arguments::command(), output_directory);
+            }
+        },
+
         #[cfg(feature = "replace")]
         Some(MainSubcommand::Replace {
             regex,
@@ -29,12 +43,6 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
             files,
         }) => {
             subcommand_replace(&formatter, regex, *multi_line, *in_place, files);
-        }
-
-        #[cfg(feature = "completions")]
-        Some(MainSubcommand::Completions { shell }) => {
-            let mut command = Arguments::command();
-            crate::arguments::generate_completions(shell.to_owned(), &mut command);
         }
 
         _ => {

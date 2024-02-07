@@ -1,10 +1,19 @@
 use clap::{Parser, Subcommand};
 use hsize::Scale;
 
-#[cfg(feature = "completions")]
+#[cfg(any(feature = "completions", feature = "manpages"))]
 use {
     clap::Command,
-    clap_complete::{generate, Generator, Shell},
+    std::io::{self},
+};
+
+#[cfg(feature = "completions")]
+use clap_complete::{Generator, Shell};
+
+#[cfg(feature = "manpages")]
+use std::{
+    path::{Path, PathBuf},
+    process::exit,
 };
 
 #[cfg(feature = "replace")]
@@ -67,22 +76,51 @@ pub enum MainSubcommand {
         files: Vec<String>,
     },
 
-    /// Generate shell completion files
+    /// Generate various CLI command features
+    #[cfg(any(feature = "completions", feature = "manpages"))]
+    #[command(visible_aliases = ["g", "gen"])]
+    Generate {
+        #[command(subcommand)]
+        subcommand: GenerateSubcommand,
+    },
+}
+
+#[cfg(any(feature = "completions", feature = "manpages"))]
+#[derive(Debug, Subcommand)]
+pub enum GenerateSubcommand {
+    /// Shell completions
     #[cfg(feature = "completions")]
-    #[command(visible_aliases = ["c", "co"])]
+    #[command(visible_aliases = ["c", "comp"])]
     Completions {
         /// Output completion files for the specified shell
         #[arg(short, long)]
         shell: Shell,
     },
+
+    /// Roff manpages
+    #[cfg(feature = "manpages")]
+    #[command(visible_aliases = ["m", "man"])]
+    Manpages {
+        /// Directory to save generated manpages
+        #[arg(short, long, default_value = ".")]
+        output_directory: PathBuf,
+    },
 }
 
 #[cfg(feature = "completions")]
 pub fn generate_completions<G: Generator>(generator: G, command: &mut Command) {
-    generate(
+    clap_complete::generate(
         generator,
         command,
         command.get_name().to_string(),
-        &mut std::io::stdout(),
+        &mut io::stdout(),
     );
+}
+
+#[cfg(feature = "manpages")]
+pub fn generate_manpages(command: Command, output_directory: impl AsRef<Path>) {
+    if let Err(error) = clap_mangen::generate_to(command, output_directory) {
+        eprintln!("hsize: couldn't generate manpages: {error}");
+        exit(1);
+    };
 }
