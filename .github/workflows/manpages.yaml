@@ -47,7 +47,7 @@ jobs:
       - name: Generate roff manpages
         run: ./target/debug/hsize g m -o man
 
-      - name: Commit
+      - name: Commit changed files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(cli): update manpages"
