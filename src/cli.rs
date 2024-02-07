@@ -5,7 +5,7 @@ use std::io::{self, Write};
 use crate::arguments::MainSubcommand;
 
 #[cfg(any(feature = "completions", feature = "manpages"))]
-use {crate::arguments::GenerateSubcommand, clap::CommandFactory};
+use crate::arguments::GenerateSubcommand;
 
 #[cfg(feature = "replace")]
 use {
@@ -25,13 +25,12 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
         Some(MainSubcommand::Generate { subcommand }) => match subcommand {
             #[cfg(feature = "completions")]
             GenerateSubcommand::Completions { shell } => {
-                let mut command = Arguments::command();
-                crate::arguments::generate_completions(shell.to_owned(), &mut command);
+                crate::arguments::generate_completions(shell.to_owned());
             }
 
             #[cfg(feature = "manpages")]
             GenerateSubcommand::Manpages { output_directory } => {
-                crate::arguments::generate_manpages(Arguments::command(), output_directory);
+                crate::arguments::generate_manpages(output_directory);
             }
         },
 

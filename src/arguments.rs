@@ -5,7 +5,7 @@ use hsize::Scale;
 use clap::ValueHint;
 
 #[cfg(any(feature = "completions", feature = "manpages"))]
-use clap::Command;
+use clap::CommandFactory;
 
 #[cfg(feature = "completions")]
 use clap_complete::{Generator, Shell};
@@ -105,18 +105,19 @@ pub enum GenerateSubcommand {
 }
 
 #[cfg(feature = "completions")]
-pub fn generate_completions<G: Generator>(generator: G, command: &mut Command) {
+pub fn generate_completions<G: Generator>(generator: G) {
+    let command = Arguments::command();
     clap_complete::generate(
         generator,
-        command,
+        &mut command.clone(),
         command.get_name().to_string(),
         &mut std::io::stdout(),
     );
 }
 
 #[cfg(feature = "manpages")]
-pub fn generate_manpages(command: Command, output_directory: impl AsRef<Path>) {
-    if let Err(error) = clap_mangen::generate_to(command, output_directory) {
+pub fn generate_manpages(output_directory: impl AsRef<Path>) {
+    if let Err(error) = clap_mangen::generate_to(Arguments::command(), output_directory) {
         eprintln!("hsize: couldn't generate manpages: {error}");
         exit(1);
     };
