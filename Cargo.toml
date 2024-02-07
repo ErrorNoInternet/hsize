@@ -30,7 +30,7 @@ oorandom = { version = "11", optional = true }
 regex = { version = "1", optional = true }
 
 [features]
-default = ["replace"]
+default = ["replace", "completions", "manpages"]
 
 replace = ["oorandom", "regex"]
 completions = ["clap_complete"]
