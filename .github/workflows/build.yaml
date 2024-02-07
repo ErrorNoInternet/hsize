@@ -12,6 +12,7 @@ on:
 jobs:
   hsize:
     name: hsize
+    needs: [completions, manpages]
     runs-on: ubuntu-22.04
 
     strategy:

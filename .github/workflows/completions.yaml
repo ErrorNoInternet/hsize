@@ -1,4 +1,5 @@
 name: Completions
+concurrency: shell-files
 on:
   push:
     paths:

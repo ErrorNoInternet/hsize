@@ -1,4 +1,5 @@
 name: Manpages
+concurrency: shell-files
 on:
   push:
     paths:
