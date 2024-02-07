@@ -23,10 +23,10 @@ _hsize() {
 '--to-scale=[Size scale of the converted numbers]:SCALE:(b k m g t p e z y)' \
 '-s+[Character(s) to put between the number and unit]:SEPARATOR: ' \
 '--separator=[Character(s) to put between the number and unit]:SEPARATOR: ' \
-'-B[Whether or not the specified (input) numbers are powers of 2 (1K = 1024)]' \
-'--from-binary[Whether or not the specified (input) numbers are powers of 2 (1K = 1024)]' \
-'-b[Whether or not the converted numbers should be powers of 2 (1K = 1024)]' \
-'--to-binary[Whether or not the converted numbers should be powers of 2 (1K = 1024)]' \
+'-B[Specified (input) numbers are powers of 2 (1K = 1024)]' \
+'--from-binary[Specified (input) numbers are powers of 2 (1K = 1024)]' \
+'-b[Converted numbers should be powers of 2 (1K = 1024)]' \
+'--to-binary[Converted numbers should be powers of 2 (1K = 1024)]' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \

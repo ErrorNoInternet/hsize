@@ -2,8 +2,8 @@ complete -c hsize -n "__fish_use_subcommand" -s p -l precision -d 'Number of dec
 complete -c hsize -n "__fish_use_subcommand" -s f -l from-scale -d 'Size scale of the specified (input) numbers' -r -f -a "{b	'',k	'',m	'',g	'',t	'',p	'',e	'',z	'',y	''}"
 complete -c hsize -n "__fish_use_subcommand" -s t -l to-scale -d 'Size scale of the converted numbers' -r -f -a "{b	'',k	'',m	'',g	'',t	'',p	'',e	'',z	'',y	''}"
 complete -c hsize -n "__fish_use_subcommand" -s s -l separator -d 'Character(s) to put between the number and unit' -r
-complete -c hsize -n "__fish_use_subcommand" -s B -l from-binary -d 'Whether or not the specified (input) numbers are powers of 2 (1K = 1024)'
-complete -c hsize -n "__fish_use_subcommand" -s b -l to-binary -d 'Whether or not the converted numbers should be powers of 2 (1K = 1024)'
+complete -c hsize -n "__fish_use_subcommand" -s B -l from-binary -d 'Specified (input) numbers are powers of 2 (1K = 1024)'
+complete -c hsize -n "__fish_use_subcommand" -s b -l to-binary -d 'Converted numbers should be powers of 2 (1K = 1024)'
 complete -c hsize -n "__fish_use_subcommand" -s h -l help -d 'Print help'
 complete -c hsize -n "__fish_use_subcommand" -s V -l version -d 'Print version'
 complete -c hsize -n "__fish_use_subcommand" -f -a "replace" -d 'Use regex to search and replace numbers'
