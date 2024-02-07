@@ -122,3 +122,33 @@ pub fn generate_manpages(output_directory: impl AsRef<Path>) {
         exit(1);
     };
 }
+
+#[cfg(test)]
+mod test {
+    use clap_complete::Shell;
+
+    #[test]
+    fn generate_bash_completions() {
+        super::generate_completions(Shell::Bash);
+    }
+
+    #[test]
+    fn generate_fish_completions() {
+        super::generate_completions(Shell::Fish);
+    }
+
+    #[test]
+    fn generate_zsh_completions() {
+        super::generate_completions(Shell::Bash);
+    }
+
+    #[test]
+    fn generate_powershell_completions() {
+        super::generate_completions(Shell::PowerShell);
+    }
+
+    #[test]
+    fn generate_manpages() {
+        super::generate_manpages(".");
+    }
+}
