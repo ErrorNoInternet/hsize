@@ -1,0 +1,25 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH hsize-replace 1  "replace " 
+.SH NAME
+hsize\-replace \- Use regex to search and replace numbers
+.SH SYNOPSIS
+\fBhsize replace\fR [\fB\-r\fR|\fB\-\-regex\fR] [\fB\-U\fR|\fB\-\-multi\-line\fR] [\fB\-i\fR|\fB\-\-in\-place\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fIFILES\fR] 
+.SH DESCRIPTION
+Use regex to search and replace numbers
+.SH OPTIONS
+.TP
+\fB\-r\fR, \fB\-\-regex\fR=\fIREGEX\fR [default: \\d+]
+Regex to use for matching numbers
+.TP
+\fB\-U\fR, \fB\-\-multi\-line\fR
+Enable multi\-line regex searching
+.TP
+\fB\-i\fR, \fB\-\-in\-place\fR
+Modify (search and replace) files in\-place
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help
+.TP
+[\fIFILES\fR]
+

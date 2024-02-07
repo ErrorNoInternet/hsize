@@ -1,0 +1,20 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH hsize-generate-completions 1  "completions " 
+.SH NAME
+hsize\-generate\-completions \- Shell completions
+.SH SYNOPSIS
+\fBhsize generate completions\fR <\fB\-s\fR|\fB\-\-shell\fR> [\fB\-h\fR|\fB\-\-help\fR] 
+.SH DESCRIPTION
+Shell completions
+.SH OPTIONS
+.TP
+\fB\-s\fR, \fB\-\-shell\fR=\fISHELL\fR
+Output completion files for the specified shell
+.br
+
+.br
+[\fIpossible values: \fRbash, elvish, fish, powershell, zsh]
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help
