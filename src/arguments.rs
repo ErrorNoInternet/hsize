@@ -5,10 +5,7 @@ use hsize::Scale;
 use clap::ValueHint;
 
 #[cfg(any(feature = "completions", feature = "manpages"))]
-use {
-    clap::Command,
-    std::io::{self},
-};
+use clap::Command;
 
 #[cfg(feature = "completions")]
 use clap_complete::{Generator, Shell};
@@ -113,7 +110,7 @@ pub fn generate_completions<G: Generator>(generator: G, command: &mut Command) {
         generator,
         command,
         command.get_name().to_string(),
-        &mut io::stdout(),
+        &mut std::io::stdout(),
     );
 }
 
