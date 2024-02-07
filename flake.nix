@@ -64,15 +64,16 @@
           cargoLock.lockFile = ./Cargo.lock;
           src = pkgs.lib.cleanSource ./.;
 
-          nativeBuildInputs = [
+          nativeBuildInputs = with pkgs; [
+            installShellFiles
             rust
           ];
 
           postInstall = ''
-            installShellCompletion --cmd hsize \
-              --bash assets/shell-completion/bash \
-              --zsh assets/shell-completion/zsh \
-              --fish assets/shell-completion/fish
+            installShellCompletion \
+              --bash completions/bash \
+              --zsh completions/zsh \
+              --fish completion/fish
           '';
         };
         packages.default = packages.hsize;
