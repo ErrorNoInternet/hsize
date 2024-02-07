@@ -76,7 +76,7 @@ pub enum MainSubcommand {
         files: Vec<String>,
     },
 
-    /// Generate various CLI command features
+    /// Generate various shell command files
     #[cfg(any(feature = "completions", feature = "manpages"))]
     #[command(visible_aliases = ["g", "gen"])]
     Generate {
