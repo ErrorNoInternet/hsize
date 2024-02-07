@@ -1,6 +1,9 @@
 use clap::{Parser, Subcommand};
 use hsize::Scale;
 
+#[cfg(any(feature = "replace", feature = "manpages"))]
+use clap::ValueHint;
+
 #[cfg(any(feature = "completions", feature = "manpages"))]
 use {
     clap::Command,
@@ -15,9 +18,6 @@ use std::{
     path::{Path, PathBuf},
     process::exit,
 };
-
-#[cfg(feature = "replace")]
-use clap::ValueHint;
 
 /// Convert file sizes to and from human-readable units
 #[derive(Parser, Debug)]
@@ -102,7 +102,7 @@ pub enum GenerateSubcommand {
     #[command(visible_aliases = ["m", "man"])]
     Manpages {
         /// Directory to save generated manpages
-        #[arg(short, long, default_value = ".")]
+        #[arg(short, long, default_value = ".", value_hint = ValueHint::DirPath)]
         output_directory: PathBuf,
     },
 }
