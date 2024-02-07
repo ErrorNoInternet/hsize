@@ -52,9 +52,6 @@ jobs:
       - name: Generate fish completions
         run: ./target/debug/hsize g c -s fish > completions/fish
 
-      - name: Update repository
-        run: git pull
-
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
