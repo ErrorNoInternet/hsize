@@ -44,13 +44,13 @@ jobs:
           mkdir completions
 
       - name: Generate bash completions
-        run: ./target/debug/hsize c -s bash > completions/bash
+        run: ./target/debug/hsize g c -s bash > completions/bash
 
       - name: Generate zsh completions
-        run: ./target/debug/hsize c -s zsh > completions/zsh
+        run: ./target/debug/hsize g c -s zsh > completions/zsh
 
       - name: Generate fish completions
-        run: ./target/debug/hsize c -s fish > completions/fish
+        run: ./target/debug/hsize g c -s fish > completions/fish
 
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v5
