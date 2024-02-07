@@ -1,0 +1,58 @@
+name: Completions
+on:
+  push:
+    paths:
+      - 'src/arguments.rs'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  hsize:
+    name: hsize
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v9
+        with:
+          extra-conf: |
+            log-lines = 500
+
+      - name: Set up Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v3
+
+      - name: Set up build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
+
+      - name: Build
+        run: nix develop -c cargo b
+
+      - name: Set up directory
+        run: |
+          rm -rf completions
+          mkdir completions
+
+      - name: Generate bash completions
+        run: ./target/debug/hsize c -s bash > completions/bash
+
+      - name: Generate zsh completions
+        run: ./target/debug/hsize c -s zsh > completions/zsh
+
+      - name: Generate fish completions
+        run: ./target/debug/hsize c -s fish > completions/fish
+
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update shell completions"
