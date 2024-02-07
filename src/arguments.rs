@@ -28,7 +28,7 @@ pub struct Arguments {
     #[arg(short, long, value_name = "SCALE")]
     pub from_scale: Option<Scale>,
 
-    /// Whether or not the specified (input) numbers are powers of 2 (1K = 1024)
+    /// Specified (input) numbers are powers of 2 (1K = 1024)
     #[arg(short = 'B', long, env = "HSIZE_FROM_BINARY")]
     pub from_binary: bool,
 
@@ -36,7 +36,7 @@ pub struct Arguments {
     #[arg(short, long, value_name = "SCALE")]
     pub to_scale: Option<Scale>,
 
-    /// Whether or not the converted numbers should be powers of 2 (1K = 1024)
+    /// Converted numbers should be powers of 2 (1K = 1024)
     #[arg(short = 'b', long, env = "HSIZE_TO_BINARY")]
     pub to_binary: bool,
 
