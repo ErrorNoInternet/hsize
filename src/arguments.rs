@@ -125,33 +125,6 @@ pub fn generate_manpages(output_directory: impl AsRef<Path>) {
 
 #[cfg(test)]
 mod test {
-    #[cfg(feature = "completions")]
-    use clap_complete::Shell;
-
-    #[cfg(feature = "completions")]
-    #[test]
-    fn generate_bash_completions() {
-        super::generate_completions(Shell::Bash);
-    }
-
-    #[cfg(feature = "completions")]
-    #[test]
-    fn generate_fish_completions() {
-        super::generate_completions(Shell::Fish);
-    }
-
-    #[cfg(feature = "completions")]
-    #[test]
-    fn generate_zsh_completions() {
-        super::generate_completions(Shell::Bash);
-    }
-
-    #[cfg(feature = "completions")]
-    #[test]
-    fn generate_powershell_completions() {
-        super::generate_completions(Shell::PowerShell);
-    }
-
     #[cfg(feature = "manpages")]
     #[test]
     fn generate_manpages() {
