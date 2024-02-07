@@ -36,7 +36,7 @@ jobs:
           key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
 
       - name: Build
-        run: nix develop -c cargo b
+        run: nix develop -c cargo b --features completions
 
       - name: Set up directory
         run: |

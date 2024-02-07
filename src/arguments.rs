@@ -1,6 +1,11 @@
-use clap::{Command, Parser, Subcommand};
-use clap_complete::{generate, Generator, Shell};
+use clap::{Parser, Subcommand};
 use hsize::Scale;
+
+#[cfg(feature = "completions")]
+use {
+    clap::Command,
+    clap_complete::{generate, Generator, Shell},
+};
 
 #[cfg(feature = "replace")]
 use clap::ValueHint;
@@ -63,6 +68,7 @@ pub enum MainSubcommand {
     },
 
     /// Generate shell completion files
+    #[cfg(feature = "completions")]
     #[command(visible_aliases = ["c", "co"])]
     Completions {
         /// Output completion files for the specified shell
@@ -71,6 +77,7 @@ pub enum MainSubcommand {
     },
 }
 
+#[cfg(feature = "completions")]
 pub fn generate_completions<G: Generator>(generator: G, command: &mut Command) {
     generate(
         generator,

@@ -1,7 +1,9 @@
 use crate::arguments::Arguments;
 use crate::arguments::MainSubcommand;
-use clap::CommandFactory;
 use std::io::{self, Write};
+
+#[cfg(feature = "completions")]
+use clap::CommandFactory;
 
 #[cfg(feature = "replace")]
 use {
@@ -44,6 +46,7 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
             subcommand_replace(&formatter, regex, *multi_line, *in_place, files);
         }
 
+        #[cfg(feature = "completions")]
         Some(MainSubcommand::Completions { shell }) => {
             let mut command = Arguments::command();
             crate::arguments::generate_completions(shell.to_owned(), &mut command);
