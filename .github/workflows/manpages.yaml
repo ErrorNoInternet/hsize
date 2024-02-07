@@ -1,4 +1,4 @@
-name: Completions
+name: Manpages
 on:
   push:
     paths:
@@ -40,19 +40,13 @@ jobs:
 
       - name: Set up directory
         run: |
-          rm -rf completions
-          mkdir completions
+          rm -rf man
+          mkdir man
 
-      - name: Generate bash completions
-        run: ./target/debug/hsize g c -s bash > completions/bash
-
-      - name: Generate zsh completions
-        run: ./target/debug/hsize g c -s zsh > completions/zsh
-
-      - name: Generate fish completions
-        run: ./target/debug/hsize g c -s fish > completions/fish
+      - name: Generate roff manpages
+        run: ./target/debug/hsize g m -o man
 
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore(cli): update shell completions"
+          commit_message: "chore(cli): update manpages"
