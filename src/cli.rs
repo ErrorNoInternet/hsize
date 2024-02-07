@@ -1,9 +1,11 @@
 use crate::arguments::Arguments;
-use crate::arguments::MainSubcommand;
 use std::io::{self, Write};
 
+#[cfg(feature = "replace")]
+use crate::arguments::MainSubcommand;
+
 #[cfg(feature = "completions")]
-use clap::CommandFactory;
+use {crate::arguments::MainSubcommand, clap::CommandFactory};
 
 #[cfg(feature = "replace")]
 use {
@@ -19,23 +21,6 @@ use {
 
 pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
     match &arguments.subcommand {
-        None => {
-            if !arguments.sizes.is_empty() {
-                for size in &arguments.sizes {
-                    let _ = io::stdout().write_all((formatter(*size) + "\n").as_bytes());
-                }
-                return;
-            };
-
-            for size in io::stdin()
-                .lines()
-                .map_while(Result::ok)
-                .filter_map(|line| line.trim().parse::<u128>().ok())
-            {
-                let _ = io::stdout().write_all((formatter(size) + "\n").as_bytes());
-            }
-        }
-
         #[cfg(feature = "replace")]
         Some(MainSubcommand::Replace {
             regex,
@@ -50,6 +35,23 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
         Some(MainSubcommand::Completions { shell }) => {
             let mut command = Arguments::command();
             crate::arguments::generate_completions(shell.to_owned(), &mut command);
+        }
+
+        _ => {
+            if !arguments.sizes.is_empty() {
+                for size in &arguments.sizes {
+                    let _ = io::stdout().write_all((formatter(*size) + "\n").as_bytes());
+                }
+                return;
+            };
+
+            for size in io::stdin()
+                .lines()
+                .map_while(Result::ok)
+                .filter_map(|line| line.trim().parse::<u128>().ok())
+            {
+                let _ = io::stdout().write_all((formatter(size) + "\n").as_bytes());
+            }
         }
     };
 }
