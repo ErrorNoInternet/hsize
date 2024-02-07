@@ -37,6 +37,16 @@ jobs:
     name: Rust
     runs-on: ubuntu-22.04
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - feature-set: --no-default-features
+          - feature-set: --features completions
+          - feature-set: --features manpages
+          - feature-set: --all-features
+          - feature-set: ""
+
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -61,8 +71,8 @@ jobs:
             target/
           key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
 
-      - name: cargo clippy
-        run: nix develop -c cargo clippy -- -Dwarnings -Wclippy::pedantic -Aclippy::must-use-candidate
+      - name: cargo clippy ${{ matrix.feature-set }}
+        run: nix develop -c cargo clippy ${{ matrix.feature-set }} -- -Dwarnings -Wclippy::pedantic -Aclippy::must-use-candidate
 
       - name: cargo fmt
         if: always()

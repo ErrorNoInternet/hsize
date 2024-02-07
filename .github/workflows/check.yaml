@@ -14,6 +14,16 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-22.04
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - feature-set: --no-default-features
+          - feature-set: --features completions
+          - feature-set: --features manpages
+          - feature-set: --all-features
+          - feature-set: ""
+
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -38,11 +48,8 @@ jobs:
             target/
           key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
 
-      - name: cargo test (no default features)
-        run: nix develop -c cargo t -v --no-default-features
-
-      - name: cargo test (with default features)
-        run: nix develop -c cargo t -v
+      - name: cargo test ${{ matrix.feature-set }}
+        run: nix develop -c cargo t -v ${{ matrix.feature-set }}
 
   nix-flake:
     name: Nix flake
