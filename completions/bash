@@ -12,14 +12,14 @@ _hsize() {
             ",$1")
                 cmd="hsize"
                 ;;
-            hsize,c)
-                cmd="hsize__completions"
+            hsize,g)
+                cmd="hsize__generate"
                 ;;
-            hsize,co)
-                cmd="hsize__completions"
+            hsize,gen)
+                cmd="hsize__generate"
                 ;;
-            hsize,completions)
-                cmd="hsize__completions"
+            hsize,generate)
+                cmd="hsize__generate"
                 ;;
             hsize,help)
                 cmd="hsize__help"
@@ -33,14 +33,50 @@ _hsize() {
             hsize,replace)
                 cmd="hsize__replace"
                 ;;
-            hsize__help,completions)
-                cmd="hsize__help__completions"
+            hsize__generate,c)
+                cmd="hsize__generate__completions"
+                ;;
+            hsize__generate,comp)
+                cmd="hsize__generate__completions"
+                ;;
+            hsize__generate,completions)
+                cmd="hsize__generate__completions"
+                ;;
+            hsize__generate,help)
+                cmd="hsize__generate__help"
+                ;;
+            hsize__generate,m)
+                cmd="hsize__generate__manpages"
+                ;;
+            hsize__generate,man)
+                cmd="hsize__generate__manpages"
+                ;;
+            hsize__generate,manpages)
+                cmd="hsize__generate__manpages"
+                ;;
+            hsize__generate__help,completions)
+                cmd="hsize__generate__help__completions"
+                ;;
+            hsize__generate__help,help)
+                cmd="hsize__generate__help__help"
+                ;;
+            hsize__generate__help,manpages)
+                cmd="hsize__generate__help__manpages"
+                ;;
+            hsize__help,generate)
+                cmd="hsize__help__generate"
                 ;;
             hsize__help,help)
                 cmd="hsize__help__help"
                 ;;
             hsize__help,replace)
                 cmd="hsize__help__replace"
+                ;;
+            hsize__help__generate,completions)
+                cmd="hsize__help__generate__completions"
+                ;;
+            hsize__help__generate,manpages)
+                cmd="hsize__help__generate__manpages"
                 ;;
             *)
                 ;;
@@ -49,7 +85,7 @@ _hsize() {
 
     case "${cmd}" in
         hsize)
-            opts="-p -f -B -t -b -s -h -V --precision --from-scale --from-binary --to-scale --to-binary --separator --help --version [SIZES]... replace completions help"
+            opts="-p -f -B -t -b -s -h -V --precision --from-scale --from-binary --to-scale --to-binary --separator --help --version [SIZES]... replace generate help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -94,9 +130,23 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__completions)
-            opts="-s -h --shell --help"
+        hsize__generate)
+            opts="-h --help completions manpages help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        hsize__generate__completions)
+            opts="-s -h --shell --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
@@ -116,8 +166,86 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
+        hsize__generate__help)
+            opts="completions manpages help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        hsize__generate__help__completions)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        hsize__generate__help__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        hsize__generate__help__manpages)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        hsize__generate__manpages)
+            opts="-o -h --output-directory --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --output-directory)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -o)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
         hsize__help)
-            opts="replace completions help"
+            opts="replace generate help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -130,9 +258,37 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__help__completions)
-            opts=""
+        hsize__help__generate)
+            opts="completions manpages"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        hsize__help__generate__completions)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        hsize__help__generate__manpages)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
