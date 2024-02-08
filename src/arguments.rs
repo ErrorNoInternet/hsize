@@ -21,11 +21,11 @@ pub struct Arguments {
     #[arg(short, long, env = "HSIZE_PRECISION", default_value_t = 2)]
     pub precision: usize,
 
-    /// Size scale of the specified (input) numbers
+    /// Size scale of the given numbers
     #[arg(short, long, value_name = "SCALE", env = "HSIZE_FROM_SCALE")]
     pub from_scale: Option<Scale>,
 
-    /// Specified (input) numbers are powers of 2 (1K = 1024)
+    /// Given numbers are powers of 2 (1K = 1024)
     #[arg(short = 'B', long, env = "HSIZE_FROM_BINARY")]
     pub from_binary: bool,
 
@@ -55,7 +55,7 @@ pub enum MainSubcommand {
     #[command(visible_aliases = ["r", "re"])]
     Replace {
         /// Regex to use for matching numbers
-        #[arg(short, long, default_value = r"\d+")]
+        #[arg(short, long, env = "HSIZE_REGEX", default_value = r"\d+")]
         regex: String,
 
         /// Enable multi-line regex searching
@@ -86,7 +86,7 @@ pub enum GenerateSubcommand {
     #[cfg(feature = "completions")]
     #[command(visible_aliases = ["c", "comp"])]
     Completions {
-        /// Output completion files for the specified shell
+        /// Output completion files for the given shell
         #[arg(short, long)]
         shell: Shell,
     },
