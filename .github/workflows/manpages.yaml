@@ -3,7 +3,10 @@ concurrency: shell-files
 on:
   push:
     paths:
-      - 'src/arguments.rs'
+      - '**.nix'
+      - Cargo.*
+      - flake.lock
+      - src/arguments.rs
   pull_request:
   workflow_dispatch:
 
