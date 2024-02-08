@@ -28,6 +28,8 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v9
@@ -59,6 +61,8 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v9
