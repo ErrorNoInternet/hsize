@@ -17,14 +17,14 @@ _hsize() {
     _arguments "${_arguments_options[@]}" \
 '-p+[Number of decimal places to include in the converted number]:PRECISION: ' \
 '--precision=[Number of decimal places to include in the converted number]:PRECISION: ' \
-'-f+[Size scale of the specified (input) numbers]:SCALE:(b k m g t p e z y)' \
-'--from-scale=[Size scale of the specified (input) numbers]:SCALE:(b k m g t p e z y)' \
+'-f+[Size scale of the given numbers]:SCALE:(b k m g t p e z y)' \
+'--from-scale=[Size scale of the given numbers]:SCALE:(b k m g t p e z y)' \
 '-t+[Size scale of the converted numbers]:SCALE:(b k m g t p e z y)' \
 '--to-scale=[Size scale of the converted numbers]:SCALE:(b k m g t p e z y)' \
 '-s+[Character(s) to put between the number and unit]:SEPARATOR: ' \
 '--separator=[Character(s) to put between the number and unit]:SEPARATOR: ' \
-'-B[Specified (input) numbers are powers of 2 (1K = 1024)]' \
-'--from-binary[Specified (input) numbers are powers of 2 (1K = 1024)]' \
+'-B[Given numbers are powers of 2 (1K = 1024)]' \
+'--from-binary[Given numbers are powers of 2 (1K = 1024)]' \
 '-b[Converted numbers should be powers of 2 (1K = 1024)]' \
 '--to-binary[Converted numbers should be powers of 2 (1K = 1024)]' \
 '-h[Print help]' \
@@ -70,8 +70,8 @@ _arguments "${_arguments_options[@]}" \
         case $line[1] in
             (completions)
 _arguments "${_arguments_options[@]}" \
-'-s+[Output completion files for the specified shell]:SHELL:(bash elvish fish powershell zsh)' \
-'--shell=[Output completion files for the specified shell]:SHELL:(bash elvish fish powershell zsh)' \
+'-s+[Output completion files for the given shell]:SHELL:(bash elvish fish powershell zsh)' \
+'--shell=[Output completion files for the given shell]:SHELL:(bash elvish fish powershell zsh)' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0
