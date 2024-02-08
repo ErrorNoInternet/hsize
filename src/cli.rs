@@ -4,6 +4,9 @@ use std::io::{self, Write};
 #[cfg(any(feature = "replace", feature = "completions", feature = "manpages"))]
 use crate::arguments::MainSubcommand;
 
+#[cfg(any(feature = "replace", feature = "manpages"))]
+use std::process::exit;
+
 #[cfg(any(feature = "completions", feature = "manpages"))]
 use crate::arguments::GenerateSubcommand;
 
@@ -14,7 +17,6 @@ use {
     std::{
         fs,
         io::{BufRead, BufReader, BufWriter},
-        process::exit,
         time,
     },
 };
@@ -30,7 +32,7 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
 
             #[cfg(feature = "manpages")]
             GenerateSubcommand::Manpages { output_directory } => {
-                if let Error(error) = crate::arguments::generate_manpages(output_directory) {
+                if let Err(error) = crate::arguments::generate_manpages(output_directory) {
                     eprintln!("hsize: couldn't generate manpages: {error}");
                     exit(1);
                 }

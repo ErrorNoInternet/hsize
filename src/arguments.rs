@@ -11,10 +11,7 @@ use {clap::CommandFactory, std::io};
 use clap_complete::{Generator, Shell};
 
 #[cfg(feature = "manpages")]
-use std::{
-    path::{Path, PathBuf},
-    process::exit,
-};
+use std::path::{Path, PathBuf};
 
 /// Convert file sizes to and from human-readable units
 #[derive(Parser, Debug)]
