@@ -30,7 +30,10 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
 
             #[cfg(feature = "manpages")]
             GenerateSubcommand::Manpages { output_directory } => {
-                crate::arguments::generate_manpages(output_directory);
+                if let Error(error) = crate::arguments::generate_manpages(output_directory) {
+                    eprintln!("hsize: couldn't generate manpages: {error}");
+                    exit(1);
+                }
             }
         },
 
@@ -41,7 +44,7 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
             in_place,
             files,
         }) => {
-            subcommand_replace(&formatter, regex, *multi_line, *in_place, files);
+            replace_subcommand(&formatter, regex, *multi_line, *in_place, files);
         }
 
         _ => {
@@ -64,7 +67,7 @@ pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> Strin
 }
 
 #[cfg(feature = "replace")]
-fn subcommand_replace(
+fn replace_subcommand(
     formatter: &dyn Fn(u128) -> String,
     regex: &str,
     multiline: bool,

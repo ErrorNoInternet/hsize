@@ -5,7 +5,7 @@ use hsize::Scale;
 use clap::ValueHint;
 
 #[cfg(any(feature = "completions", feature = "manpages"))]
-use clap::CommandFactory;
+use {clap::CommandFactory, std::io};
 
 #[cfg(feature = "completions")]
 use clap_complete::{Generator, Shell};
@@ -25,7 +25,7 @@ pub struct Arguments {
     pub precision: usize,
 
     /// Size scale of the specified (input) numbers
-    #[arg(short, long, value_name = "SCALE")]
+    #[arg(short, long, value_name = "SCALE", env = "HSIZE_FROM_SCALE")]
     pub from_scale: Option<Scale>,
 
     /// Specified (input) numbers are powers of 2 (1K = 1024)
@@ -33,7 +33,7 @@ pub struct Arguments {
     pub from_binary: bool,
 
     /// Size scale of the converted numbers
-    #[arg(short, long, value_name = "SCALE")]
+    #[arg(short, long, value_name = "SCALE", env = "HSIZE_TO_SCALE")]
     pub to_scale: Option<Scale>,
 
     /// Converted numbers should be powers of 2 (1K = 1024)
@@ -111,16 +111,13 @@ pub fn generate_completions<G: Generator>(generator: G) {
         generator,
         &mut command.clone(),
         command.get_name().to_string(),
-        &mut std::io::stdout(),
+        &mut io::stdout(),
     );
 }
 
 #[cfg(feature = "manpages")]
-pub fn generate_manpages(output_directory: impl AsRef<Path>) {
-    if let Err(error) = clap_mangen::generate_to(Arguments::command(), output_directory) {
-        eprintln!("hsize: couldn't generate manpages: {error}");
-        exit(1);
-    };
+pub fn generate_manpages(output_directory: impl AsRef<Path>) -> Result<(), io::Error> {
+    clap_mangen::generate_to(Arguments::command(), output_directory)
 }
 
 #[cfg(test)]
@@ -128,6 +125,6 @@ mod test {
     #[cfg(feature = "manpages")]
     #[test]
     fn generate_manpages() {
-        super::generate_manpages(".");
+        super::generate_manpages(".").unwrap();
     }
 }
