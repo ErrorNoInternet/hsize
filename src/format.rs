@@ -21,27 +21,20 @@ impl Converter {
 
     pub fn format_with_options(&self, size: u128, options: &Options) -> String {
         let (new_size, scale) = self.convert(size);
+        let unit = Unit {
+            is_binary: self.to_unit.is_binary,
+            scale: Some(scale),
+        }
+        .to_string();
         if options.scientific_notation {
             format!(
-                "{new_size:.*e}{}{}",
-                options.precision,
-                options.separator,
-                Unit {
-                    is_binary: self.to_unit.is_binary,
-                    scale: Some(scale),
-                }
-                .to_string()
+                "{new_size:.*e}{}{unit}",
+                options.precision, options.separator,
             )
         } else {
             format!(
-                "{new_size:.*}{}{}",
-                options.precision,
-                options.separator,
-                Unit {
-                    is_binary: self.to_unit.is_binary,
-                    scale: Some(scale),
-                }
-                .to_string()
+                "{new_size:.*}{}{unit}",
+                options.precision, options.separator,
             )
         }
     }
