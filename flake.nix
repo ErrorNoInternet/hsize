@@ -80,4 +80,9 @@
         packages.default = packages.hsize;
       };
     };
+
+  nixConfig = {
+    extra-substituters = ["https://errornobinaries.cachix.org"];
+    extra-trusted-public-keys = ["errornobinaries.cachix.org-1:84oagGNCIsXxBTYmfTiP+lvWje7lIS294iqAtCpFsbU="];
+  };
 }
