@@ -6,7 +6,7 @@ pub mod replace;
 
 use arguments::Arguments;
 use clap::Parser;
-use hsize::{Converter, Unit};
+use hsize::{format::Options, Converter, Unit};
 
 fn main() {
     let arguments = Arguments::parse();
@@ -21,7 +21,14 @@ fn main() {
         },
     };
     let formatter = |size: u128| -> String {
-        converter.format_with_separator(size, arguments.precision, &arguments.separator)
+        converter.format_with_options(
+            size,
+            &Options {
+                precision: arguments.precision,
+                separator: &arguments.separator,
+                ..Options::default()
+            },
+        )
     };
 
     cli::match_subcommand(&arguments, &formatter);
