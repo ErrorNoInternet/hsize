@@ -87,7 +87,7 @@ $ cargo install --path .
 ### Library
 
 ```rust
-use hsize::{Converter, Scale, Unit};
+use hsize::{format::Options, Converter, Scale, Unit};
 
 fn main() {
     let converter = Converter {
@@ -108,5 +108,16 @@ fn main() {
     // 1073741824 KB = 1000 GiB
     assert_eq!(converter.convert(1073741824), (1000.0, Scale::G));
     assert_eq!(converter.format(1073741824, 3), "1000.000 GiB");
+    assert_eq!(
+        converter.format_with_options(
+            1073741824,
+            &Options {
+                precision: 0,
+                separator: "",
+                ..Options::default()
+            }
+        ),
+        "1000GiB"
+    );
 }
 ```
