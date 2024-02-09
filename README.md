@@ -1,4 +1,5 @@
 # hsize
+
 Convert file sizes to and from human-readable units
 
 ```sh
@@ -73,15 +74,15 @@ Device: 0,68	Inode: 2522344     Links: 1
 ### Binary
 
 #### Nix
+
 ```shell
 $ nix run github:ErrorNoInternet/hsize -- 1000 1000000 5000000
 ```
 
 #### Cargo
+
 ```shell
-$ git clone https://github.com/ErrorNoInternet/hsize
-$ cd hsize
-$ cargo install --path .
+$ cargo +nightly install --git https://github.com/ErrorNoInternet/hsize
 ```
 
 ### Library
