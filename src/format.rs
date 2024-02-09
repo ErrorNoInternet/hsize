@@ -94,6 +94,28 @@ mod tests {
             converter.format(5_555_555_555_555_555_555_555_555_555_555, 5),
             "5555555.55556 YB"
         );
+        assert_eq!(
+            converter.format_with_options(
+                1000_u128.pow(10),
+                &Options {
+                    precision: 0,
+                    separator: " ",
+                    scientific_notation: true,
+                }
+            ),
+            "1e6 YB"
+        );
+        assert_eq!(
+            converter.format_with_options(
+                1000_u128.pow(12) * 2,
+                &Options {
+                    precision: 2,
+                    separator: " ",
+                    scientific_notation: true,
+                }
+            ),
+            "2.00e12 YB"
+        );
     }
 
     #[test]
@@ -210,6 +232,10 @@ mod tests {
                 }
             ),
             "1.00___MiB"
+        );
+        assert_eq!(
+            converter.format_with_options(1_048_576, &Options::default()),
+            "1MiB"
         );
     }
 }
