@@ -37,6 +37,10 @@ pub struct Arguments {
     #[arg(short = 'b', long, env = "HSIZE_TO_BINARY")]
     pub to_binary: bool,
 
+    /// Displayed numbers should be in scientific notation
+    #[arg(short = 'e', long, env = "HSIZE_SCIENTIFIC_NOTATION")]
+    pub scientific_notation: bool,
+
     /// Character(s) to put between the number and unit
     #[arg(short, long, env = "HSIZE_SEPARATOR", default_value = " ")]
     pub separator: String,

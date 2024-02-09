@@ -26,7 +26,7 @@ fn main() {
             &Options {
                 precision: arguments.precision,
                 separator: &arguments.separator,
-                ..Options::default()
+                scientific_notation: arguments.scientific_notation,
             },
         )
     };
