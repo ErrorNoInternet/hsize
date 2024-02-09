@@ -36,7 +36,6 @@ pub enum Scale {
 }
 
 impl Scale {
-    #[must_use]
     pub const fn max_value() -> Self {
         Scale::Y
     }

@@ -10,7 +10,6 @@ pub struct Converter {
 }
 
 impl Converter {
-    #[must_use]
     pub fn convert(&self, size: u128) -> (f64, Scale) {
         #![allow(clippy::cast_possible_wrap)]
 

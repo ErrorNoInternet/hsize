@@ -1,6 +1,6 @@
 use crate::{Converter, Unit};
 
-#[derive(Clone, Debug, Default)]
+#[derive(Debug, Default, Clone, Copy, Eq, PartialEq)]
 pub struct Options<'a> {
     pub precision: usize,
     pub separator: &'a str,
@@ -8,7 +8,6 @@ pub struct Options<'a> {
 }
 
 impl Converter {
-    #[must_use]
     pub fn format(&self, size: u128, precision: usize) -> String {
         self.format_with_options(
             size,
@@ -20,7 +19,6 @@ impl Converter {
         )
     }
 
-    #[must_use]
     pub fn format_with_options(&self, size: u128, options: &Options) -> String {
         let (new_size, scale) = self.convert(size);
         if options.scientific_notation {
