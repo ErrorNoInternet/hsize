@@ -5,6 +5,7 @@ on:
       - '**.nix'
       - '**.rs'
       - Cargo.*
+      - flake.lock
   pull_request:
   workflow_dispatch:
 
