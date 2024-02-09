@@ -44,12 +44,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - feature-set: --no-default-features
-          - feature-set: --no-default-features --features replace
-          - feature-set: --no-default-features --features completions
-          - feature-set: --no-default-features --features manpages
-          - feature-set: --all-features
           - feature-set: ""
+          - feature-set: --all-features
+          - feature-set: --no-default-features
+          - feature-set: --no-default-features --features completions
+          - feature-set: --no-default-features --features completions manpages
+          - feature-set: --no-default-features --features manpages
+          - feature-set: --no-default-features --features replace
 
     steps:
       - name: Clone repository
