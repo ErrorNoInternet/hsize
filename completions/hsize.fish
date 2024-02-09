@@ -4,6 +4,7 @@ complete -c hsize -n "__fish_use_subcommand" -s t -l to-scale -d 'Size scale of 
 complete -c hsize -n "__fish_use_subcommand" -s s -l separator -d 'Character(s) to put between the number and unit' -r
 complete -c hsize -n "__fish_use_subcommand" -s B -l from-binary -d 'Given numbers are powers of 2 (1K = 1024)'
 complete -c hsize -n "__fish_use_subcommand" -s b -l to-binary -d 'Converted numbers should be powers of 2 (1K = 1024)'
+complete -c hsize -n "__fish_use_subcommand" -s e -l scientific-notation -d 'Displayed numbers should be in scientific notation'
 complete -c hsize -n "__fish_use_subcommand" -s h -l help -d 'Print help'
 complete -c hsize -n "__fish_use_subcommand" -s V -l version -d 'Print version'
 complete -c hsize -n "__fish_use_subcommand" -f -a "replace" -d 'Use regex to search and replace numbers'

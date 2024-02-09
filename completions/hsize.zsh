@@ -27,6 +27,8 @@ _hsize() {
 '--from-binary[Given numbers are powers of 2 (1K = 1024)]' \
 '-b[Converted numbers should be powers of 2 (1K = 1024)]' \
 '--to-binary[Converted numbers should be powers of 2 (1K = 1024)]' \
+'-e[Displayed numbers should be in scientific notation]' \
+'--scientific-notation[Displayed numbers should be in scientific notation]' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
