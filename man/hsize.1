@@ -4,7 +4,7 @@
 .SH NAME
 hsize \- Convert file sizes to and from human\-readable units
 .SH SYNOPSIS
-\fBhsize\fR [\fB\-p\fR|\fB\-\-precision\fR] [\fB\-f\fR|\fB\-\-from\-scale\fR] [\fB\-B\fR|\fB\-\-from\-binary\fR] [\fB\-t\fR|\fB\-\-to\-scale\fR] [\fB\-b\fR|\fB\-\-to\-binary\fR] [\fB\-s\fR|\fB\-\-separator\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] [\fISIZES\fR] [\fIsubcommands\fR]
+\fBhsize\fR [\fB\-p\fR|\fB\-\-precision\fR] [\fB\-f\fR|\fB\-\-from\-scale\fR] [\fB\-B\fR|\fB\-\-from\-binary\fR] [\fB\-t\fR|\fB\-\-to\-scale\fR] [\fB\-b\fR|\fB\-\-to\-binary\fR] [\fB\-e\fR|\fB\-\-scientific\-notation\fR] [\fB\-s\fR|\fB\-\-separator\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] [\fISIZES\fR] [\fIsubcommands\fR]
 .SH DESCRIPTION
 Convert file sizes to and from human\-readable units
 .SH OPTIONS
@@ -45,6 +45,12 @@ May also be specified with the \fBHSIZE_TO_SCALE\fR environment variable.
 Converted numbers should be powers of 2 (1K = 1024)
 .RS
 May also be specified with the \fBHSIZE_TO_BINARY\fR environment variable. 
+.RE
+.TP
+\fB\-e\fR, \fB\-\-scientific\-notation\fR
+Displayed numbers should be in scientific notation
+.RS
+May also be specified with the \fBHSIZE_SCIENTIFIC_NOTATION\fR environment variable. 
 .RE
 .TP
 \fB\-s\fR, \fB\-\-separator\fR=\fISEPARATOR\fR [default:  ]
