@@ -14,7 +14,7 @@ use clap_complete::{Generator, Shell};
 use std::path::{Path, PathBuf};
 
 /// Convert file sizes to and from human-readable units
-#[derive(Parser, Debug)]
+#[derive(Debug, Parser)]
 #[command(version)]
 pub struct Arguments {
     /// Number of decimal places to include in the converted number
