@@ -30,6 +30,5 @@ fn main() {
             },
         )
     };
-
-    cli::match_subcommand(&arguments, &formatter);
+    cli::main(&arguments, &formatter);
 }

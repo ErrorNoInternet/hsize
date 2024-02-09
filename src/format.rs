@@ -14,7 +14,7 @@ impl Converter {
             &Options {
                 precision,
                 separator: " ",
-                ..Default::default()
+                ..Options::default()
             },
         )
     }

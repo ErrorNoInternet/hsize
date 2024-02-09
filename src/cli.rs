@@ -10,7 +10,7 @@ use crate::arguments::MainSubcommand;
 #[cfg(any(feature = "completions", feature = "manpages"))]
 use crate::arguments::GenerateSubcommand;
 
-pub fn match_subcommand(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
+pub fn main(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
     match &arguments.subcommand {
         #[cfg(any(feature = "completions", feature = "manpages"))]
         Some(MainSubcommand::Generate { subcommand }) => match subcommand {
