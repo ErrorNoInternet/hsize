@@ -18,7 +18,7 @@ pub fn replace(
         Ok(built_regex) => built_regex,
         Err(error) => {
             eprintln!("hsize replace: {error}");
-            exit(1);
+            exit(3);
         }
     };
 
@@ -38,7 +38,7 @@ pub fn replace(
             Ok(file) => file,
             Err(error) => {
                 eprintln!("hsize: couldn't open {file_path}: {error}");
-                exit(2);
+                exit(4);
             }
         };
         let mut input_lines = BufReader::new(input_file).lines().map_while(Result::ok);
@@ -53,7 +53,7 @@ pub fn replace(
                 Ok(file) => BufWriter::new(file),
                 Err(error) => {
                     eprintln!("hsize: couldn't open temporary file {temporary_file_path}: {error}");
-                    exit(3);
+                    exit(5);
                 }
             };
 
@@ -64,7 +64,7 @@ pub fn replace(
                     eprintln!(
                         "hsize: couldn't write to temporary file {temporary_file_path}: {error}"
                     );
-                    exit(4);
+                    exit(6);
                 }
             }
 
@@ -72,7 +72,7 @@ pub fn replace(
                 eprintln!(
                         "hsize: couldn't rename temporary file {temporary_file_path} to {file_path}: {error}"
                     );
-                exit(5);
+                exit(7);
             };
         } else {
             for replaced_line in replace::replace(&mut input_lines, &built_regex, &formatter) {
