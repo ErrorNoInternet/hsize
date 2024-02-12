@@ -1,5 +1,6 @@
 use clap::ValueEnum;
 use num_derive::FromPrimitive;
+use std::fmt;
 
 #[derive(Debug, Default, Clone, Copy, Eq, PartialEq)]
 pub struct Unit {
@@ -7,8 +8,8 @@ pub struct Unit {
     pub is_binary: bool,
 }
 
-impl ToString for Unit {
-    fn to_string(&self) -> String {
+impl fmt::Display for Unit {
+    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         let scale = self.scale.unwrap_or_default();
         let mut output = format!("{scale:?}");
         if scale != Scale::B {
@@ -17,7 +18,7 @@ impl ToString for Unit {
             }
             output.push('B');
         }
-        output
+        write!(formatter, "{output}")
     }
 }
 
