@@ -68,6 +68,8 @@
             rust
           ];
 
+          outputs = ["out" "man"];
+
           postInstall = ''
             installShellCompletion \
               --bash completions/hsize.bash \
