@@ -29,10 +29,10 @@ jobs:
       - name: Set up Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@v3
 
-      - name: Run taplo lint
+      - name: taplo lint
         run: nix develop -c taplo lint Cargo.toml
 
-      - name: Run taplo fmt
+      - name: taplo fmt
         if: always()
         run: nix develop -c taplo fmt --check Cargo.toml
 
@@ -107,7 +107,7 @@ jobs:
       - name: Check formatting
         run: nix run nixpkgs#alejandra -- -c .
 
-      - name: Run static code analysis
+      - name: Static code analysis
         if: always()
         run: nix run nixpkgs#statix -- check
 

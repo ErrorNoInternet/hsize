@@ -63,12 +63,12 @@
           cargoLock.lockFile = ./Cargo.lock;
           src = pkgs.lib.cleanSource ./.;
 
+          outputs = ["out" "man"];
+
           nativeBuildInputs = with pkgs; [
             installShellFiles
             rust
           ];
-
-          outputs = ["out" "man"];
 
           postInstall = ''
             installShellCompletion \

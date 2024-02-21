@@ -15,7 +15,7 @@ pub fn replace(
     files: &Vec<String>,
 ) {
     let built_regex = match RegexBuilder::new(regex).multi_line(multiline).build() {
-        Ok(built_regex) => built_regex,
+        Ok(regex) => regex,
         Err(error) => {
             eprintln!("hsize replace: {error}");
             exit(3);
@@ -70,8 +70,8 @@ pub fn replace(
 
             if let Err(error) = fs::rename(&temporary_file_path, file_path) {
                 eprintln!(
-                        "hsize: couldn't rename temporary file {temporary_file_path} to {file_path}: {error}"
-                    );
+                    "hsize: couldn't rename temporary file {temporary_file_path} to {file_path}: {error}"
+                );
                 exit(7);
             };
         } else {
