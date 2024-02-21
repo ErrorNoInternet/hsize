@@ -4,6 +4,23 @@ cargo-features = ["profile-rustflags", "trim-paths"]
 name = "hsize"
 version = "0.1.0"
 edition = "2021"
+description = "Convert file sizes to and from human-readable units"
+license = "LGPL-3"
+repository = "https://github.com/ErrorNoInternet/hsize"
+keywords = [
+  "converter",
+  "utility",
+  "regex",
+  "humanize",
+  "human-size",
+  "file-size",
+]
+categories = [
+  "command-line-interface",
+  "command-line-utilities",
+  "mathematics",
+  "text-processing",
+]
 
 [profile.release]
 codegen-units = 1

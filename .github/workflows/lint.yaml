@@ -79,7 +79,7 @@ jobs:
           key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
 
       - name: cargo clippy ${{ matrix.feature-set }}
-        run: nix develop -c cargo clippy ${{ matrix.feature-set }} -- -Dwarnings -Wclippy::pedantic -Aclippy::must-use-candidate
+        run: nix develop -c cargo clippy ${{ matrix.feature-set }} -- -Dwarnings -Dclippy::pedantic -Dclippy::cargo -Aclippy::must-use-candidate
 
       - name: cargo fmt
         if: always()
