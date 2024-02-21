@@ -16,7 +16,7 @@ impl Converter {
         #[allow(clippy::cast_precision_loss)]
         let mut new_size = size as f64; // TODO: switch to f128 (https://github.com/rust-lang/rust/pull/114607)
 
-        let mut new_scale = self.from_unit.scale.unwrap_or_default();
+        let mut scale = self.from_unit.scale.unwrap_or_default();
         let from_divisor: f64 = if self.from_unit.is_binary {
             1024.0
         } else {
@@ -28,20 +28,20 @@ impl Converter {
             1000.0
         };
 
-        new_size *= from_divisor.powi(new_scale as i32);
+        new_size *= from_divisor.powi(scale as i32);
         if let Some(to_scale) = self.to_unit.scale {
             new_size /= divisor.powi(to_scale as i32);
-            new_scale = to_scale;
+            scale = to_scale;
         } else {
             #[allow(clippy::cast_possible_truncation)]
             #[allow(clippy::cast_sign_loss)]
             let required_power = (new_size.log(divisor) as u32).clamp(0, Scale::max_value() as u32);
             new_size /= divisor.powi(required_power as i32);
-            new_scale =
+            scale =
                 num_traits::FromPrimitive::from_u32(required_power).unwrap_or(Scale::max_value());
         }
 
-        (new_size, new_scale)
+        (new_size, scale)
     }
 }
 
