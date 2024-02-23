@@ -17,8 +17,8 @@ use std::path::{Path, PathBuf};
 #[derive(Debug, Parser)]
 #[command(version)]
 pub struct Arguments {
-    /// Number of decimal places to include in the converted number
-    #[arg(short, long, env = "HSIZE_PRECISION", default_value_t = 2)]
+    /// Number of decimal places to display in the converted number
+    #[arg(short, long, env = "HSIZE_PRECISION", default_value_t = 1)]
     pub precision: usize,
 
     /// Size scale of the given numbers
