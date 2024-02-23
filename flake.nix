@@ -8,9 +8,10 @@
   };
 
   outputs = {
-    nixpkgs,
     flake-parts,
+    nixpkgs,
     rust-overlay,
+    self,
     ...
   } @ inputs:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -21,8 +22,8 @@
         "x86_64-linux"
       ];
       perSystem = {
-        system,
         pkgs,
+        system,
         ...
       }: let
         rust = pkgs.rust-bin.nightly.latest.default.override {
@@ -58,7 +59,10 @@
 
         packages.hsize = pkgs.rustPlatform.buildRustPackage {
           pname = "hsize";
-          version = "dev";
+          version =
+            if (self ? shortRev)
+            then self.shortRev
+            else self.dirtyShortRev;
 
           cargoLock.lockFile = ./Cargo.lock;
           src = pkgs.lib.cleanSource ./.;
