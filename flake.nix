@@ -36,7 +36,7 @@
             "rust-analyzer-preview"
           ];
         };
-        inherit (pkgs.pkgsCross) mingwW64;
+        inherit (pkgs.pkgsCross.mingwW64.windows) mingw_w64_pthreads;
       in rec {
         _module.args.pkgs = import nixpkgs {
           inherit system;
@@ -52,7 +52,7 @@
             taplo
           ];
 
-          CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUSTFLAGS = "-L native=${mingwW64.windows.mingw_w64_pthreads}/lib";
+          CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUSTFLAGS = "-L native=${mingw_w64_pthreads}/lib";
           RUST_BACKTRACE = 1;
         };
 
@@ -85,6 +85,8 @@
 
   nixConfig = {
     extra-substituters = ["https://errornobinaries.cachix.org"];
-    extra-trusted-public-keys = ["errornobinaries.cachix.org-1:84oagGNCIsXxBTYmfTiP+lvWje7lIS294iqAtCpFsbU="];
+    extra-trusted-public-keys = [
+      "errornobinaries.cachix.org-1:84oagGNCIsXxBTYmfTiP+lvWje7lIS294iqAtCpFsbU="
+    ];
   };
 }
