@@ -108,6 +108,7 @@ mod tests {
                 &Options {
                     precision: 0,
                     separator: " ",
+                    b_suffix: true,
                     scientific_notation: true,
                 }
             ),
@@ -119,10 +120,11 @@ mod tests {
                 &Options {
                     precision: 2,
                     separator: " ",
+                    b_suffix: false,
                     scientific_notation: true,
                 }
             ),
-            "2.00e12 YB"
+            "2.00e12 Y"
         );
     }
 
@@ -240,6 +242,18 @@ mod tests {
                 }
             ),
             "1.00___MiB"
+        );
+        assert_eq!(
+            converter.format_with_options(
+                1_048_576 * 5,
+                &Options {
+                    precision: 0,
+                    separator: "",
+                    b_suffix: false,
+                    ..Options::default()
+                }
+            ),
+            "5Mi"
         );
         assert_eq!(
             converter.format_with_options(1_048_576, &Options::default()),
