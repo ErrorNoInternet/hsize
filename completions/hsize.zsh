@@ -29,6 +29,8 @@ _hsize() {
 '--to-binary[Converted numbers should be powers of 2 (1K = 1024)]' \
 '-e[Displayed numbers should be in scientific notation]' \
 '--scientific-notation[Displayed numbers should be in scientific notation]' \
+'-n[Remove the '\''B'\'' at the end of the unit (MB -> M)]' \
+'--no-b-suffix[Remove the '\''B'\'' at the end of the unit (MB -> M)]' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
