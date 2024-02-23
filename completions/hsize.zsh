@@ -15,8 +15,8 @@ _hsize() {
 
     local context curcontext="$curcontext" state line
     _arguments "${_arguments_options[@]}" \
-'-p+[Number of decimal places to include in the converted number]:PRECISION: ' \
-'--precision=[Number of decimal places to include in the converted number]:PRECISION: ' \
+'-p+[Number of decimal places to display in the converted number]:PRECISION: ' \
+'--precision=[Number of decimal places to display in the converted number]:PRECISION: ' \
 '-f+[Size scale of the given numbers]:SCALE:(b k m g t p e z y)' \
 '--from-scale=[Size scale of the given numbers]:SCALE:(b k m g t p e z y)' \
 '-t+[Size scale of the converted numbers]:SCALE:(b k m g t p e z y)' \

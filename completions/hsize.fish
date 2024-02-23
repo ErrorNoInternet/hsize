@@ -1,4 +1,4 @@
-complete -c hsize -n "__fish_use_subcommand" -s p -l precision -d 'Number of decimal places to include in the converted number' -r
+complete -c hsize -n "__fish_use_subcommand" -s p -l precision -d 'Number of decimal places to display in the converted number' -r
 complete -c hsize -n "__fish_use_subcommand" -s f -l from-scale -d 'Size scale of the given numbers' -r -f -a "{b	'',k	'',m	'',g	'',t	'',p	'',e	'',z	'',y	''}"
 complete -c hsize -n "__fish_use_subcommand" -s t -l to-scale -d 'Size scale of the converted numbers' -r -f -a "{b	'',k	'',m	'',g	'',t	'',p	'',e	'',z	'',y	''}"
 complete -c hsize -n "__fish_use_subcommand" -s s -l separator -d 'Character(s) to put between the number and unit' -r
