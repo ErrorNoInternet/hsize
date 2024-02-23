@@ -85,7 +85,7 @@ _hsize() {
 
     case "${cmd}" in
         hsize)
-            opts="-p -f -B -t -b -e -s -h -V --precision --from-scale --from-binary --to-scale --to-binary --scientific-notation --separator --help --version [SIZES]... replace generate help"
+            opts="-p -f -B -t -b -e -s -n -h -V --precision --from-scale --from-binary --to-scale --to-binary --scientific-notation --separator --no-b-suffix --help --version [SIZES]... replace generate help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
