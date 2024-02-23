@@ -4,6 +4,7 @@ use crate::{Converter, Unit};
 pub struct Options<'a> {
     pub precision: usize,
     pub separator: &'a str,
+    pub b_suffix: bool,
     pub scientific_notation: bool,
 }
 
@@ -12,6 +13,7 @@ impl Default for Options<'_> {
         Self {
             precision: 1,
             separator: " ",
+            b_suffix: true,
             scientific_notation: false,
         }
     }
@@ -33,18 +35,24 @@ impl Converter {
         let unit = Unit {
             is_binary: self.to_unit.is_binary,
             scale: Some(scale),
-        }
-        .to_string();
-        if options.scientific_notation {
-            format!(
-                "{new_size:.*e}{}{unit}",
+        };
+        match (options.b_suffix, options.scientific_notation) {
+            (false, false) => format!(
+                "{new_size:.*}{}{unit:#}",
                 options.precision, options.separator,
-            )
-        } else {
-            format!(
+            ),
+            (false, true) => format!(
+                "{new_size:.*e}{}{unit:#}",
+                options.precision, options.separator,
+            ),
+            (true, false) => format!(
                 "{new_size:.*}{}{unit}",
                 options.precision, options.separator,
-            )
+            ),
+            (true, true) => format!(
+                "{new_size:.*e}{}{unit}",
+                options.precision, options.separator,
+            ),
         }
     }
 }

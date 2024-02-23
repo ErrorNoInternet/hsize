@@ -16,7 +16,9 @@ impl fmt::Display for Unit {
             if self.is_binary {
                 output.push('i');
             }
-            output.push('B');
+            if !formatter.alternate() {
+                output.push('B');
+            }
         }
         write!(formatter, "{output}")
     }

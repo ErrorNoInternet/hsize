@@ -26,6 +26,7 @@ fn main() {
             &Options {
                 precision: arguments.precision,
                 separator: &arguments.separator,
+                b_suffix: !arguments.no_b_suffix,
                 scientific_notation: arguments.scientific_notation,
             },
         )

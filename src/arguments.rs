@@ -45,6 +45,10 @@ pub struct Arguments {
     #[arg(short, long, env = "HSIZE_SEPARATOR", default_value = " ")]
     pub separator: String,
 
+    /// Remove the 'B' at the end of the unit (MB -> M)
+    #[arg(short, long, env = "HSIZE_NO_B_SUFFIX")]
+    pub no_b_suffix: bool,
+
     #[arg(num_args = 1..)]
     pub sizes: Vec<u128>,
 
