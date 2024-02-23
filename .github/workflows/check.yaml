@@ -21,10 +21,10 @@ jobs:
           - feature-set: ""
           - feature-set: --all-features
           - feature-set: --no-default-features
-          - feature-set: --no-default-features --features "completions manpages"
-          - feature-set: --no-default-features --features completions
-          - feature-set: --no-default-features --features manpages
-          - feature-set: --no-default-features --features replace
+          - feature-set: --no-default-features -F completions
+          - feature-set: --no-default-features -F completions,manpages
+          - feature-set: --no-default-features -F manpages
+          - feature-set: --no-default-features -F replace
 
     steps:
       - name: Clone repository
