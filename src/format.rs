@@ -1,10 +1,20 @@
 use crate::{Converter, Unit};
 
-#[derive(Debug, Default, Clone, Copy, Eq, PartialEq)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub struct Options<'a> {
     pub precision: usize,
     pub separator: &'a str,
     pub scientific_notation: bool,
+}
+
+impl Default for Options<'_> {
+    fn default() -> Self {
+        Self {
+            precision: 1,
+            separator: " ",
+            scientific_notation: false,
+        }
+    }
 }
 
 impl Converter {
@@ -13,7 +23,6 @@ impl Converter {
             size,
             &Options {
                 precision,
-                separator: " ",
                 ..Options::default()
             },
         )
@@ -226,7 +235,7 @@ mod tests {
         );
         assert_eq!(
             converter.format_with_options(1_048_576, &Options::default()),
-            "1MiB"
+            "1.0 MiB"
         );
     }
 }
