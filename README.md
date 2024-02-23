@@ -12,9 +12,9 @@ $ hsize -p5 1048576 12345678
 1.04858 MB
 12.34568 MB
 
-$ hsize 1048576 1073741824 --binary
-1.0 MiB
-1.0 GiB
+$ hsize 1048576 1073741824 --binary --no-b-suffix
+1.0 Mi
+1.0 Gi
 ```
 
 ### Read from stdin
