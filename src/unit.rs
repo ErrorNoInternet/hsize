@@ -36,10 +36,12 @@ pub enum Scale {
     E,
     Z,
     Y,
+    R,
+    Q,
 }
 
 impl Scale {
     pub const fn max_value() -> Self {
-        Scale::Y
+        Scale::Q
     }
 }
