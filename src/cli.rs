@@ -46,12 +46,12 @@ pub fn main(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
                 return;
             };
 
-            for size in io::stdin()
-                .lines()
-                .map_while(Result::ok)
-                .filter_map(|line| line.trim().parse::<u128>().ok())
-            {
-                let _ = io::stdout().write_all((formatter(size) + "\n").as_bytes());
+            for line in io::stdin().lines().map_while(Result::ok) {
+                if let Ok(size) = line.trim().parse::<u128>() {
+                    let _ = io::stdout().write_all((formatter(size) + "\n").as_bytes());
+                } else {
+                    eprintln!("hsize: invalid number: {line:?}");
+                }
             }
         }
     };
