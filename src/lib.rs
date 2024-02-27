@@ -92,7 +92,7 @@ mod tests {
         assert_eq!(converter.convert(999_999), (999.999, Scale::K));
         assert_eq!(
             converter.convert(5_555_555_555_555_555_555_555_555_555_555),
-            (5_555_555.555_555_556, Scale::Y)
+            (5.555_555_555_555_556, Scale::Q)
         );
     }
 }

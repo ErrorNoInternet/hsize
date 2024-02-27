@@ -99,8 +99,8 @@ mod tests {
         assert_eq!(converter.format(1_111_111_111_111_111_111, 5), "1.11111 EB");
         assert_eq!(converter.format(999_999, 5), "999.99900 KB");
         assert_eq!(
-            converter.format(5_555_555_555_555_555_555_555_555_555_555, 5),
-            "5555555.55556 YB"
+            converter.format(555_555_555_555_555_555_555_555_555, 5),
+            "555.55556 YB"
         );
         assert_eq!(
             converter.format_with_options(
@@ -112,7 +112,7 @@ mod tests {
                     scientific_notation: true,
                 }
             ),
-            "1e6 YB"
+            "1e0 QB"
         );
         assert_eq!(
             converter.format_with_options(
@@ -124,7 +124,7 @@ mod tests {
                     scientific_notation: true,
                 }
             ),
-            "2.00e12 Y"
+            "2.00e6 Q"
         );
     }
 
