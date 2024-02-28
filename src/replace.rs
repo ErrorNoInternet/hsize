@@ -14,7 +14,7 @@ pub fn replace<'a>(
                     .iter()
                     .collect::<Vec<_>>()
                     .iter()
-                    .flat_map(std::borrow::ToOwned::to_owned)
+                    .flat_map(ToOwned::to_owned)
                     .rev()
                     .collect::<Vec<_>>()
             })
@@ -37,7 +37,6 @@ mod tests {
     use super::replace;
     use hsize::{Converter, Scale, Unit};
     use regex::Regex;
-    use std::borrow::ToOwned;
 
     fn owned_lines(string: &str) -> impl Iterator<Item = String> + '_ {
         string.lines().map(ToOwned::to_owned)
