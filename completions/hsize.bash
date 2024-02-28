@@ -100,19 +100,19 @@ _hsize() {
                     return 0
                     ;;
                 --from-scale)
-                    COMPREPLY=($(compgen -W "b k m g t p e z y" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "b k m g t p e z y r q" -- "${cur}"))
                     return 0
                     ;;
                 -f)
-                    COMPREPLY=($(compgen -W "b k m g t p e z y" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "b k m g t p e z y r q" -- "${cur}"))
                     return 0
                     ;;
                 --to-scale)
-                    COMPREPLY=($(compgen -W "b k m g t p e z y" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "b k m g t p e z y r q" -- "${cur}"))
                     return 0
                     ;;
                 -t)
-                    COMPREPLY=($(compgen -W "b k m g t p e z y" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "b k m g t p e z y r q" -- "${cur}"))
                     return 0
                     ;;
                 --separator)

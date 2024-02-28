@@ -17,10 +17,10 @@ _hsize() {
     _arguments "${_arguments_options[@]}" \
 '-p+[Number of decimal places to display in the converted number]:PRECISION: ' \
 '--precision=[Number of decimal places to display in the converted number]:PRECISION: ' \
-'-f+[Size scale of the given numbers]:SCALE:(b k m g t p e z y)' \
-'--from-scale=[Size scale of the given numbers]:SCALE:(b k m g t p e z y)' \
-'-t+[Size scale of the converted numbers]:SCALE:(b k m g t p e z y)' \
-'--to-scale=[Size scale of the converted numbers]:SCALE:(b k m g t p e z y)' \
+'-f+[Size scale of the given numbers]:SCALE:(b k m g t p e z y r q)' \
+'--from-scale=[Size scale of the given numbers]:SCALE:(b k m g t p e z y r q)' \
+'-t+[Size scale of the converted numbers]:SCALE:(b k m g t p e z y r q)' \
+'--to-scale=[Size scale of the converted numbers]:SCALE:(b k m g t p e z y r q)' \
 '-s+[Character(s) to put between the number and unit]:SEPARATOR: ' \
 '--separator=[Character(s) to put between the number and unit]:SEPARATOR: ' \
 '-B[Given numbers are powers of 2 (1K = 1024)]' \
