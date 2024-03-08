@@ -59,10 +59,7 @@
 
         packages.hsize = pkgs.rustPlatform.buildRustPackage {
           pname = "hsize";
-          version =
-            if (self ? shortRev)
-            then self.shortRev
-            else self.dirtyShortRev;
+          version = self.shortRev or self.dirtyShortRev;
 
           cargoLock.lockFile = ./Cargo.lock;
           src = pkgs.lib.cleanSource ./.;
