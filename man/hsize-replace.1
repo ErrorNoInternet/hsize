@@ -9,7 +9,7 @@ hsize\-replace \- Use regex to search and replace numbers
 Use regex to search and replace numbers
 .SH OPTIONS
 .TP
-\fB\-r\fR, \fB\-\-regex\fR=\fIREGEX\fR [default: \\d+]
+\fB\-r\fR, \fB\-\-regex\fR=\fIREGEX\fR [default: (^|\\s)(\\d+)(\\s|$)]
 Regex to use for matching numbers
 .RS
 May also be specified with the \fBHSIZE_REGEX\fR environment variable. 
