@@ -44,7 +44,7 @@ Use regex to search and replace numbers
 $ echo "1  22  333  4444  55555  666666  7777777  88888888  999999999" | hsize replace
 1.0 B  22.0 B  333.0 B  4.4 KB  55.6 KB  666.7 KB  7.8 MB  88.9 MB  1000.0 MB
 
-$ cat /proc/meminfo | tr -d ' ' | tr -d 'kB' | hsize -p 2 -f k replace -r "\d+$" | column -ts :
+$ cat /proc/meminfo | tr -d ' ' | sed "s/kB//" | hsize -p 2 -f k replace -r "\d+$" | column -ts :
 MemTotal         16.31 GB
 MemFree          929.67 MB
 MemAvailable     10.87 GB
