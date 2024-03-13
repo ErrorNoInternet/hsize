@@ -27,7 +27,7 @@ jobs:
             log-lines = 500
 
       - name: Set up Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v3
+        uses: DeterminateSystems/magic-nix-cache-action@v4
 
       - name: taplo lint
         run: nix develop -c taplo lint Cargo.toml
@@ -65,7 +65,7 @@ jobs:
             log-lines = 500
 
       - name: Set up Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v3
+        uses: DeterminateSystems/magic-nix-cache-action@v4
 
       - name: Set up build cache
         uses: actions/cache@v4
@@ -102,7 +102,7 @@ jobs:
             log-lines = 500
 
       - name: Set up Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v3
+        uses: DeterminateSystems/magic-nix-cache-action@v4
 
       - name: Check formatting
         run: nix run nixpkgs#alejandra -- -c .
