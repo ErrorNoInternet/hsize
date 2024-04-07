@@ -21,6 +21,8 @@ jobs:
       matrix:
         include:
           - system: aarch64-linux
+          - system: armv7l-linux
+          - system: i686-linux
           - system: x86_64-linux
 
     steps:
