@@ -38,7 +38,7 @@
           ];
         };
         inherit (pkgs.pkgsCross) mingwW64;
-      in rec {
+      in {
         _module.args.pkgs = import nixpkgs {
           inherit system;
           overlays = [rust-overlay.overlays.default];
@@ -57,30 +57,10 @@
           RUST_BACKTRACE = 1;
         };
 
-        packages.hsize = pkgs.rustPlatform.buildRustPackage {
-          pname = "hsize";
-          version = self.shortRev or self.dirtyShortRev;
-
-          cargoLock.lockFile = ./Cargo.lock;
-          src = pkgs.lib.cleanSource ./.;
-
-          outputs = ["out" "man"];
-
-          nativeBuildInputs = with pkgs; [
-            installShellFiles
-            rust
-          ];
-
-          postInstall = ''
-            installShellCompletion \
-              --bash completions/hsize.bash \
-              --fish completions/hsize.fish \
-              --zsh completions/hsize.zsh
-
-            installManPage man/*
-          '';
+        packages = rec {
+          hsize = pkgs.callPackage ./. {inherit rust self;};
+          default = hsize;
         };
-        packages.default = packages.hsize;
       };
     };
 
