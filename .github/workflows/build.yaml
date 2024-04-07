@@ -41,6 +41,8 @@ jobs:
         with:
           extra-conf: |
             log-lines = 500
+            substituters = https://cache.garnix.io https://cache.armv7l.xyz
+            trusted-public-keys = cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g= cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=
 
       - name: Set up Cachix
         uses: cachix/cachix-action@v14
