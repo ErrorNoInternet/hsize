@@ -36,24 +36,17 @@ impl Converter {
             is_binary: self.to_unit.is_binary,
             scale: Some(scale),
         };
-        match (options.b_suffix, options.scientific_notation) {
-            (false, false) => format!(
-                "{new_size:.*}{}{unit:#}",
-                options.precision, options.separator,
-            ),
-            (false, true) => format!(
-                "{new_size:.*e}{}{unit:#}",
-                options.precision, options.separator,
-            ),
-            (true, false) => format!(
-                "{new_size:.*}{}{unit}",
-                options.precision, options.separator,
-            ),
-            (true, true) => format!(
-                "{new_size:.*e}{}{unit}",
-                options.precision, options.separator,
-            ),
-        }
+        let formatted_size = if options.scientific_notation {
+            format!("{new_size:.*e}", options.precision)
+        } else {
+            format!("{new_size:.*}", options.precision)
+        };
+        let formatted_unit = if options.b_suffix {
+            format!("{unit}")
+        } else {
+            format!("{unit:#}")
+        };
+        format!("{formatted_size}{}{formatted_unit}", options.separator)
     }
 }
 
