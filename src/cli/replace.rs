@@ -46,6 +46,7 @@ pub fn replace(
         if in_place {
             let temporary_file_path = file_path.to_owned() + ".hsize" + &random_string(8);
             let mut output_file_bufwriter = match fs::File::options()
+                .create(true)
                 .write(true)
                 .truncate(true)
                 .open(&temporary_file_path)
