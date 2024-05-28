@@ -1,5 +1,3 @@
-cargo-features = ["profile-rustflags", "trim-paths"]
-
 [package]
 name = "hsize"
 version = "0.1.0"
@@ -26,16 +24,11 @@ categories = [
 codegen-units = 1
 lto = true
 panic = "abort"
-rustflags = ["-Zlocation-detail=none"]
 strip = true
-trim-paths = true
 
 [profile.small]
 inherits = "release"
 opt-level = "z"
-
-[profile.dev]
-rustflags = ["-Zshare-generics", "-Zthreads=0"]
 
 [dependencies]
 clap = { version = "4", features = ["derive", "env"] }
