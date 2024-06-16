@@ -63,7 +63,7 @@ pub enum MainSubcommand {
     #[command(visible_aliases = ["r", "re"])]
     Replace {
         /// Regex to use for matching numbers
-        #[arg(short, long, env = "HSIZE_REGEX", default_value = r"(^|\s)\d+(\s|$)")]
+        #[arg(short, long, env = "HSIZE_REGEX", default_value = r"(^|\s)(\d+)(\s|$)")]
         regex: String,
 
         /// Enable multi-line regex searching
