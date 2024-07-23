@@ -21,7 +21,7 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v12
+        uses: DeterminateSystems/nix-installer-action@v13
         with:
           extra-conf: |
             log-lines = 500
@@ -59,7 +59,7 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v12
+        uses: DeterminateSystems/nix-installer-action@v13
         with:
           extra-conf: |
             log-lines = 500
@@ -96,7 +96,7 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v12
+        uses: DeterminateSystems/nix-installer-action@v13
         with:
           extra-conf: |
             log-lines = 500
