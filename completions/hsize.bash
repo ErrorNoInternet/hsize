@@ -335,7 +335,7 @@ _hsize() {
             return 0
             ;;
         hsize__replace)
-            opts="-r -U -L -i -h --regex --multi-line --no-right-align --in-place --help [FILES]..."
+            opts="-r -U -L -i -h --regex --multi-line --left-align --in-place --help [FILES]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
