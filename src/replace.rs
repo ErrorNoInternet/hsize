@@ -4,8 +4,9 @@ pub fn replace<'a>(
     input: &'a mut (impl Iterator<Item = String> + ?Sized),
     number_regex: &'a Regex,
     formatter: &'a dyn Fn(u128) -> String,
+    no_right_align: bool,
 ) -> impl Iterator<Item = String> + 'a {
-    input.map(|line| {
+    input.map(move |line| {
         let mut new_line = line.clone();
         number_regex
             .captures_iter(&line)
@@ -24,7 +25,18 @@ pub fn replace<'a>(
             .for_each(|number_capture| {
                 for number_match in number_capture {
                     if let Ok(number) = number_match.as_str().parse::<u128>() {
-                        new_line.replace_range(number_match.range(), &formatter(number));
+                        let formatted_number = &formatter(number);
+                        if no_right_align {
+                            new_line.replace_range(number_match.range(), formatted_number);
+                        } else {
+                            let padding = (number_match.range().len() as isize
+                                - formatted_number.len() as isize)
+                                .clamp(0, isize::MAX);
+                            new_line.replace_range(
+                                number_match.range(),
+                                &(" ".repeat(padding as usize) + formatted_number),
+                            );
+                        }
                     };
                 }
             });

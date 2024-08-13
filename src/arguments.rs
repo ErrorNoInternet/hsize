@@ -70,6 +70,10 @@ pub enum MainSubcommand {
         #[arg(short = 'U', long)]
         multi_line: bool,
 
+        /// Don't align converted sizes to the right
+        #[arg(short = 'L', long, env = "HSIZE_NO_RIGHT_ALIGN")]
+        no_right_align: bool,
+
         /// Modify (search and replace) files in-place
         #[arg(short, long)]
         in_place: bool,
