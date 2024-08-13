@@ -149,14 +149,14 @@ mod tests {
             "
                            total        used        free      shared     buffers       cache   available
             Mem:         16.7 GB      5.1 GB    823.5 MB      1.0 GB      1.3 MB     12.1 GB     11.6 GB
-            Swap:        33.4 GB      1.6 MB     33.3 GB
+            Swap:        33.4 GB           1.0 B     33.3 GB
         ",
         );
         let mut input = owned_lines(
             "
                            total        used        free      shared     buffers       cache   available
             Mem:     16675958784  5125455872   823517184  1033273344     1310720 12103684096 11550502912
-            Swap:    33351004160     1572864 33349431296
+            Swap:    33351004160           1 33349431296
         ",
         );
 
