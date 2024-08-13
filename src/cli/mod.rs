@@ -32,7 +32,7 @@ pub fn main(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
         Some(MainSubcommand::Replace {
             regex,
             multi_line,
-            no_right_align,
+            left_align: no_right_align,
             in_place,
             files,
         }) => {

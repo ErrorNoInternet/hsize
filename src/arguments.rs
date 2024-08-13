@@ -71,8 +71,8 @@ pub enum MainSubcommand {
         multi_line: bool,
 
         /// Don't align converted sizes to the right
-        #[arg(short = 'L', long, env = "HSIZE_NO_RIGHT_ALIGN")]
-        no_right_align: bool,
+        #[arg(short = 'L', long, env = "HSIZE_LEFT_ALIGN")]
+        left_align: bool,
 
         /// Modify (search and replace) files in-place
         #[arg(short, long)]
