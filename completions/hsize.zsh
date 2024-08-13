@@ -51,6 +51,8 @@ _arguments "${_arguments_options[@]}" \
 '--regex=[Regex to use for matching numbers]:REGEX: ' \
 '-U[Enable multi-line regex searching]' \
 '--multi-line[Enable multi-line regex searching]' \
+'-L[Don'\''t align converted sizes to the right]' \
+'--no-right-align[Don'\''t align converted sizes to the right]' \
 '-i[Modify (search and replace) files in-place]' \
 '--in-place[Modify (search and replace) files in-place]' \
 '-h[Print help]' \

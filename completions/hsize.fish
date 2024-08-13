@@ -13,6 +13,7 @@ complete -c hsize -n "__fish_use_subcommand" -f -a "generate" -d 'Generate vario
 complete -c hsize -n "__fish_use_subcommand" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
 complete -c hsize -n "__fish_seen_subcommand_from replace" -s r -l regex -d 'Regex to use for matching numbers' -r
 complete -c hsize -n "__fish_seen_subcommand_from replace" -s U -l multi-line -d 'Enable multi-line regex searching'
+complete -c hsize -n "__fish_seen_subcommand_from replace" -s L -l no-right-align -d 'Don\'t align converted sizes to the right'
 complete -c hsize -n "__fish_seen_subcommand_from replace" -s i -l in-place -d 'Modify (search and replace) files in-place'
 complete -c hsize -n "__fish_seen_subcommand_from replace" -s h -l help -d 'Print help'
 complete -c hsize -n "__fish_seen_subcommand_from generate; and not __fish_seen_subcommand_from completions; and not __fish_seen_subcommand_from manpages; and not __fish_seen_subcommand_from help" -s h -l help -d 'Print help'
