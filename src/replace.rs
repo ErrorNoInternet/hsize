@@ -29,12 +29,13 @@ pub fn replace<'a>(
                         if no_right_align {
                             new_line.replace_range(number_match.range(), formatted_number);
                         } else {
-                            let padding = (number_match.range().len() as isize
-                                - formatted_number.len() as isize)
-                                .clamp(0, isize::MAX);
+                            let padding = number_match
+                                .range()
+                                .len()
+                                .saturating_sub(formatted_number.len());
                             new_line.replace_range(
                                 number_match.range(),
-                                &(" ".repeat(padding as usize) + formatted_number),
+                                &(" ".repeat(padding) + formatted_number),
                             );
                         }
                     };
