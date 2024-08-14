@@ -60,12 +60,9 @@ pub fn replace(
                 }
             };
 
-            for replaced_line in replace::replace(
-                &mut input_lines,
-                &built_regex,
-                &formatter,
-                left_align,
-            ) {
+            for replaced_line in
+                replace::replace(&mut input_lines, &built_regex, &formatter, left_align)
+            {
                 if let Err(error) =
                     output_file_bufwriter.write_all((replaced_line + "\n").as_bytes())
                 {
@@ -83,12 +80,9 @@ pub fn replace(
                 exit(7);
             };
         } else {
-            for replaced_line in replace::replace(
-                &mut input_lines,
-                &built_regex,
-                &formatter,
-                left_align,
-            ) {
+            for replaced_line in
+                replace::replace(&mut input_lines, &built_regex, &formatter, left_align)
+            {
                 let _ = io::stdout().write_all((replaced_line + "\n").as_bytes());
             }
         };
