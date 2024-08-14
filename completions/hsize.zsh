@@ -31,6 +31,8 @@ _hsize() {
 '--scientific-notation[Displayed numbers should be in scientific notation]' \
 '-n[Remove the '\''B'\'' at the end of the unit (MB -> M)]' \
 '--no-b-suffix[Remove the '\''B'\'' at the end of the unit (MB -> M)]' \
+'-S[Skip converting numbers if they'\''ll end up being longer than the original]' \
+'--skip-short-numbers[Skip converting numbers if they'\''ll end up being longer than the original]' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \
