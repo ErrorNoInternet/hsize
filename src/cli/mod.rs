@@ -39,7 +39,6 @@ pub fn main(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
             replace::replace(
                 &formatter,
                 regex,
-                arguments.skip_short_numbers,
                 *multi_line,
                 *left_align,
                 *in_place,

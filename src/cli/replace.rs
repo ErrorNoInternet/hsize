@@ -10,7 +10,6 @@ use std::{
 pub fn replace(
     formatter: &dyn Fn(u128) -> String,
     regex: &str,
-    skip_short_numbers: bool,
     multiline: bool,
     left_align: bool,
     in_place: bool,
@@ -29,7 +28,6 @@ pub fn replace(
             &mut io::stdin().lines().map_while(Result::ok),
             &built_regex,
             &formatter,
-            skip_short_numbers,
             left_align,
         ) {
             let _ = io::stdout().write_all((replaced_line + "\n").as_bytes());
@@ -66,7 +64,6 @@ pub fn replace(
                 &mut input_lines,
                 &built_regex,
                 &formatter,
-                skip_short_numbers,
                 left_align,
             ) {
                 if let Err(error) =
@@ -90,7 +87,6 @@ pub fn replace(
                 &mut input_lines,
                 &built_regex,
                 &formatter,
-                skip_short_numbers,
                 left_align,
             ) {
                 let _ = io::stdout().write_all((replaced_line + "\n").as_bytes());

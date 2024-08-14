@@ -56,7 +56,7 @@ impl Converter {
                 return size_string;
             }
         }
-        return result;
+        result
     }
 }
 
