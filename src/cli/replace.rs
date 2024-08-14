@@ -10,8 +10,9 @@ use std::{
 pub fn replace(
     formatter: &dyn Fn(u128) -> String,
     regex: &str,
+    skip_short_numbers: bool,
     multiline: bool,
-    no_right_align: bool,
+    left_align: bool,
     in_place: bool,
     files: &Vec<String>,
 ) {
@@ -28,7 +29,8 @@ pub fn replace(
             &mut io::stdin().lines().map_while(Result::ok),
             &built_regex,
             &formatter,
-            no_right_align,
+            skip_short_numbers,
+            left_align,
         ) {
             let _ = io::stdout().write_all((replaced_line + "\n").as_bytes());
         }
@@ -60,9 +62,13 @@ pub fn replace(
                 }
             };
 
-            for replaced_line in
-                replace::replace(&mut input_lines, &built_regex, &formatter, no_right_align)
-            {
+            for replaced_line in replace::replace(
+                &mut input_lines,
+                &built_regex,
+                &formatter,
+                skip_short_numbers,
+                left_align,
+            ) {
                 if let Err(error) =
                     output_file_bufwriter.write_all((replaced_line + "\n").as_bytes())
                 {
@@ -80,9 +86,13 @@ pub fn replace(
                 exit(7);
             };
         } else {
-            for replaced_line in
-                replace::replace(&mut input_lines, &built_regex, &formatter, no_right_align)
-            {
+            for replaced_line in replace::replace(
+                &mut input_lines,
+                &built_regex,
+                &formatter,
+                skip_short_numbers,
+                left_align,
+            ) {
                 let _ = io::stdout().write_all((replaced_line + "\n").as_bytes());
             }
         };

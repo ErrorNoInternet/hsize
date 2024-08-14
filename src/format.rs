@@ -5,6 +5,7 @@ pub struct Options<'a> {
     pub precision: usize,
     pub separator: &'a str,
     pub b_suffix: bool,
+    pub skip_short_numbers: bool,
     pub scientific_notation: bool,
 }
 
@@ -14,6 +15,7 @@ impl Default for Options<'_> {
             precision: 1,
             separator: " ",
             b_suffix: true,
+            skip_short_numbers: false,
             scientific_notation: false,
         }
     }
@@ -46,7 +48,15 @@ impl Converter {
         } else {
             format!("{unit:#}")
         };
-        format!("{formatted_size}{}{formatted_unit}", options.separator)
+
+        let result = format!("{formatted_size}{}{formatted_unit}", options.separator);
+        if options.skip_short_numbers {
+            let size_string = size.to_string();
+            if result.len() > size_string.len() {
+                return size_string;
+            }
+        }
+        return result;
     }
 }
 

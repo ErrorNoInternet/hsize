@@ -27,6 +27,7 @@ fn main() {
                 precision: arguments.precision,
                 separator: &arguments.separator,
                 b_suffix: !arguments.no_b_suffix,
+                skip_short_numbers: arguments.skip_short_numbers,
                 scientific_notation: arguments.scientific_notation,
             },
         )

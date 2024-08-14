@@ -4,6 +4,7 @@ pub fn replace<'a>(
     input: &'a mut (impl Iterator<Item = String> + ?Sized),
     number_regex: &'a Regex,
     formatter: &'a dyn Fn(u128) -> String,
+    skip_short_numbers: bool,
     left_align: bool,
 ) -> impl Iterator<Item = String> + 'a {
     input.map(move |line| {

@@ -49,6 +49,10 @@ pub struct Arguments {
     #[arg(short, long, env = "HSIZE_NO_B_SUFFIX")]
     pub no_b_suffix: bool,
 
+    /// Skip converting numbers if they'll end up being longer than the original
+    #[arg(short = 'S', long, env = "HSIZE_SKIP_SHORT_NUMBERS")]
+    pub skip_short_numbers: bool,
+
     #[arg(num_args = 1..)]
     pub sizes: Vec<u128>,
 
