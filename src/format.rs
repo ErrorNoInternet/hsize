@@ -112,6 +112,7 @@ mod tests {
                     precision: 0,
                     separator: " ",
                     b_suffix: true,
+                    skip_short_numbers: false,
                     scientific_notation: true,
                 }
             ),
@@ -124,6 +125,7 @@ mod tests {
                     precision: 2,
                     separator: " ",
                     b_suffix: false,
+                    skip_short_numbers: false,
                     scientific_notation: true,
                 }
             ),
@@ -224,6 +226,30 @@ mod tests {
             },
         };
 
+        assert_eq!(
+            converter.format_with_options(
+                123,
+                &Options {
+                    precision: 0,
+                    separator: "",
+                    skip_short_numbers: true,
+                    ..Options::default()
+                }
+            ),
+            "123"
+        );
+        assert_eq!(
+            converter.format_with_options(
+                1024,
+                &Options {
+                    precision: 0,
+                    separator: "",
+                    skip_short_numbers: true,
+                    ..Options::default()
+                }
+            ),
+            "1KiB"
+        );
         assert_eq!(
             converter.format_with_options(
                 1024 * 1024 * 1024,

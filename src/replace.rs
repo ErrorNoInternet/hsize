@@ -73,7 +73,7 @@ mod tests {
         };
         let regex = Regex::new(r"\d+").unwrap();
         let format = |size: u128| converter.format(size, 3);
-        let output = replace(&mut input, &regex, &format, true);
+        let output = replace(&mut input, &regex, &format, false, true);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -95,7 +95,7 @@ mod tests {
         };
         let regex = Regex::new(r"\d+").unwrap();
         let format = |size: u128| converter.format(size, 2);
-        let output = replace(&mut input, &regex, &format, true);
+        let output = replace(&mut input, &regex, &format, false, true);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -139,7 +139,7 @@ mod tests {
         };
         let regex = Regex::new(r"Size: (\d+).*IO Block: (\d+)").unwrap();
         let format = |size: u128| converter.format(size, 2);
-        let output = replace(&mut input, &regex, &format, true);
+        let output = replace(&mut input, &regex, &format, false, true);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -173,7 +173,41 @@ mod tests {
         };
         let regex = Regex::new(r"\d+").unwrap();
         let format = |size: u128| converter.format(size, 1);
-        let output = replace(&mut input, &regex, &format, false);
+        let output = replace(&mut input, &regex, &format, false, false);
+
+        assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn free_skip_short() {
+        let expected = owned_lines(
+            "
+                           total        used        free      shared     buffers       cache   available
+            Mem:         16.7 GB      5.1 GB    823.5 MB      1.0 GB      1.3 MB     12.1 GB     11.6 GB
+            Swap:        33.4 GB           1     33.3 GB
+        ",
+        );
+        let mut input = owned_lines(
+            "
+                           total        used        free      shared     buffers       cache   available
+            Mem:     16675958784  5125455872   823517184  1033273344     1310720 12103684096 11550502912
+            Swap:    33351004160           1 33349431296
+        ",
+        );
+
+        let converter = Converter {
+            from_unit: Unit {
+                is_binary: false,
+                scale: None,
+            },
+            to_unit: Unit {
+                is_binary: false,
+                scale: None,
+            },
+        };
+        let regex = Regex::new(r"\d+").unwrap();
+        let format = |size: u128| converter.format(size, 1);
+        let output = replace(&mut input, &regex, &format, true, false);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
@@ -265,7 +299,7 @@ mod tests {
         };
         let regex = Regex::new(r"\d+$").unwrap();
         let format = |size: u128| converter.format(size, 3);
-        let output = replace(&mut input, &regex, &format, true);
+        let output = replace(&mut input, &regex, &format, false, true);
 
         assert_eq!(output.collect::<Vec<_>>(), expected.collect::<Vec<_>>());
     }
