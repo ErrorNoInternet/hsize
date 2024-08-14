@@ -4,7 +4,7 @@
 .SH NAME
 hsize \- Convert file sizes to and from human\-readable units
 .SH SYNOPSIS
-\fBhsize\fR [\fB\-p\fR|\fB\-\-precision\fR] [\fB\-f\fR|\fB\-\-from\-scale\fR] [\fB\-B\fR|\fB\-\-from\-binary\fR] [\fB\-t\fR|\fB\-\-to\-scale\fR] [\fB\-b\fR|\fB\-\-to\-binary\fR] [\fB\-e\fR|\fB\-\-scientific\-notation\fR] [\fB\-s\fR|\fB\-\-separator\fR] [\fB\-n\fR|\fB\-\-no\-b\-suffix\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] [\fISIZES\fR] [\fIsubcommands\fR]
+\fBhsize\fR [\fB\-p\fR|\fB\-\-precision\fR] [\fB\-f\fR|\fB\-\-from\-scale\fR] [\fB\-B\fR|\fB\-\-from\-binary\fR] [\fB\-t\fR|\fB\-\-to\-scale\fR] [\fB\-b\fR|\fB\-\-to\-binary\fR] [\fB\-e\fR|\fB\-\-scientific\-notation\fR] [\fB\-s\fR|\fB\-\-separator\fR] [\fB\-n\fR|\fB\-\-no\-b\-suffix\fR] [\fB\-S\fR|\fB\-\-skip\-short\-numbers\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] [\fISIZES\fR] [\fIsubcommands\fR]
 .SH DESCRIPTION
 Convert file sizes to and from human\-readable units
 .SH OPTIONS
@@ -63,6 +63,12 @@ May also be specified with the \fBHSIZE_SEPARATOR\fR environment variable.
 Remove the \*(AqB\*(Aq at the end of the unit (MB \-> M)
 .RS
 May also be specified with the \fBHSIZE_NO_B_SUFFIX\fR environment variable. 
+.RE
+.TP
+\fB\-S\fR, \fB\-\-skip\-short\-numbers\fR
+Skip converting numbers if they\*(Aqll end up being longer than the original
+.RS
+May also be specified with the \fBHSIZE_SKIP_SHORT_NUMBERS\fR environment variable. 
 .RE
 .TP
 \fB\-h\fR, \fB\-\-help\fR
