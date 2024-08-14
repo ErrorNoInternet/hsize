@@ -3,7 +3,7 @@ name = "hsize"
 version = "0.1.0"
 edition = "2021"
 description = "Convert file sizes to and from human-readable units"
-license = "LGPL-3.0"
+license = "LGPL-3.0-or-later"
 repository = "https://github.com/ErrorNoInternet/hsize"
 keywords = [
   "converter",
