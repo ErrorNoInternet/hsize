@@ -47,11 +47,11 @@ z\t''
 y\t''
 r\t''
 q\t''"
-complete -c hsize -n "__fish_hsize_needs_command" -s s -l separator -d 'Character(s) to put between the number and unit' -r
+complete -c hsize -n "__fish_hsize_needs_command" -s s -l separator -d 'Characters to put between the number and unit' -r
 complete -c hsize -n "__fish_hsize_needs_command" -s B -l from-binary -d 'Given numbers are powers of 2 (1K = 1024)'
 complete -c hsize -n "__fish_hsize_needs_command" -s b -l to-binary -d 'Converted numbers should be powers of 2 (1K = 1024)'
-complete -c hsize -n "__fish_hsize_needs_command" -s e -l scientific-notation -d 'Displayed numbers should be in scientific notation'
-complete -c hsize -n "__fish_hsize_needs_command" -s n -l no-b-suffix -d 'Remove the \'B\' at the end of the unit (MB -> M)'
+complete -c hsize -n "__fish_hsize_needs_command" -s e -l scientific-notation -d 'Numbers should be displayed in scientific notation'
+complete -c hsize -n "__fish_hsize_needs_command" -s n -l no-b-suffix -d 'Remove the \'B\' from the end of the unit (MB -> M)'
 complete -c hsize -n "__fish_hsize_needs_command" -s S -l skip-short-numbers -d 'Skip converting numbers if they\'ll end up being longer than the original'
 complete -c hsize -n "__fish_hsize_needs_command" -s h -l help -d 'Print help'
 complete -c hsize -n "__fish_hsize_needs_command" -s V -l version -d 'Print version'
@@ -64,17 +64,17 @@ complete -c hsize -n "__fish_hsize_needs_command" -a "gen" -d 'Generate various 
 complete -c hsize -n "__fish_hsize_needs_command" -a "help" -d 'Print this message or the help of the given subcommand(s)'
 complete -c hsize -n "__fish_hsize_using_subcommand replace" -s r -l regex -d 'Regex to use for matching numbers' -r
 complete -c hsize -n "__fish_hsize_using_subcommand replace" -s U -l multi-line -d 'Enable multi-line regex searching'
-complete -c hsize -n "__fish_hsize_using_subcommand replace" -s L -l left-align -d 'Don\'t align converted sizes to the right'
+complete -c hsize -n "__fish_hsize_using_subcommand replace" -s L -l left-align -d 'Don\'t align converted numbers to the right'
 complete -c hsize -n "__fish_hsize_using_subcommand replace" -s i -l in-place -d 'Modify (search and replace) files in-place'
 complete -c hsize -n "__fish_hsize_using_subcommand replace" -s h -l help -d 'Print help'
 complete -c hsize -n "__fish_hsize_using_subcommand r" -s r -l regex -d 'Regex to use for matching numbers' -r
 complete -c hsize -n "__fish_hsize_using_subcommand r" -s U -l multi-line -d 'Enable multi-line regex searching'
-complete -c hsize -n "__fish_hsize_using_subcommand r" -s L -l left-align -d 'Don\'t align converted sizes to the right'
+complete -c hsize -n "__fish_hsize_using_subcommand r" -s L -l left-align -d 'Don\'t align converted numbers to the right'
 complete -c hsize -n "__fish_hsize_using_subcommand r" -s i -l in-place -d 'Modify (search and replace) files in-place'
 complete -c hsize -n "__fish_hsize_using_subcommand r" -s h -l help -d 'Print help'
 complete -c hsize -n "__fish_hsize_using_subcommand re" -s r -l regex -d 'Regex to use for matching numbers' -r
 complete -c hsize -n "__fish_hsize_using_subcommand re" -s U -l multi-line -d 'Enable multi-line regex searching'
-complete -c hsize -n "__fish_hsize_using_subcommand re" -s L -l left-align -d 'Don\'t align converted sizes to the right'
+complete -c hsize -n "__fish_hsize_using_subcommand re" -s L -l left-align -d 'Don\'t align converted numbers to the right'
 complete -c hsize -n "__fish_hsize_using_subcommand re" -s i -l in-place -d 'Modify (search and replace) files in-place'
 complete -c hsize -n "__fish_hsize_using_subcommand re" -s h -l help -d 'Print help'
 complete -c hsize -n "__fish_hsize_using_subcommand generate; and not __fish_seen_subcommand_from completions c comp manpages m man help" -s h -l help -d 'Print help'

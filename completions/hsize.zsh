@@ -21,16 +21,16 @@ _hsize() {
 '--from-scale=[Size scale of the given numbers]:SCALE:(b k m g t p e z y r q)' \
 '-t+[Size scale of the converted numbers]:SCALE:(b k m g t p e z y r q)' \
 '--to-scale=[Size scale of the converted numbers]:SCALE:(b k m g t p e z y r q)' \
-'-s+[Character(s) to put between the number and unit]:SEPARATOR:_default' \
-'--separator=[Character(s) to put between the number and unit]:SEPARATOR:_default' \
+'-s+[Characters to put between the number and unit]:SEPARATOR:_default' \
+'--separator=[Characters to put between the number and unit]:SEPARATOR:_default' \
 '-B[Given numbers are powers of 2 (1K = 1024)]' \
 '--from-binary[Given numbers are powers of 2 (1K = 1024)]' \
 '-b[Converted numbers should be powers of 2 (1K = 1024)]' \
 '--to-binary[Converted numbers should be powers of 2 (1K = 1024)]' \
-'-e[Displayed numbers should be in scientific notation]' \
-'--scientific-notation[Displayed numbers should be in scientific notation]' \
-'-n[Remove the '\''B'\'' at the end of the unit (MB -> M)]' \
-'--no-b-suffix[Remove the '\''B'\'' at the end of the unit (MB -> M)]' \
+'-e[Numbers should be displayed in scientific notation]' \
+'--scientific-notation[Numbers should be displayed in scientific notation]' \
+'-n[Remove the '\''B'\'' from the end of the unit (MB -> M)]' \
+'--no-b-suffix[Remove the '\''B'\'' from the end of the unit (MB -> M)]' \
 '-S[Skip converting numbers if they'\''ll end up being longer than the original]' \
 '--skip-short-numbers[Skip converting numbers if they'\''ll end up being longer than the original]' \
 '-h[Print help]' \
@@ -53,8 +53,8 @@ _arguments "${_arguments_options[@]}" : \
 '--regex=[Regex to use for matching numbers]:REGEX:_default' \
 '-U[Enable multi-line regex searching]' \
 '--multi-line[Enable multi-line regex searching]' \
-'-L[Don'\''t align converted sizes to the right]' \
-'--left-align[Don'\''t align converted sizes to the right]' \
+'-L[Don'\''t align converted numbers to the right]' \
+'--left-align[Don'\''t align converted numbers to the right]' \
 '-i[Modify (search and replace) files in-place]' \
 '--in-place[Modify (search and replace) files in-place]' \
 '-h[Print help]' \
@@ -68,8 +68,8 @@ _arguments "${_arguments_options[@]}" : \
 '--regex=[Regex to use for matching numbers]:REGEX:_default' \
 '-U[Enable multi-line regex searching]' \
 '--multi-line[Enable multi-line regex searching]' \
-'-L[Don'\''t align converted sizes to the right]' \
-'--left-align[Don'\''t align converted sizes to the right]' \
+'-L[Don'\''t align converted numbers to the right]' \
+'--left-align[Don'\''t align converted numbers to the right]' \
 '-i[Modify (search and replace) files in-place]' \
 '--in-place[Modify (search and replace) files in-place]' \
 '-h[Print help]' \
@@ -83,8 +83,8 @@ _arguments "${_arguments_options[@]}" : \
 '--regex=[Regex to use for matching numbers]:REGEX:_default' \
 '-U[Enable multi-line regex searching]' \
 '--multi-line[Enable multi-line regex searching]' \
-'-L[Don'\''t align converted sizes to the right]' \
-'--left-align[Don'\''t align converted sizes to the right]' \
+'-L[Don'\''t align converted numbers to the right]' \
+'--left-align[Don'\''t align converted numbers to the right]' \
 '-i[Modify (search and replace) files in-place]' \
 '--in-place[Modify (search and replace) files in-place]' \
 '-h[Print help]' \
