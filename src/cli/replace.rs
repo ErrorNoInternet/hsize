@@ -3,8 +3,8 @@ use regex::RegexBuilder;
 use std::{
     fs,
     io::{self, BufRead, BufReader, BufWriter, Write},
+    iter::repeat_with,
     process::exit,
-    time,
 };
 
 pub fn replace(
@@ -46,7 +46,11 @@ pub fn replace(
         let mut input_lines = BufReader::new(input_file).lines().map_while(Result::ok);
 
         if in_place {
-            let temporary_file_path = file_path.to_owned() + ".hsize" + &random_string(8);
+            let temporary_file_path = file_path.to_owned()
+                + ".hsize"
+                + &repeat_with(fastrand::alphanumeric)
+                    .take(8)
+                    .collect::<String>();
             let mut output_file_bufwriter = match fs::File::options()
                 .create(true)
                 .write(true)
@@ -78,29 +82,13 @@ pub fn replace(
                     "hsize: couldn't rename temporary file {temporary_file_path} to {file_path}: {error}"
                 );
                 exit(7);
-            };
+            }
         } else {
             for replaced_line in
                 replace::replace(&mut input_lines, &built_regex, &formatter, left_align)
             {
                 let _ = io::stdout().write_all((replaced_line + "\n").as_bytes());
             }
-        };
+        }
     }
-}
-
-fn random_string(length: usize) -> String {
-    let mut rng = oorandom::Rand64::new(
-        time::SystemTime::now()
-            .duration_since(time::UNIX_EPOCH)
-            .unwrap_or_default()
-            .as_nanos(),
-    );
-    let mut string = String::with_capacity(length);
-    for _ in 0..length {
-        string.push(
-            char::from_u32(u32::try_from(rng.rand_range(65..91)).unwrap_or(65)).unwrap_or('A'),
-        );
-    }
-    string
 }

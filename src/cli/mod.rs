@@ -52,7 +52,7 @@ pub fn main(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
                     let _ = io::stdout().write_all((formatter(*size) + "\n").as_bytes());
                 }
                 return;
-            };
+            }
 
             for line in io::stdin().lines().map_while(Result::ok) {
                 if let Ok(size) = line.trim().parse::<u128>() {
@@ -62,5 +62,5 @@ pub fn main(arguments: &Arguments, formatter: &dyn Fn(u128) -> String) {
                 }
             }
         }
-    };
+    }
 }

@@ -1,62 +1,62 @@
 name: Manpages
 concurrency: shell-files
 on:
-  push:
-    paths:
-      - '**.nix'
-      - Cargo.*
-      - flake.lock
-      - src/arguments.rs
-      - src/unit.rs
-  pull_request:
-  workflow_dispatch:
+    push:
+        paths:
+            - "**.nix"
+            - Cargo.*
+            - flake.lock
+            - src/arguments.rs
+            - src/unit.rs
+    pull_request:
+    workflow_dispatch:
 
 jobs:
-  hsize:
-    name: hsize
-    runs-on: ubuntu-22.04
+    hsize:
+        name: hsize
+        runs-on: ubuntu-22.04
 
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT }}
+        steps:
+            - name: Clone repository
+              uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.PAT }}
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v16
-        with:
-          extra-conf: |
-            log-lines = 500
+            - name: Install Nix
+              uses: DeterminateSystems/nix-installer-action@v16
+              with:
+                  extra-conf: |
+                      log-lines = 500
 
-      - name: Set up Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v9
+            - name: Set up Magic Nix Cache
+              uses: DeterminateSystems/magic-nix-cache-action@v9
 
-      - name: Set up build cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
+            - name: Set up build cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      ~/.cargo/bin/
+                      ~/.cargo/registry/index/
+                      ~/.cargo/registry/cache/
+                      ~/.cargo/git/db/
+                      target/
+                  key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
 
-      - name: Build with all features
-        run: nix develop -c cargo b --all-features
+            - name: Build with all features
+              run: nix develop -c cargo b --all-features
 
-      - name: Set up directory
-        run: |
-          rm -rf man
-          mkdir man
+            - name: Set up directory
+              run: |
+                  rm -rf man
+                  mkdir man
 
-      - name: Generate roff manpages
-        run: ./target/debug/hsize g m -o man
+            - name: Generate roff manpages
+              run: ./target/debug/hsize g m -o man
 
-      - name: Update repository
-        run: git pull
+            - name: Update repository
+              run: git pull
 
-      - name: Commit changed files
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore(cli): update manpages"
+            - name: Commit changed files
+              uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                  commit_message: "chore(cli): update manpages"

@@ -1,3 +1,6 @@
+#![warn(clippy::pedantic, clippy::nursery)]
+#![allow(clippy::must_use_candidate)]
+
 pub mod format;
 mod unit;
 
@@ -35,10 +38,9 @@ impl Converter {
         } else {
             #[allow(clippy::cast_possible_truncation)]
             #[allow(clippy::cast_sign_loss)]
-            let required_power = (new_size.log(divisor) as u32).clamp(0, Scale::max_value() as u32);
+            let required_power = (new_size.log(divisor) as u32).clamp(0, Scale::max() as u32);
             new_size /= divisor.powi(required_power as i32);
-            scale =
-                num_traits::FromPrimitive::from_u32(required_power).unwrap_or(Scale::max_value());
+            scale = num_traits::FromPrimitive::from_u32(required_power).unwrap_or(Scale::max());
         }
 
         (new_size, scale)

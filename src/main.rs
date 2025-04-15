@@ -1,3 +1,6 @@
+#![warn(clippy::pedantic, clippy::nursery)]
+#![allow(clippy::significant_drop_in_scrutinee)]
+
 mod arguments;
 mod cli;
 

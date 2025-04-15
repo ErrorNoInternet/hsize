@@ -1,53 +1,53 @@
 name: Build
 on:
-  push:
-    paths:
-      - '**.nix'
-      - '**.rs'
-      - Cargo.*
-      - completions/**
-      - flake.lock
-      - man/**
-  pull_request:
-  workflow_dispatch:
+    push:
+        paths:
+            - "**.nix"
+            - "**.rs"
+            - Cargo.*
+            - completions/**
+            - flake.lock
+            - man/**
+    pull_request:
+    workflow_dispatch:
 
 jobs:
-  hsize:
-    name: hsize
-    runs-on: ubuntu-22.04
+    hsize:
+        name: hsize
+        runs-on: ubuntu-22.04
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - system: aarch64-linux
-          - system: i686-linux
-          - system: x86_64-linux
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - system: aarch64-linux
+                    - system: i686-linux
+                    - system: x86_64-linux
 
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT }}
+        steps:
+            - name: Clone repository
+              uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.PAT }}
 
-      - name: Install QEMU
-        run: |
-          sudo apt update -y
-          sudo apt install -y qemu-user-static
+            - name: Install QEMU
+              run: |
+                  sudo apt update -y
+                  sudo apt install -y qemu-user-static
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v16
-        with:
-          extra-conf: |
-            log-lines = 500
-            substituters = https://cache.garnix.io
-            trusted-public-keys = cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=
+            - name: Install Nix
+              uses: DeterminateSystems/nix-installer-action@v16
+              with:
+                  extra-conf: |
+                      log-lines = 500
+                      substituters = https://cache.garnix.io
+                      trusted-public-keys = cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=
 
-      - name: Set up Cachix
-        uses: cachix/cachix-action@v16
-        with:
-          name: errornobinaries
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+            - name: Set up Cachix
+              uses: cachix/cachix-action@v16
+              with:
+                  name: errornobinaries
+                  authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
-      - name: Build for ${{ matrix.system }}
-        run: nix build -L --system ${{ matrix.system }}
+            - name: Build for ${{ matrix.system }}
+              run: nix build -L --system ${{ matrix.system }}

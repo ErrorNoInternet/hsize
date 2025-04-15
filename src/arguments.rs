@@ -14,6 +14,7 @@ use clap_complete::{Generator, Shell};
 use std::path::{Path, PathBuf};
 
 /// Convert file sizes to and from human-readable units
+#[allow(clippy::struct_excessive_bools)]
 #[derive(Debug, Parser)]
 #[command(version)]
 pub struct Arguments {
