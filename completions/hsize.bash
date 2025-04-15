@@ -85,7 +85,7 @@ _hsize() {
 
     case "${cmd}" in
         hsize)
-            opts="-p -f -B -t -b -e -s -n -S -h -V --precision --from-scale --from-binary --to-scale --to-binary --scientific-notation --separator --no-b-suffix --skip-short-numbers --help --version [SIZES]... replace generate help"
+            opts="-p -f -B -t -b -e -s -n -S -h -V --precision --from-scale --from-binary --to-scale --to-binary --scientific-notation --separator --no-b-suffix --skip-short-numbers --help --version [SIZES]... replace r re generate g gen help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -131,7 +131,7 @@ _hsize() {
             return 0
             ;;
         hsize__generate)
-            opts="-h --help completions manpages help"
+            opts="-h --help completions c comp manpages m man help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
