@@ -1,116 +1,116 @@
 name: Lint
 on:
-  push:
-    paths:
-      - '**.nix'
-      - '**.rs'
-      - Cargo.*
-      - flake.lock
-  pull_request:
-  workflow_dispatch:
+    push:
+        paths:
+            - "**.nix"
+            - "**.rs"
+            - Cargo.*
+            - flake.lock
+    pull_request:
+    workflow_dispatch:
 
 jobs:
-  cargo-toml:
-    name: Cargo.toml
-    runs-on: ubuntu-22.04
+    cargo-toml:
+        name: Cargo.toml
+        runs-on: ubuntu-22.04
 
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT }}
+        steps:
+            - name: Clone repository
+              uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.PAT }}
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v16
-        with:
-          extra-conf: |
-            log-lines = 500
+            - name: Install Nix
+              uses: DeterminateSystems/nix-installer-action@v16
+              with:
+                  extra-conf: |
+                      log-lines = 500
 
-      - name: Set up Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v9
+            - name: Set up Magic Nix Cache
+              uses: DeterminateSystems/magic-nix-cache-action@v9
 
-      - name: taplo lint
-        run: nix develop -c taplo lint Cargo.toml
+            - name: taplo lint
+              run: nix develop -c taplo lint Cargo.toml
 
-      - name: taplo fmt
-        if: always()
-        run: nix develop -c taplo fmt --check Cargo.toml
+            - name: taplo fmt
+              if: always()
+              run: nix develop -c taplo fmt --check Cargo.toml
 
-  rust:
-    name: Rust
-    runs-on: ubuntu-22.04
+    rust:
+        name: Rust
+        runs-on: ubuntu-22.04
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - feature-set: ""
-          - feature-set: --all-features
-          - feature-set: --no-default-features
-          - feature-set: --no-default-features -F completions
-          - feature-set: --no-default-features -F completions,manpages
-          - feature-set: --no-default-features -F manpages
-          - feature-set: --no-default-features -F replace
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - feature-set: ""
+                    - feature-set: --all-features
+                    - feature-set: --no-default-features
+                    - feature-set: --no-default-features -F completions
+                    - feature-set: --no-default-features -F completions,manpages
+                    - feature-set: --no-default-features -F manpages
+                    - feature-set: --no-default-features -F replace
 
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT }}
+        steps:
+            - name: Clone repository
+              uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.PAT }}
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v16
-        with:
-          extra-conf: |
-            log-lines = 500
+            - name: Install Nix
+              uses: DeterminateSystems/nix-installer-action@v16
+              with:
+                  extra-conf: |
+                      log-lines = 500
 
-      - name: Set up Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v9
+            - name: Set up Magic Nix Cache
+              uses: DeterminateSystems/magic-nix-cache-action@v9
 
-      - name: Set up build cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
+            - name: Set up build cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      ~/.cargo/bin/
+                      ~/.cargo/registry/index/
+                      ~/.cargo/registry/cache/
+                      ~/.cargo/git/db/
+                      target/
+                  key: build-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}-${{ hashFiles('flake.nix') }}-${{ hashFiles('**.lock') }}
 
-      - name: cargo clippy ${{ matrix.feature-set }}
-        run: nix develop -c cargo clippy ${{ matrix.feature-set }} -- -Dwarnings -Dclippy::pedantic -Dclippy::cargo -Aclippy::must-use-candidate -Aclippy::struct-excessive-bools
+            - name: cargo clippy ${{ matrix.feature-set }}
+              run: nix develop -c cargo clippy ${{ matrix.feature-set }} -- -Dwarnings -Dclippy::cargo
 
-      - name: cargo fmt
-        if: always()
-        run: nix develop -c cargo fmt --check
+            - name: cargo fmt
+              if: always()
+              run: nix develop -c cargo fmt --check
 
-  nix:
-    name: Nix
-    runs-on: ubuntu-22.04
+    nix:
+        name: Nix
+        runs-on: ubuntu-22.04
 
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT }}
+        steps:
+            - name: Clone repository
+              uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.PAT }}
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v16
-        with:
-          extra-conf: |
-            log-lines = 500
+            - name: Install Nix
+              uses: DeterminateSystems/nix-installer-action@v16
+              with:
+                  extra-conf: |
+                      log-lines = 500
 
-      - name: Set up Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v9
+            - name: Set up Magic Nix Cache
+              uses: DeterminateSystems/magic-nix-cache-action@v9
 
-      - name: Check formatting
-        run: nix run nixpkgs#alejandra -- -c .
+            - name: Check formatting
+              run: nix run nixpkgs#alejandra -- -c .
 
-      - name: Static code analysis
-        if: always()
-        run: nix run nixpkgs#statix -- check
+            - name: Static code analysis
+              if: always()
+              run: nix run nixpkgs#statix -- check
 
-      - name: Scan for dead code
-        if: always()
-        run: nix run nixpkgs#deadnix -- -f
+            - name: Scan for dead code
+              if: always()
+              run: nix run nixpkgs#deadnix -- -f

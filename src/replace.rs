@@ -38,7 +38,7 @@ pub fn replace<'a>(
                                 &(" ".repeat(padding) + formatted_number),
                             );
                         }
-                    };
+                    }
                 }
             });
         new_line

@@ -41,7 +41,7 @@ pub enum Scale {
 }
 
 impl Scale {
-    pub const fn max_value() -> Self {
-        Scale::Q
+    pub const fn max() -> Self {
+        Self::Q
     }
 }
