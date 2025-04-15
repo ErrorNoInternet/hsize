@@ -27,9 +27,6 @@ jobs:
                   extra-conf: |
                       log-lines = 500
 
-            - name: Set up Magic Nix Cache
-              uses: DeterminateSystems/magic-nix-cache-action@v9
-
             - name: Set up build cache
               uses: actions/cache@v4
               with:
