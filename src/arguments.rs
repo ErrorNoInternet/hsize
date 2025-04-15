@@ -38,15 +38,15 @@ pub struct Arguments {
     #[arg(short = 'b', long, env = "HSIZE_TO_BINARY")]
     pub to_binary: bool,
 
-    /// Displayed numbers should be in scientific notation
+    /// Numbers should be displayed in scientific notation
     #[arg(short = 'e', long, env = "HSIZE_SCIENTIFIC_NOTATION")]
     pub scientific_notation: bool,
 
-    /// Character(s) to put between the number and unit
+    /// Characters to put between the number and unit
     #[arg(short, long, env = "HSIZE_SEPARATOR", default_value = " ")]
     pub separator: String,
 
-    /// Remove the 'B' at the end of the unit (MB -> M)
+    /// Remove the 'B' from the end of the unit (MB -> M)
     #[arg(short, long, env = "HSIZE_NO_B_SUFFIX")]
     pub no_b_suffix: bool,
 
@@ -75,7 +75,7 @@ pub enum MainSubcommand {
         #[arg(short = 'U', long)]
         multi_line: bool,
 
-        /// Don't align converted sizes to the right
+        /// Don't align converted numbers to the right
         #[arg(short = 'L', long, env = "HSIZE_LEFT_ALIGN")]
         left_align: bool,
 
