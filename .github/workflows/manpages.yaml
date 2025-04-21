@@ -14,6 +14,7 @@ jobs:
     hsize:
         name: hsize
         runs-on: ubuntu-22.04
+        if: ${{ github.actor != 'dependabot[bot]' }}
 
         steps:
             - name: Clone repository
