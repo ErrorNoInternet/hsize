@@ -65,7 +65,7 @@ jobs:
                       log-lines = 500
 
             - name: Check Nix flake inputs
-              uses: DeterminateSystems/flake-checker-action@v9
+              uses: DeterminateSystems/flake-checker-action@v10
               with:
                   fail-mode: true
                   check-outdated: false
