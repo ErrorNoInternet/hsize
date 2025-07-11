@@ -41,11 +41,5 @@ jobs:
                       substituters = https://cache.garnix.io
                       trusted-public-keys = cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=
 
-            - name: Set up Cachix
-              uses: cachix/cachix-action@v16
-              with:
-                  name: errornobinaries
-                  authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-
             - name: Build for ${{ matrix.system }}
               run: nix build -L --system ${{ matrix.system }}
