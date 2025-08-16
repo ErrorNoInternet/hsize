@@ -9,13 +9,13 @@ hsize \- Convert file sizes to and from human\-readable units
 Convert file sizes to and from human\-readable units
 .SH OPTIONS
 .TP
-\fB\-p\fR, \fB\-\-precision\fR=\fIPRECISION\fR [default: 1]
+\fB\-p\fR, \fB\-\-precision\fR \fI<PRECISION>\fR [default: 1]
 Number of decimal places to display in the converted number
 .RS
 May also be specified with the \fBHSIZE_PRECISION\fR environment variable. 
 .RE
 .TP
-\fB\-f\fR, \fB\-\-from\-scale\fR=\fISCALE\fR
+\fB\-f\fR, \fB\-\-from\-scale\fR \fI<SCALE>\fR
 Size scale of the given numbers
 .br
 
@@ -31,7 +31,7 @@ Given numbers are powers of 2 (1K = 1024)
 May also be specified with the \fBHSIZE_FROM_BINARY\fR environment variable. 
 .RE
 .TP
-\fB\-t\fR, \fB\-\-to\-scale\fR=\fISCALE\fR
+\fB\-t\fR, \fB\-\-to\-scale\fR \fI<SCALE>\fR
 Size scale of the converted numbers
 .br
 
@@ -53,7 +53,7 @@ Numbers should be displayed in scientific notation
 May also be specified with the \fBHSIZE_SCIENTIFIC_NOTATION\fR environment variable. 
 .RE
 .TP
-\fB\-s\fR, \fB\-\-separator\fR=\fISEPARATOR\fR [default:  ]
+\fB\-s\fR, \fB\-\-separator\fR \fI<SEPARATOR>\fR [default:  ]
 Characters to put between the number and unit
 .RS
 May also be specified with the \fBHSIZE_SEPARATOR\fR environment variable. 
