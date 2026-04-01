@@ -21,7 +21,6 @@ jobs:
             matrix:
                 include:
                     - system: aarch64-linux
-                    - system: i686-linux
                     - system: x86_64-linux
 
         steps:
@@ -34,12 +33,10 @@ jobs:
                   sudo apt install -y qemu-user-static
 
             - name: Install Nix
-              uses: DeterminateSystems/nix-installer-action@v21
+              uses: DeterminateSystems/nix-installer-action@v22
               with:
                   extra-conf: |
                       log-lines = 500
-                      substituters = https://cache.garnix.io
-                      trusted-public-keys = cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=
 
             - name: Build for ${{ matrix.system }}
               run: nix build -L --system ${{ matrix.system }}
