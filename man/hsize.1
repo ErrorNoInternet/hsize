@@ -11,65 +11,86 @@ Convert file sizes to and from human\-readable units
 .TP
 \fB\-p\fR, \fB\-\-precision\fR \fI<PRECISION>\fR [default: 1]
 Number of decimal places to display in the converted number
-.RS
-May also be specified with the \fBHSIZE_PRECISION\fR environment variable. 
-.RE
 .TP
 \fB\-f\fR, \fB\-\-from\-scale\fR \fI<SCALE>\fR
 Size scale of the given numbers
 .br
 
 .br
-[\fIpossible values: \fRb, k, m, g, t, p, e, z, y, r, q]
-.RS
-May also be specified with the \fBHSIZE_FROM_SCALE\fR environment variable. 
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+b
+.IP \(bu 2
+k
+.IP \(bu 2
+m
+.IP \(bu 2
+g
+.IP \(bu 2
+t
+.IP \(bu 2
+p
+.IP \(bu 2
+e
+.IP \(bu 2
+z
+.IP \(bu 2
+y
+.IP \(bu 2
+r
+.IP \(bu 2
+q
 .RE
 .TP
 \fB\-B\fR, \fB\-\-from\-binary\fR
 Given numbers are powers of 2 (1K = 1024)
-.RS
-May also be specified with the \fBHSIZE_FROM_BINARY\fR environment variable. 
-.RE
 .TP
 \fB\-t\fR, \fB\-\-to\-scale\fR \fI<SCALE>\fR
 Size scale of the converted numbers
 .br
 
 .br
-[\fIpossible values: \fRb, k, m, g, t, p, e, z, y, r, q]
-.RS
-May also be specified with the \fBHSIZE_TO_SCALE\fR environment variable. 
+\fIPossible values:\fR
+.RS 14
+.IP \(bu 2
+b
+.IP \(bu 2
+k
+.IP \(bu 2
+m
+.IP \(bu 2
+g
+.IP \(bu 2
+t
+.IP \(bu 2
+p
+.IP \(bu 2
+e
+.IP \(bu 2
+z
+.IP \(bu 2
+y
+.IP \(bu 2
+r
+.IP \(bu 2
+q
 .RE
 .TP
 \fB\-b\fR, \fB\-\-to\-binary\fR
 Converted numbers should be powers of 2 (1K = 1024)
-.RS
-May also be specified with the \fBHSIZE_TO_BINARY\fR environment variable. 
-.RE
 .TP
 \fB\-e\fR, \fB\-\-scientific\-notation\fR
 Numbers should be displayed in scientific notation
-.RS
-May also be specified with the \fBHSIZE_SCIENTIFIC_NOTATION\fR environment variable. 
-.RE
 .TP
 \fB\-s\fR, \fB\-\-separator\fR \fI<SEPARATOR>\fR [default:  ]
 Characters to put between the number and unit
-.RS
-May also be specified with the \fBHSIZE_SEPARATOR\fR environment variable. 
-.RE
 .TP
 \fB\-n\fR, \fB\-\-no\-b\-suffix\fR
 Remove the \*(AqB\*(Aq from the end of the unit (MB \-> M)
-.RS
-May also be specified with the \fBHSIZE_NO_B_SUFFIX\fR environment variable. 
-.RE
 .TP
 \fB\-S\fR, \fB\-\-skip\-short\-numbers\fR
 Skip converting numbers if they\*(Aqll end up being longer than the original
-.RS
-May also be specified with the \fBHSIZE_SKIP_SHORT_NUMBERS\fR environment variable. 
-.RE
 .TP
 \fB\-h\fR, \fB\-\-help\fR
 Print help
