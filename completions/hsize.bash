@@ -17,70 +17,70 @@ _hsize() {
                 cmd="hsize"
                 ;;
             hsize,g)
-                cmd="hsize__generate"
+                cmd="hsize__subcmd__generate"
                 ;;
             hsize,gen)
-                cmd="hsize__generate"
+                cmd="hsize__subcmd__generate"
                 ;;
             hsize,generate)
-                cmd="hsize__generate"
+                cmd="hsize__subcmd__generate"
                 ;;
             hsize,help)
-                cmd="hsize__help"
+                cmd="hsize__subcmd__help"
                 ;;
             hsize,r)
-                cmd="hsize__replace"
+                cmd="hsize__subcmd__replace"
                 ;;
             hsize,re)
-                cmd="hsize__replace"
+                cmd="hsize__subcmd__replace"
                 ;;
             hsize,replace)
-                cmd="hsize__replace"
+                cmd="hsize__subcmd__replace"
                 ;;
-            hsize__generate,c)
-                cmd="hsize__generate__completions"
+            hsize__subcmd__generate,c)
+                cmd="hsize__subcmd__generate__subcmd__completions"
                 ;;
-            hsize__generate,comp)
-                cmd="hsize__generate__completions"
+            hsize__subcmd__generate,comp)
+                cmd="hsize__subcmd__generate__subcmd__completions"
                 ;;
-            hsize__generate,completions)
-                cmd="hsize__generate__completions"
+            hsize__subcmd__generate,completions)
+                cmd="hsize__subcmd__generate__subcmd__completions"
                 ;;
-            hsize__generate,help)
-                cmd="hsize__generate__help"
+            hsize__subcmd__generate,help)
+                cmd="hsize__subcmd__generate__subcmd__help"
                 ;;
-            hsize__generate,m)
-                cmd="hsize__generate__manpages"
+            hsize__subcmd__generate,m)
+                cmd="hsize__subcmd__generate__subcmd__manpages"
                 ;;
-            hsize__generate,man)
-                cmd="hsize__generate__manpages"
+            hsize__subcmd__generate,man)
+                cmd="hsize__subcmd__generate__subcmd__manpages"
                 ;;
-            hsize__generate,manpages)
-                cmd="hsize__generate__manpages"
+            hsize__subcmd__generate,manpages)
+                cmd="hsize__subcmd__generate__subcmd__manpages"
                 ;;
-            hsize__generate__help,completions)
-                cmd="hsize__generate__help__completions"
+            hsize__subcmd__generate__subcmd__help,completions)
+                cmd="hsize__subcmd__generate__subcmd__help__subcmd__completions"
                 ;;
-            hsize__generate__help,help)
-                cmd="hsize__generate__help__help"
+            hsize__subcmd__generate__subcmd__help,help)
+                cmd="hsize__subcmd__generate__subcmd__help__subcmd__help"
                 ;;
-            hsize__generate__help,manpages)
-                cmd="hsize__generate__help__manpages"
+            hsize__subcmd__generate__subcmd__help,manpages)
+                cmd="hsize__subcmd__generate__subcmd__help__subcmd__manpages"
                 ;;
-            hsize__help,generate)
-                cmd="hsize__help__generate"
+            hsize__subcmd__help,generate)
+                cmd="hsize__subcmd__help__subcmd__generate"
                 ;;
-            hsize__help,help)
-                cmd="hsize__help__help"
+            hsize__subcmd__help,help)
+                cmd="hsize__subcmd__help__subcmd__help"
                 ;;
-            hsize__help,replace)
-                cmd="hsize__help__replace"
+            hsize__subcmd__help,replace)
+                cmd="hsize__subcmd__help__subcmd__replace"
                 ;;
-            hsize__help__generate,completions)
-                cmd="hsize__help__generate__completions"
+            hsize__subcmd__help__subcmd__generate,completions)
+                cmd="hsize__subcmd__help__subcmd__generate__subcmd__completions"
                 ;;
-            hsize__help__generate,manpages)
-                cmd="hsize__help__generate__manpages"
+            hsize__subcmd__help__subcmd__generate,manpages)
+                cmd="hsize__subcmd__help__subcmd__generate__subcmd__manpages"
                 ;;
             *)
                 ;;
@@ -134,7 +134,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__generate)
+        hsize__subcmd__generate)
             opts="-h --help completions c comp manpages m man help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -148,7 +148,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__generate__completions)
+        hsize__subcmd__generate__subcmd__completions)
             opts="-s -h --shell --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -170,7 +170,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__generate__help)
+        hsize__subcmd__generate__subcmd__help)
             opts="completions manpages help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -184,7 +184,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__generate__help__completions)
+        hsize__subcmd__generate__subcmd__help__subcmd__completions)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -198,7 +198,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__generate__help__help)
+        hsize__subcmd__generate__subcmd__help__subcmd__help)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -212,7 +212,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__generate__help__manpages)
+        hsize__subcmd__generate__subcmd__help__subcmd__manpages)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -226,7 +226,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__generate__manpages)
+        hsize__subcmd__generate__subcmd__manpages)
             opts="-o -h --output-directory --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -254,7 +254,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__help)
+        hsize__subcmd__help)
             opts="replace generate help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -268,7 +268,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__help__generate)
+        hsize__subcmd__help__subcmd__generate)
             opts="completions manpages"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -282,7 +282,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__help__generate__completions)
+        hsize__subcmd__help__subcmd__generate__subcmd__completions)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -296,7 +296,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__help__generate__manpages)
+        hsize__subcmd__help__subcmd__generate__subcmd__manpages)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -310,7 +310,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__help__help)
+        hsize__subcmd__help__subcmd__help)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -324,7 +324,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__help__replace)
+        hsize__subcmd__help__subcmd__replace)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -338,7 +338,7 @@ _hsize() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
-        hsize__replace)
+        hsize__subcmd__replace)
             opts="-r -U -L -i -h --regex --multi-line --left-align --in-place --help [FILES]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )

@@ -96,7 +96,7 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 '-h[Print help]' \
 '--help[Print help]' \
-":: :_hsize__generate_commands" \
+":: :_hsize__subcmd__generate_commands" \
 "*::: :->generate" \
 && ret=0
 
@@ -156,7 +156,7 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (help)
 _arguments "${_arguments_options[@]}" : \
-":: :_hsize__generate__help_commands" \
+":: :_hsize__subcmd__generate__subcmd__help_commands" \
 "*::: :->help" \
 && ret=0
 
@@ -190,7 +190,7 @@ esac
 _arguments "${_arguments_options[@]}" : \
 '-h[Print help]' \
 '--help[Print help]' \
-":: :_hsize__generate_commands" \
+":: :_hsize__subcmd__generate_commands" \
 "*::: :->generate" \
 && ret=0
 
@@ -250,7 +250,7 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (help)
 _arguments "${_arguments_options[@]}" : \
-":: :_hsize__generate__help_commands" \
+":: :_hsize__subcmd__generate__subcmd__help_commands" \
 "*::: :->help" \
 && ret=0
 
@@ -284,7 +284,7 @@ esac
 _arguments "${_arguments_options[@]}" : \
 '-h[Print help]' \
 '--help[Print help]' \
-":: :_hsize__generate_commands" \
+":: :_hsize__subcmd__generate_commands" \
 "*::: :->generate" \
 && ret=0
 
@@ -344,7 +344,7 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (help)
 _arguments "${_arguments_options[@]}" : \
-":: :_hsize__generate__help_commands" \
+":: :_hsize__subcmd__generate__subcmd__help_commands" \
 "*::: :->help" \
 && ret=0
 
@@ -376,7 +376,7 @@ esac
 ;;
 (help)
 _arguments "${_arguments_options[@]}" : \
-":: :_hsize__help_commands" \
+":: :_hsize__subcmd__help_commands" \
 "*::: :->help" \
 && ret=0
 
@@ -392,7 +392,7 @@ _arguments "${_arguments_options[@]}" : \
 ;;
 (generate)
 _arguments "${_arguments_options[@]}" : \
-":: :_hsize__help__generate_commands" \
+":: :_hsize__subcmd__help__subcmd__generate_commands" \
 "*::: :->generate" \
 && ret=0
 
@@ -440,8 +440,8 @@ _hsize_commands() {
     )
     _describe -t commands 'hsize commands' commands "$@"
 }
-(( $+functions[_hsize__generate_commands] )) ||
-_hsize__generate_commands() {
+(( $+functions[_hsize__subcmd__generate_commands] )) ||
+_hsize__subcmd__generate_commands() {
     local commands; commands=(
 'completions:Shell completions' \
 'c:Shell completions' \
@@ -453,13 +453,13 @@ _hsize__generate_commands() {
     )
     _describe -t commands 'hsize generate commands' commands "$@"
 }
-(( $+functions[_hsize__generate__completions_commands] )) ||
-_hsize__generate__completions_commands() {
+(( $+functions[_hsize__subcmd__generate__subcmd__completions_commands] )) ||
+_hsize__subcmd__generate__subcmd__completions_commands() {
     local commands; commands=()
     _describe -t commands 'hsize generate completions commands' commands "$@"
 }
-(( $+functions[_hsize__generate__help_commands] )) ||
-_hsize__generate__help_commands() {
+(( $+functions[_hsize__subcmd__generate__subcmd__help_commands] )) ||
+_hsize__subcmd__generate__subcmd__help_commands() {
     local commands; commands=(
 'completions:Shell completions' \
 'manpages:Roff manpages' \
@@ -467,28 +467,28 @@ _hsize__generate__help_commands() {
     )
     _describe -t commands 'hsize generate help commands' commands "$@"
 }
-(( $+functions[_hsize__generate__help__completions_commands] )) ||
-_hsize__generate__help__completions_commands() {
+(( $+functions[_hsize__subcmd__generate__subcmd__help__subcmd__completions_commands] )) ||
+_hsize__subcmd__generate__subcmd__help__subcmd__completions_commands() {
     local commands; commands=()
     _describe -t commands 'hsize generate help completions commands' commands "$@"
 }
-(( $+functions[_hsize__generate__help__help_commands] )) ||
-_hsize__generate__help__help_commands() {
+(( $+functions[_hsize__subcmd__generate__subcmd__help__subcmd__help_commands] )) ||
+_hsize__subcmd__generate__subcmd__help__subcmd__help_commands() {
     local commands; commands=()
     _describe -t commands 'hsize generate help help commands' commands "$@"
 }
-(( $+functions[_hsize__generate__help__manpages_commands] )) ||
-_hsize__generate__help__manpages_commands() {
+(( $+functions[_hsize__subcmd__generate__subcmd__help__subcmd__manpages_commands] )) ||
+_hsize__subcmd__generate__subcmd__help__subcmd__manpages_commands() {
     local commands; commands=()
     _describe -t commands 'hsize generate help manpages commands' commands "$@"
 }
-(( $+functions[_hsize__generate__manpages_commands] )) ||
-_hsize__generate__manpages_commands() {
+(( $+functions[_hsize__subcmd__generate__subcmd__manpages_commands] )) ||
+_hsize__subcmd__generate__subcmd__manpages_commands() {
     local commands; commands=()
     _describe -t commands 'hsize generate manpages commands' commands "$@"
 }
-(( $+functions[_hsize__help_commands] )) ||
-_hsize__help_commands() {
+(( $+functions[_hsize__subcmd__help_commands] )) ||
+_hsize__subcmd__help_commands() {
     local commands; commands=(
 'replace:Use regex to search and replace numbers' \
 'generate:Generate various shell command files' \
@@ -496,36 +496,36 @@ _hsize__help_commands() {
     )
     _describe -t commands 'hsize help commands' commands "$@"
 }
-(( $+functions[_hsize__help__generate_commands] )) ||
-_hsize__help__generate_commands() {
+(( $+functions[_hsize__subcmd__help__subcmd__generate_commands] )) ||
+_hsize__subcmd__help__subcmd__generate_commands() {
     local commands; commands=(
 'completions:Shell completions' \
 'manpages:Roff manpages' \
     )
     _describe -t commands 'hsize help generate commands' commands "$@"
 }
-(( $+functions[_hsize__help__generate__completions_commands] )) ||
-_hsize__help__generate__completions_commands() {
+(( $+functions[_hsize__subcmd__help__subcmd__generate__subcmd__completions_commands] )) ||
+_hsize__subcmd__help__subcmd__generate__subcmd__completions_commands() {
     local commands; commands=()
     _describe -t commands 'hsize help generate completions commands' commands "$@"
 }
-(( $+functions[_hsize__help__generate__manpages_commands] )) ||
-_hsize__help__generate__manpages_commands() {
+(( $+functions[_hsize__subcmd__help__subcmd__generate__subcmd__manpages_commands] )) ||
+_hsize__subcmd__help__subcmd__generate__subcmd__manpages_commands() {
     local commands; commands=()
     _describe -t commands 'hsize help generate manpages commands' commands "$@"
 }
-(( $+functions[_hsize__help__help_commands] )) ||
-_hsize__help__help_commands() {
+(( $+functions[_hsize__subcmd__help__subcmd__help_commands] )) ||
+_hsize__subcmd__help__subcmd__help_commands() {
     local commands; commands=()
     _describe -t commands 'hsize help help commands' commands "$@"
 }
-(( $+functions[_hsize__help__replace_commands] )) ||
-_hsize__help__replace_commands() {
+(( $+functions[_hsize__subcmd__help__subcmd__replace_commands] )) ||
+_hsize__subcmd__help__subcmd__replace_commands() {
     local commands; commands=()
     _describe -t commands 'hsize help replace commands' commands "$@"
 }
-(( $+functions[_hsize__replace_commands] )) ||
-_hsize__replace_commands() {
+(( $+functions[_hsize__subcmd__replace_commands] )) ||
+_hsize__subcmd__replace_commands() {
     local commands; commands=()
     _describe -t commands 'hsize replace commands' commands "$@"
 }
