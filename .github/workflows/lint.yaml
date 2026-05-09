@@ -90,7 +90,7 @@ jobs:
                       log-lines = 500
 
             - name: Check formatting
-              run: nix run nixpkgs#alejandra -- -c .
+              run: nix fmt -- -c .
 
             - name: Static code analysis
               if: always()

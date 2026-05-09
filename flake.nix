@@ -54,6 +54,8 @@
             default = hsize;
             hsize = pkgs.callPackage ./. { inherit craneLib; };
           };
+
+          formatter = pkgs.nixfmt;
         };
     };
 
