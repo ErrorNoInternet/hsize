@@ -13,24 +13,19 @@ on:
 
 jobs:
     hsize:
-        name: hsize
-        runs-on: ubuntu-22.04
+        name: hsize (${{ matrix.os }})
+        runs-on: ${{ matrix.os }}
 
         strategy:
             fail-fast: false
             matrix:
                 include:
-                    - system: aarch64-linux
-                    - system: x86_64-linux
+                    - os: ubuntu-24.04
+                    - os: ubuntu-24.04-arm
 
         steps:
             - name: Clone repository
               uses: actions/checkout@v6
-
-            - name: Install QEMU
-              run: |
-                  sudo apt update -y
-                  sudo apt install -y qemu-user-static
 
             - name: Install Nix
               uses: DeterminateSystems/nix-installer-action@v22
@@ -38,5 +33,5 @@ jobs:
                   extra-conf: |
                       log-lines = 500
 
-            - name: Build for ${{ matrix.system }}
-              run: nix build -L --system ${{ matrix.system }}
+            - name: Build Nix package
+              run: nix build -L
