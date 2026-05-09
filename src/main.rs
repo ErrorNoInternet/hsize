@@ -9,7 +9,7 @@ pub mod replace;
 
 use arguments::Arguments;
 use clap::Parser;
-use hsize::{format::Options, Converter, Unit};
+use hsize::{Converter, Unit, format::Options};
 
 fn main() {
     let arguments = Arguments::parse();

@@ -48,7 +48,7 @@ pub fn replace<'a>(
 #[cfg(test)]
 mod tests {
     use super::replace;
-    use hsize::{format::Options, Converter, Scale, Unit};
+    use hsize::{Converter, Scale, Unit, format::Options};
     use regex::Regex;
 
     fn owned_lines(string: &str) -> impl Iterator<Item = String> + '_ {

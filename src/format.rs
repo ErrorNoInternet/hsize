@@ -62,7 +62,7 @@ impl Converter {
 
 #[cfg(test)]
 mod tests {
-    use crate::{format::Options, Converter, Scale, Unit};
+    use crate::{Converter, Scale, Unit, format::Options};
 
     #[test]
     fn basic() {
