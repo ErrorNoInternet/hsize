@@ -1,22 +1,30 @@
 {
+  craneLib,
   installShellFiles,
-  rustPlatform,
-  self,
   lib,
-  rust,
 }:
-rustPlatform.buildRustPackage {
+craneLib.buildPackage {
   pname = "hsize";
-  version = self.shortRev or self.dirtyShortRev;
+  version = "0.1.0";
 
-  cargoLock.lockFile = ./Cargo.lock;
-  src = lib.cleanSource ./.;
+  src =
+    let
+      shellFilesFilter = path: _type: builtins.match ".*/(completions|man)/.*" path != null;
+      shellOrCargo = path: type: (shellFilesFilter path type) || (craneLib.filterCargoSources path type);
+    in
+    lib.cleanSourceWith {
+      src = ./.;
+      filter = shellOrCargo;
+      name = "source";
+    };
 
-  outputs = ["out" "man"];
+  outputs = [
+    "out"
+    "man"
+  ];
 
   nativeBuildInputs = [
     installShellFiles
-    rust
   ];
 
   postInstall = ''
