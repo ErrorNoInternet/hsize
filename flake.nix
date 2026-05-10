@@ -37,7 +37,7 @@
           craneLib = (crane.mkLib pkgs).overrideToolchain fenix.packages.${system}.complete.toolchain;
         in
         {
-          devShells.default = pkgs.mkShell {
+          devShells.default = craneLib.devShell {
             name = "hsize";
 
             inputsFrom = [ self'.packages.default ];
@@ -46,7 +46,7 @@
               taplo
             ];
 
-            CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUSTFLAGS = "-L native=${mingwW64.windows.mingw_w64_pthreads}/lib";
+            CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUSTFLAGS = "-L native=${mingwW64.windows.pthreads}/lib";
             RUST_BACKTRACE = 1;
           };
 
